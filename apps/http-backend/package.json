@@ -9,7 +9,11 @@
     "dev": "npm run build && npm run start"
   },
   "dependencies": {
-    "express": "^4.21.2"
+    "@types/jsonwebtoken": "^9.0.9",
+    "argon2": "^0.41.1",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2"
   },
   "keywords": [],
   "author": "",
