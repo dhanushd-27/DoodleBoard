@@ -1,12 +1,52 @@
 import { Request, Response } from "express"
+import { signUpSchema, signInSchema } from "../@types/general.types";
+import jwt from 'jsonwebtoken';
+import argon2 from 'argon2';
 
 export const signUpController = (req: Request, res: Response) => {
-  const { username, email, password } = req.body;
+  const isValid = signUpSchema.safeParse(req.body);
+
+  if(!isValid.success) {
+    res.status(400).json({
+      message: "Invalid Request Body"
+    })
+    return;
+  }
+
+  const { username, email, password } = isValid.data;
+  console.log({
+    username, email, password
+  });
+
+  res.status(200).json({
+    message: "Sign Up Controller",
+    body: req.body
+  });
 }
 
-export const signInController = (req: Request, res: Response) => {
+export const signInController = async (req: Request, res: Response) => {
+  const isValid = signInSchema.safeParse(req.body);
+
+  if(!isValid.success) {
+    res.status(400).json({
+      message: "Invalid Request Body"
+    })
+    return;
+  }
+
+  const { email, password } = isValid.data;
+  console.log({
+    email, password
+  });
+
+  const hashedPassword = await argon2.hash(password);
+
+  const token = jwt.sign({ email }, process.env.JWT_SECRET as string);
+
   res.status(200).json({
-    message: "Sign In Controller"
+    message: "Sign In Controller",
+    token,
+    hashedPassword
   });
 }
 

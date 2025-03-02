@@ -1,10 +1,12 @@
 import express from "express";
 import dotenv from "dotenv"
+import generalRoutes from "./routes/general.routes";
 
-dotenv.config({ path: "./"})
+dotenv.config()
 const app = express();
 
 app.use(express.json());
+app.use('/', generalRoutes)
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
