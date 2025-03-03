@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@repo/typescript-config": "workspace:*",
-    "@repo/backend-common": "workspace:*",
+    "dotenv": "^16.4.7",
     "jsonwebtoken": "^9.0.2",
     "ws": "^8.18.1"
   },

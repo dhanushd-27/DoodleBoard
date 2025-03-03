@@ -9,7 +9,7 @@
     "dev": "npm run build && npm run start"
   },
   "dependencies": {
-    "@repo/backend-common": "workspace:*",
+    "@repo/common": "workspace:*",
     "@types/jsonwebtoken": "^9.0.9",
     "argon2": "^0.41.1",
     "dotenv": "^16.4.7",
