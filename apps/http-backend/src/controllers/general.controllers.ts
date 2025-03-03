@@ -1,5 +1,5 @@
 import { Request, Response } from "express"
-import { signInSchema, signUpSchema } from "@repo/common/type"
+import { createRoomSchema, signInSchema, signUpSchema } from "@repo/common/type"
 import jwt from 'jsonwebtoken';
 import argon2 from 'argon2';
 import { prisma } from '@repo/db/prisma';
@@ -14,13 +14,26 @@ export const signUpController = async (req: Request, res: Response) => {
     return;
   }
 
+  const isFound = await prisma.user.findUnique({
+    where: {
+      email: isValid.data.email
+    }
+  });
+
+  if(isFound) {
+    res.status(411).json({
+      message: "User Already Exists"
+    });
+    return
+  }
+
   const { username, email, password } = isValid.data;
 
   const hashPassword = await argon2.hash(password);
   
   await prisma.user.create({
     data: {
-      username,
+      name: username,
       email,
       password: hashPassword
     }
@@ -28,7 +41,6 @@ export const signUpController = async (req: Request, res: Response) => {
 
   res.status(200).json({
     message: "Sign Up Controller",
-    body: req.body
   });
 }
 
@@ -42,24 +54,75 @@ export const signInController = async (req: Request, res: Response) => {
     return;
   }
 
-  const { email, password } = isValid.data;
-  console.log({
-    email, password
+  const isFound = await prisma.user.findUnique({
+    where: {
+      email: isValid.data.email
+    }
   });
 
-  const hashedPassword = await argon2.hash(password);
+  if(!isFound) {
+    res.status(400).json({
+      message: "User Not Found"
+    });
+    return
+  }
 
-  const token = jwt.sign({ email }, process.env.JWT_SECRET as string);
+  const isVerified = await argon2.verify(isFound.password, isValid.data.password);
+
+  if(!isVerified) {
+    res.status(400).json({
+      message: "Invalid Password"
+    });
+    return;
+  }
+
+  const body = {
+    email: isFound.email,
+    id: isFound.id
+  }
+
+  const token = jwt.sign(body, process.env.JWT_SECRET as string);
+
 
   res.status(200).json({
     message: "Sign In Controller",
-    token,
-    hashedPassword
+    token
   });
 }
 
-export const createRoomController = (req: Request, res: Response) => {
+export const createRoomController = async (req: Request, res: Response) => {
+  const parsedData = createRoomSchema.safeParse(req.body);
+
+  if(!parsedData.success) {
+    res.status(400).json({
+      message: "Invalid Request Body"
+    })
+    return;
+  }
+
+  const roomFound = await prisma.room.findUnique({
+    where: {
+      slug: parsedData.data.slug
+    }
+  });
+
+  if(roomFound) {
+    res.status(400).json({
+      message: "Room Already Exists"
+    });
+    return;
+  }
+
+  const userId = req.user.id;
+
+  await prisma.room.create({
+    data: {
+      slug: parsedData.data.slug,
+      adminId: userId
+    }
+  });
+
   res.status(200).json({
-    message: "Create Room Controller"
+    message: "Create Room Controller Successfull"
   });
 }
