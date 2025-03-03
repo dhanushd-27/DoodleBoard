@@ -1,5 +1,5 @@
 import { Request, Response } from "express"
-import { signUpSchema, signInSchema } from "../@types/general.types";
+import { signInSchema, signUpSchema } from "@repo/backend-common/types";
 import jwt from 'jsonwebtoken';
 import argon2 from 'argon2';
 
