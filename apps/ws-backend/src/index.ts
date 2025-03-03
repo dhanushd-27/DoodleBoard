@@ -19,15 +19,16 @@ wss.on("connection", (socket, request) => {
   const queryParams = new URLSearchParams(url.split("?")[1]);
   const token: string = queryParams.get("token") as string;
 
-  const decoded = jwt.verify(token, JWT_SECRET) as JwtPayload;
+  // const decoded = jwt.verify(token, JWT_SECRET) as JwtPayload;
 
-  if(!decoded || !decoded.email) {
-    socket.close();
-    return;
-  }
+  // if(!decoded || !decoded.email) {
+  //   socket.close();
+  //   return;
+  // }
 
   socket.on("message", (message) => {
     console.log(`Received message => ${message}`);
+    socket.send("Hello, boi I received your message!");
   })
 
   socket.on("close", () => {
