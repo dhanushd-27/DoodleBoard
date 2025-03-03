@@ -2,8 +2,9 @@ import { Request, Response } from "express"
 import { signInSchema, signUpSchema } from "@repo/common/type"
 import jwt from 'jsonwebtoken';
 import argon2 from 'argon2';
+import { prisma } from '@repo/db/prisma';
 
-export const signUpController = (req: Request, res: Response) => {
+export const signUpController = async (req: Request, res: Response) => {
   const isValid = signUpSchema.safeParse(req.body);
 
   if(!isValid.success) {
@@ -14,9 +15,16 @@ export const signUpController = (req: Request, res: Response) => {
   }
 
   const { username, email, password } = isValid.data;
-  console.log({
-    username, email, password
-  });
+
+  const hashPassword = await argon2.hash(password);
+  
+  await prisma.user.create({
+    data: {
+      username,
+      email,
+      password: hashPassword
+    }
+  })
 
   res.status(200).json({
     message: "Sign Up Controller",
