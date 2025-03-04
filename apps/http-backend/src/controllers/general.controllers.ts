@@ -14,7 +14,7 @@ export const signUpController = async (req: Request, res: Response) => {
     return;
   }
 
-  const isFound = await prisma.user.findUnique({
+  const isFound = await prisma.user.findFirst({
     where: {
       email: isValid.data.email
     }
@@ -54,7 +54,7 @@ export const signInController = async (req: Request, res: Response) => {
     return;
   }
 
-  const isFound = await prisma.user.findUnique({
+  const isFound = await prisma.user.findFirst({
     where: {
       email: isValid.data.email
     }
@@ -90,39 +90,3 @@ export const signInController = async (req: Request, res: Response) => {
   });
 }
 
-export const createRoomController = async (req: Request, res: Response) => {
-  const parsedData = createRoomSchema.safeParse(req.body);
-
-  if(!parsedData.success) {
-    res.status(400).json({
-      message: "Invalid Request Body"
-    })
-    return;
-  }
-
-  const roomFound = await prisma.room.findUnique({
-    where: {
-      slug: parsedData.data.slug
-    }
-  });
-
-  if(roomFound) {
-    res.status(400).json({
-      message: "Room Already Exists"
-    });
-    return;
-  }
-
-  const userId = req.user.id;
-
-  await prisma.room.create({
-    data: {
-      slug: parsedData.data.slug,
-      adminId: userId
-    }
-  });
-
-  res.status(200).json({
-    message: "Create Room Controller Successfull"
-  });
-}

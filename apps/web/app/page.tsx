@@ -24,7 +24,7 @@ export default function Home() {
     }
 
     wsRef.current = ws as WebSocket;
-  })
+  }, [])
 
   return (
     <div className='w-max flex flex-col h-max gap-6'>
@@ -41,7 +41,8 @@ export default function Home() {
       <div className='flex gap-2'>
         <input id='message' type="text" placeholder='Enter Message' className='text-black py-2 bg-white rounded-xl'/>
         <button className='bg-purple-900 text-white py-2 px-6 rounded-sm' onClick={ () => {
-            const message = document.getElementById("message")?.value;
+            
+            const message = (document.getElementById("message") as HTMLInputElement)?.value;
 
             wsRef.current?.send(JSON.stringify({ type: 'chat', payload: {
               message: message

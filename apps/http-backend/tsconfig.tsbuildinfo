@@ -1,1 +1,1 @@
-{"root":["./global.d.ts","./src/index.ts","./src/controllers/general.controllers.ts","./src/middlewares/auth.middleware.ts","./src/routes/general.routes.ts"],"version":"5.7.3"}
+{"root":["./global.d.ts","./src/index.ts","./src/controllers/chat.controllers.ts","./src/controllers/general.controllers.ts","./src/middlewares/auth.middleware.ts","./src/routes/chat.routes.ts","./src/routes/general.routes.ts"],"version":"5.7.3"}
