@@ -1,30 +1,48 @@
+import { shareSchema } from "@repo/types/ws";
 import { WebSocket, WebSocketServer } from "ws";
 import { userCollection } from "../config/store";
 
-export const handleChat = (socket: WebSocket, wss: WebSocketServer) => {
+export const handleShare = (socket: WebSocket, wss: WebSocketServer, payload: any ) => {
   try {
-    socket.on("message", (message) => {
-      const parsedData = JSON.parse(message.toString());
+    const parsedData = shareSchema.safeParse(payload);
 
-      if(parsedData.event === "chat") {
-        const roomId = parsedData.payload.roomId;
+    if(!parsedData.success){
+      socket.send("Invalid payload");
+      return;
+    }
 
-        userCollection.forEach(user => {
-          if(user.rooms.includes(roomId)) {
-            user.socket.send(JSON.stringify({
-              event: "chat",
-              data: {
-                message: parsedData.payload.message,
-                username: parsedData.payload.username
-              }
-            }));
+    const { roomId, type, x, y, width, height } = parsedData.data;
+
+    const user = userCollection.find(user => user.socket === socket);
+
+    if(!user) {
+      socket.send("User not found");
+      return;
+    }
+
+    const room = user.rooms.includes(roomId);
+
+    if(!room) {
+      socket.send("Room not found");
+      return;
+    }
+
+    userCollection.map(user => {
+      if(user.rooms.includes(roomId)) {
+        user.socket.send(JSON.stringify({
+          event: "share",
+          payload: {
+            type,
+            x,
+            y,
+            width,
+            height
           }
-        })
+        }))
       }
     })
   } catch (error) {
-    console.error("Invalid JSON:", error);
-    socket.send("Invalid JSON");
-    socket.close();
+    socket.send("Invalid payload");
+    return;
   }
 }

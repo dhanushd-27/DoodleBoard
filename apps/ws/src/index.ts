@@ -2,7 +2,7 @@ import { WebSocketServer, WebSocket } from "ws";
 import "./config/env";
 import { isValidToken } from "./utils/isValid";
 import { handleJoin } from "./events/join";
-import { handleChat } from "./events/share";
+import { handleShare } from "./events/share";
 
 const PORT = parseInt(process.env.PORT as string) || 8081;
 const wss = new WebSocketServer({ port: PORT });
@@ -19,8 +19,30 @@ try {
       socket.close();
     }
 
-    handleJoin(socket, wss);
-    handleChat(socket, wss);
+    socket.on("message", (data) => {
+      try {
+        const payloadData = JSON.parse(data.toString());
+
+        if(!payloadData.event) {
+          socket.send("Event Type Required");
+          return;
+        }
+  
+        switch (payloadData.event) {
+          case "join":
+            handleJoin(socket, wss, payloadData.payload);
+            break;
+          case "share":
+            handleShare(socket, wss, payloadData.payload);
+            break;
+          default:
+            socket.send("Invalid Event Type");
+            break;
+        }
+      } catch (error) {
+        socket.send("Invalid JSON");
+      }
+    })
 
     socket.send("Connected to server");
   });
