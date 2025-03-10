@@ -1,15 +1,34 @@
-import { WebSocketServer } from "ws";
-import dotenv from "dotenv";
-
-dotenv.config();
+import { WebSocketServer, WebSocket } from "ws";
+import { isValidToken } from "./utils/isValid";
+import { configDotenv } from "dotenv";
+configDotenv();
 
 const PORT = parseInt(process.env.PORT as string) || 8081;
 const wss = new WebSocketServer({ port: PORT });
 
-wss.on("connection", (ws) => {
-  ws.on("message", (message) => {
+interface User {
+  userId: string,
+  socket: WebSocket,
+  rooms: string[]
+}
+
+const users: User[] = []
+
+wss.on("connection", (socket, req) => {
+  const url = req.url;
+
+  const queryParams = new URLSearchParams(url?.split("?")[1]);
+  const token = queryParams.get("token") as string;
+
+  if(!isValidToken(token)) {
+    socket.send("Invalid token");
+    socket.close();
+  }
+
+  socket.on("message", (message) => {
     console.log(`Received message => ${message}`);
-    ws.send(`Received message => ${message}`);
+    socket.send(`Received message => ${message}`);
   });
-  ws.send("Connected to server");
+
+  socket.send("Connected to server");
 })
