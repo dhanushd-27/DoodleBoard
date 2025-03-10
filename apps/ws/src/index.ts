@@ -14,9 +14,10 @@ try {
     const queryParams = new URLSearchParams(url?.split("?")[1]);
     const token = queryParams.get("token") as string;
 
-    if(!isValidToken(token)) {
+    const userDetails = isValidToken(token); 
+    if(!userDetails) {
       socket.send("Invalid token");
-      socket.close();
+      return;
     }
 
     socket.on("message", (data) => {
@@ -27,13 +28,13 @@ try {
           socket.send("Event Type Required");
           return;
         }
-  
+
         switch (payloadData.event) {
           case "join":
-            handleJoin(socket, wss, payloadData.payload);
+            handleJoin(socket, wss, payloadData.payload, userDetails );
             break;
           case "share":
-            handleShare(socket, wss, payloadData.payload);
+            handleShare(socket, wss, payloadData.payload, userDetails);
             break;
           default:
             socket.send("Invalid Event Type");

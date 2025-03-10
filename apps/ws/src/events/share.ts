@@ -1,8 +1,8 @@
-import { shareSchema } from "@repo/types/ws";
+import { shareSchema, User } from "@repo/types/ws";
 import { WebSocket, WebSocketServer } from "ws";
 import { userCollection } from "../config/store";
 
-export const handleShare = (socket: WebSocket, wss: WebSocketServer, payload: any ) => {
+export const handleShare = (socket: WebSocket, wss: WebSocketServer, payload: any, userDetails: User ) => {
   try {
     const parsedData = shareSchema.safeParse(payload);
 
@@ -12,8 +12,9 @@ export const handleShare = (socket: WebSocket, wss: WebSocketServer, payload: an
     }
 
     const { roomId, type, x, y, width, height } = parsedData.data;
+    const { id, email, name } = userDetails;
 
-    const user = userCollection.find(user => user.socket === socket);
+    const user = userCollection.find(user => user.userId === id);
 
     if(!user) {
       socket.send("User not found");

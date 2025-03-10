@@ -11,5 +11,11 @@ export const shareSchema = z.object({
 
 export const joinSchema = z.object({
   roomId: z.string(),
-  userId: z.string(),
 });
+
+export interface User {
+  email: string;
+  name: string;
+  id: string;
+  iat: number;
+}
