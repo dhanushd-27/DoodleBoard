@@ -29,7 +29,7 @@ export const handleShare = (socket: WebSocket, wss: WebSocketServer, payload: an
     }
 
     userCollection.map(user => {
-      if(user.rooms.includes(roomId)) {
+      if(user.rooms.includes(roomId) && user.userId != id) {
         user.socket.send(JSON.stringify({
           event: "share",
           payload: {
