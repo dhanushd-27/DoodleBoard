@@ -1,21 +1,32 @@
 'use client'
 
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 
 export default function Home() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-
-  const socket = new WebSocket("ws://localhost:8080?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRoYUBnbWFpbC5jb20iLCJuYW1lIjoiRGhhbnVzaCIsImlkIjoiY204MnIxODhwMDAwMHhqNXQ0cDV3eG5lbSIsImlhdCI6MTc0MTU5MjgzNn0.TDFaTLiBuVkOweLewDOpxT4DH0wxxZAPPQKDG_trfas");
-
-  socket.onopen = () => {
-    socket.send('{"event": "join", "payload": {"roomId": "12121", "userId": "3145"}}');
-  };
-
-  socket.onmessage = (event) => {
-    console.log("Message from server:", event.data);
-  };
+  const [socket, setSocket] = useState<WebSocket | null>(null);
+  const [roomId, setRoomId] = useState<string | null>(null);
 
   useEffect(() => {
+    const newSocket = new WebSocket("ws://localhost:8080?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRoYUBnbWFpbC5jb20iLCJuYW1lIjoiRGhhbnVzaCIsImlkIjoiY204MnIxODhwMDAwMHhqNXQ0cDV3eG5lbSIsImlhdCI6MTc0MTU5MjgzNn0.TDFaTLiBuVkOweLewDOpxT4DH0wxxZAPPQKDG_trfas");
+
+    setRoomId("12121");
+
+    newSocket.onopen = () => {
+      setSocket(newSocket);
+      newSocket.send('{"event": "join", "payload": {"roomId": "12121"}}');
+    };
+
+    if(!socket) {
+      return;
+    }
+    socket.onmessage = (event) => {
+      console.log(event.data);
+    };
+  })
+
+  useEffect(() => {
+
     if(canvasRef.current) {
       const canvas = canvasRef.current;
       const ctx = canvas.getContext("2d");
@@ -29,23 +40,49 @@ export default function Home() {
       let startX: number;
       let startY: number;
       let clicked: boolean = false;
-  
+      let width: number;
+      let height: number;
+
       canvas.addEventListener("mousedown", (e) => {
         startX = e.clientX;
         startY = e.clientY;
         clicked = true;
       });
-  
+      
       canvas.addEventListener("mouseup", () => {
         clicked = false;
       })
 
       canvas.addEventListener("mousemove", (e) => {
-        if(clicked) {
+        if(clicked && socket) {
           endX = e.clientX;
           endY = e.clientY;
-          const width = endX - startX;
-          const height = endY - startY;
+          width = endX - startX;
+          height = endY - startY;
+
+          socket.send(JSON.stringify({
+            event: "share",
+            payload: {
+              roomId,
+              type: "rect",
+              x: startX,
+              y: startY,
+              width,
+              height
+            }
+          }))
+
+          console.log({
+            event: "share",
+            payload: {
+              roomId,
+              type: "rect",
+              x: startX,
+              y: startY,
+              width,
+              height
+            }
+          });
 
           ctx.clearRect(0, 0, canvas.width, canvas.height);
           ctx.fillStyle = "rgba(0,0,0)";
@@ -56,7 +93,9 @@ export default function Home() {
       })
     }
   
-  }, [canvasRef])
+  }, [canvasRef, roomId, socket])
+
+  if(!socket) return <div>Loading....</div>
 
   return (
     <canvas width={ 2000 } height={ 1000 } ref={ canvasRef }>
