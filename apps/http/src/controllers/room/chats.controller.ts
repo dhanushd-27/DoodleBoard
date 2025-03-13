@@ -1,2 +1,0 @@
-// clear chats
-// get chats

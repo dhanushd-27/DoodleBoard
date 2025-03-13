@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Roboto } from "next/font/google"
+import StoreProvider from "./storeProvider";
 
 export const metadata: Metadata = {
   title: "DoodleBoard",
@@ -18,9 +19,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${roboto.className}`}>
-        {children}
-      </body>
+      <StoreProvider>
+        <body className={`${roboto.className}`}>
+          {children}
+        </body>
+      </StoreProvider>
     </html>
   );
 }

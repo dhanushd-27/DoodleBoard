@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { mouseEventHandler } from '../utils/draw';
 
 type Props = {
-  roomId: string
+  roomId: string,
 }
 
 export default function Canvas({ roomId }: Props) {
