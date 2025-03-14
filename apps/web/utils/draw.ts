@@ -1,4 +1,3 @@
-import { useAppSelector } from "../lib/hooks/reduxHooks";
 
 let exisitedShapes: string[] = [];
 
@@ -18,14 +17,13 @@ export const mouseEventHandler = (canvas: HTMLCanvasElement, socket: WebSocket, 
 
   renderShapes(ctx);
 
-  canvas.addEventListener("mousedown", (e) => {
+  const onMouseDown = (e: MouseEvent) => {
     startX = e.clientX;
     startY = e.clientY;
     clicked = true;
-  });
-  
-  canvas.addEventListener("mouseup", () => {
-    console.log(1)
+  }
+
+  const onMouseUp = () => {
     clicked = false;
     console.log(shape);
     if(shape === "rect"){
@@ -52,9 +50,9 @@ export const mouseEventHandler = (canvas: HTMLCanvasElement, socket: WebSocket, 
         }
       }))
     };
-  })
+  }
 
-  canvas.addEventListener("mousemove", (e) => {
+  const onMouseMove = (e: MouseEvent) => {
     if(clicked && socket) {
       endX = e.clientX;
       endY = e.clientY;
@@ -98,7 +96,21 @@ export const mouseEventHandler = (canvas: HTMLCanvasElement, socket: WebSocket, 
         ctx.stroke();
       }
     }
-  })
+  }
+
+  canvas.addEventListener("mousedown", onMouseDown);
+  
+  canvas.addEventListener("mouseup", onMouseUp)
+
+  canvas.addEventListener("mousemove", onMouseMove);
+
+  return {
+    removeListeners: () => {
+      canvas.removeEventListener("mousedown", onMouseDown);
+      canvas.removeEventListener("mousemove", onMouseMove);
+      canvas.removeEventListener("mouseup", onMouseUp);
+    }
+  };
 }
 
 const renderShapes = (ctx: CanvasRenderingContext2D) => {
