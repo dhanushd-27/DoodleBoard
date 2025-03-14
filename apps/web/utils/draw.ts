@@ -1,3 +1,5 @@
+import { useAppSelector } from "../lib/hooks/reduxHooks";
+
 let exisitedShapes: string[] = [];
 
 export const mouseEventHandler = (canvas: HTMLCanvasElement, socket: WebSocket, ctx: CanvasRenderingContext2D, roomId: string, shape: string) => {
@@ -23,6 +25,7 @@ export const mouseEventHandler = (canvas: HTMLCanvasElement, socket: WebSocket, 
   });
   
   canvas.addEventListener("mouseup", () => {
+    console.log(1)
     clicked = false;
     console.log(shape);
     if(shape === "rect"){
@@ -58,17 +61,17 @@ export const mouseEventHandler = (canvas: HTMLCanvasElement, socket: WebSocket, 
       width = endX - startX;
       height = endY - startY;
 
-      // socket.send(JSON.stringify({
-      //   event: "share",
-      //   payload: {
-      //     roomId,
-      //     type: "rect",
-      //     x: startX,
-      //     y: startY,
-      //     width,
-      //     height
-      //   }
-      // }))
+      socket.send(JSON.stringify({
+        event: "share",
+        payload: {
+          roomId,
+          type: "rect",
+          x: startX,
+          y: startY,
+          width,
+          height
+        }
+      }))
 
       if(shape === "rect") {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -99,7 +102,6 @@ export const mouseEventHandler = (canvas: HTMLCanvasElement, socket: WebSocket, 
 }
 
 const renderShapes = (ctx: CanvasRenderingContext2D) => {
-  console.log(exisitedShapes);
   exisitedShapes.forEach(shape => {
     const { type, payload } = JSON.parse(shape);
     if(type === "rect") {

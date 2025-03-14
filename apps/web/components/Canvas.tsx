@@ -25,7 +25,8 @@ export default function Canvas({ roomId, token }: Props) {
     if(!socket) {
       return;
     }
-  })
+
+  }, [token])
 
   useEffect(() => {
     if(canvasRef.current && socket) {
@@ -36,9 +37,8 @@ export default function Canvas({ roomId, token }: Props) {
         mouseEventHandler(canvas, socket, ctx, roomId, shape);
       }
     }
+  }, [socket, roomId])
   
-  })
-
   if(!socket) return <div>Loading....</div>
 
   return (
