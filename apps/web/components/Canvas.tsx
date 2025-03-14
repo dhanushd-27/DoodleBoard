@@ -2,17 +2,20 @@
 
 import React, { useEffect, useRef, useState } from 'react'
 import { mouseEventHandler } from '../utils/draw';
+import { useAppSelector } from '../lib/hooks/reduxHooks';
 
 type Props = {
   roomId: string,
+  token: string
 }
 
-export default function Canvas({ roomId }: Props) {
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const [socket, setSocket] = useState<WebSocket | null>(null);
+export default function Canvas({ roomId, token }: Props) {
+  const shape = useAppSelector(state => state.selectedTool.value);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [socket, setSocket] = useState<WebSocket>();
 
   useEffect(() => {
-    const newSocket = new WebSocket("ws://localhost:8080?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRoYUBnbWFpbC5jb20iLCJuYW1lIjoiRGhhbnVzaCIsImlkIjoiY204MnIxODhwMDAwMHhqNXQ0cDV3eG5lbSIsImlhdCI6MTc0MTU5MjgzNn0.TDFaTLiBuVkOweLewDOpxT4DH0wxxZAPPQKDG_trfas");
+    const newSocket = new WebSocket(`ws://localhost:8080?token=${token}`);
 
     newSocket.onopen = () => {
       setSocket(newSocket);
@@ -22,21 +25,19 @@ export default function Canvas({ roomId }: Props) {
     if(!socket) {
       return;
     }
-    
-  }, [socket])
+  })
 
   useEffect(() => {
-
     if(canvasRef.current && socket) {
       const canvas = canvasRef.current;
       const ctx = canvas.getContext("2d");
 
       if(ctx) {
-        mouseEventHandler(canvas, socket, ctx, roomId);
+        mouseEventHandler(canvas, socket, ctx, roomId, shape);
       }
     }
   
-  }, [canvasRef, roomId, socket])
+  })
 
   if(!socket) return <div>Loading....</div>
 

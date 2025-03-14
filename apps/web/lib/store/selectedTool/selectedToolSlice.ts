@@ -1,19 +1,20 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-type Tool = {
-  selectedTool: "circle" | "rect" | "line";
-}
+// We can use a enum here instead
+// type Tool = {
+//   selectedTool: "circle" | "rect" | "line";
+// }
 
-const initialState: Tool = {
-  selectedTool: "rect",
+const initialState = {
+  value: "rect",
 }
 
 const selectedToolSlice = createSlice({
   name: "selectedTool",
   initialState,
   reducers: {
-    setSelectedTool: (state, action: PayloadAction<Tool>) => {
-      state.selectedTool = action.payload.selectedTool;
+    setSelectedTool: (state, action: PayloadAction<{ tool: string}>) => {
+      state.value = action.payload.tool;
     },
   },
 });
