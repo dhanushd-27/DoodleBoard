@@ -1,3 +1,4 @@
+import { renderShapes } from "./renderShapes";
 
 let exisitedShapes: string[] = [];
 
@@ -15,7 +16,7 @@ export const mouseEventHandler = (canvas: HTMLCanvasElement, socket: WebSocket, 
   let width: number;
   let height: number;
 
-  renderShapes(ctx);
+  renderShapes(ctx, exisitedShapes);
 
   const onMouseDown = (e: MouseEvent) => {
     startX = e.clientX;
@@ -25,7 +26,6 @@ export const mouseEventHandler = (canvas: HTMLCanvasElement, socket: WebSocket, 
 
   const onMouseUp = () => {
     clicked = false;
-    console.log(shape);
     if(shape === "rect"){
       exisitedShapes.push(JSON.stringify({
         type: 'rect',
@@ -49,7 +49,31 @@ export const mouseEventHandler = (canvas: HTMLCanvasElement, socket: WebSocket, 
           endAngle: 2 * Math.PI
         }
       }))
-    };
+    } else if(shape === "text"){
+      const input = document.createElement("input");
+      input.type = "text";
+      input.style.position = "fixed";
+      input.style.left = `${startX}px`;
+      input.style.top = `${startY}px`;
+      input.style.border = "none";
+      input.style.outline = "none";
+      input.style.color = "white";
+      input.style.width = '400px';
+      input.onkeydown = (event) => handleEvent(event, startX, startY, ctx);
+
+      document.body.appendChild(input);
+      input.focus();
+    } else if(shape === "line") {
+      exisitedShapes.push(JSON.stringify({
+        type: 'line',
+        payload: {
+          x1: startX,
+          y1: startY,
+          x2: endX,
+          y2: endY
+        }
+      }));
+    }
   }
 
   const onMouseMove = (e: MouseEvent) => {
@@ -75,14 +99,14 @@ export const mouseEventHandler = (canvas: HTMLCanvasElement, socket: WebSocket, 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.fillStyle = "rgba(0,0,0)";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-        renderShapes(ctx);
+        renderShapes(ctx, exisitedShapes);
         ctx.strokeStyle = "rgba(255,255,255)"
         ctx.strokeRect(startX, startY, width, height);
       } else if(shape === "circle"){
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.fillStyle = "rgba(0,0,0)";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-        renderShapes(ctx);
+        renderShapes(ctx, exisitedShapes);
         ctx.beginPath();
         ctx.ellipse(
           startX + width / 2,
@@ -92,6 +116,21 @@ export const mouseEventHandler = (canvas: HTMLCanvasElement, socket: WebSocket, 
           0, 0, 2 * Math.PI
         );
         // ctx.arc(startX + width / 2, startY + height / 2, Math.abs(width) / 2, 0, 2 * Math.PI);
+        ctx.strokeStyle = "rgba(255,255,255)"
+        ctx.stroke();
+      } else if(shape === "text") {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "rgba(0,0,0)";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        renderShapes(ctx, exisitedShapes);
+      } else if(shape === "line") {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "rgba(0,0,0)";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        renderShapes(ctx, exisitedShapes);
+        ctx.beginPath();
+        ctx.moveTo(startX, startY);
+        ctx.lineTo(endX, endY);
         ctx.strokeStyle = "rgba(255,255,255)"
         ctx.stroke();
       }
@@ -113,23 +152,22 @@ export const mouseEventHandler = (canvas: HTMLCanvasElement, socket: WebSocket, 
   };
 }
 
-const renderShapes = (ctx: CanvasRenderingContext2D) => {
-  exisitedShapes.forEach(shape => {
-    const { type, payload } = JSON.parse(shape);
-    if(type === "rect") {
-      ctx.strokeRect(payload.x, payload.y, payload.width, payload.height);
-    } else if(type === "circle") {
-      ctx.beginPath();
-      ctx.ellipse(
-        payload.x,
-        payload.y,
-        payload.radiusX,
-        payload.radiusY,
-        payload.rotatiom,
-        payload.startAngle,
-        payload.endAngle
-      )
-      ctx.stroke();
-    }
-  })
+const handleEvent = (e: KeyboardEvent, startX: number, startY: number, ctx: CanvasRenderingContext2D) => {
+  const input = e.target as HTMLInputElement;
+  if(e.key === "Enter" && !e.shiftKey) {
+    ctx.font = "24px Arial";
+    ctx.fillStyle = "white";
+    ctx.fillText(input.value, startX, startY);
+    document.body.removeChild(input);
+    exisitedShapes.push(JSON.stringify({
+      type: 'text',
+      payload: {
+        text: input.value,
+        x: startX,
+        y: startY
+      }
+    }));
+  } else if(e.shiftKey && e.key === "Enter") {
+    input.value += "\n";
+  }
 }
