@@ -23,6 +23,7 @@
     "tailwindcss": "^4.0.12"
   },
   "devDependencies": {
+    "@repo/types": "workspace:*",
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
     "@types/node": "^22.13.9",

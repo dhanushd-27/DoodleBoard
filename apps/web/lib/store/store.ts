@@ -1,6 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit'
 import exisitingShapesReducer from './existingShapes/existingShapesSlice'
-import clickedReducer from './clicked/clickedSlice'
 import roomIdReducer from './roomId/roomIdSlice'
 import selectedToolReducer from "./selectedTool/selectedToolSlice";
 
@@ -8,7 +7,6 @@ export const makeStore = () => {
   return configureStore({
     reducer: {
       existingShapes: exisitingShapesReducer,
-      clicked: clickedReducer,
       roomId: roomIdReducer,
       selectedTool: selectedToolReducer,
     },

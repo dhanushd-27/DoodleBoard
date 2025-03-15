@@ -1,6 +1,6 @@
 import React from 'react'
 import Canvas from '../../../components/Canvas'
-import { Circle, Pen, RectangleHorizontal } from 'lucide-react'
+import { Circle, Minus, Pen, RectangleHorizontal, Type } from 'lucide-react'
 import ButtonIcon from '../../../components/Nav/ButtonIcon'
 
 export default async function CanvasPage() {
@@ -14,8 +14,11 @@ export default async function CanvasPage() {
         <ButtonIcon tool='rect'>
           <RectangleHorizontal />
         </ButtonIcon>
-        <ButtonIcon tool='line'>
-          <Pen />
+        <ButtonIcon tool="text">
+          <Type />
+        </ButtonIcon>
+        <ButtonIcon tool="line">
+          <Minus />
         </ButtonIcon>
       </div>
       <Canvas roomId='12121' token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRoYUBnbWFpbC5jb20iLCJuYW1lIjoiRGhhbnVzaCIsImlkIjoiY204MnIxODhwMDAwMHhqNXQ0cDV3eG5lbSIsImlhdCI6MTc0MTU5MjgzNn0.TDFaTLiBuVkOweLewDOpxT4DH0wxxZAPPQKDG_trfas'/>
