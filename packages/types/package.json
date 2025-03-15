@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "exports": {
+    "./events": "./events.types.ts",
     "./auth": "./auth.types.ts",
     "./ws": "./ws.types.ts"
   },
