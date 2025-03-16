@@ -115,14 +115,14 @@ export const removeShapeController = async (req: Request, res: Response) => {
 
 export const roomMembersController = async (req: Request, res: Response) => {
   try {
-    const id = req.user.id;
+    const id = req.params.roomId;
     
-    const members = await prisma.user.findFirst({
+    const members = await prisma.room.findFirst({
       where: {
         id
       },
-      include: {
-        memberOf: true
+      select: {
+        members: true
       }
     });
 

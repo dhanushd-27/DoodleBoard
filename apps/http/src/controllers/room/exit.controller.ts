@@ -6,10 +6,10 @@ import { Request, Response } from "express";
 
 export const exitRoomController = async (req: Request, res: Response) => {
  try {
-  const { slug } = req.params;
+  const { roomId } = req.params;
   const { id } = req.user;
 
-  if(!slug) {
+  if(!roomId) {
     res.status(400).json({
       message: "Room slug is required"
     });
@@ -17,7 +17,7 @@ export const exitRoomController = async (req: Request, res: Response) => {
   }
 
   await prisma.room.update({
-    where: { slug },
+    where: { id: roomId },
     data: { 
       members: {
         disconnect: { id }
@@ -25,9 +25,12 @@ export const exitRoomController = async (req: Request, res: Response) => {
     }
   })
 
+  res.status(Status.Success).json({
+    message: "Exited Room Successfully"
+  })
  } catch (error) {
-  res.status(Status.ServerFailed).json({
-    message: "Server Error"
+  res.status(Status.Failed).json({
+    message: "Member not found"
   })
  }
 }
