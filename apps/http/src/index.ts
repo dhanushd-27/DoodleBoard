@@ -3,6 +3,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import { authRoutes } from './routes/auth.routes';
+import { roomRoutes } from './routes/room.routes';
 
 dotenv.config();
 const PORT = process.env.PORT || 3000;
@@ -16,6 +17,7 @@ app.use(cors({
 }))
 
 app.use('/api/v1', authRoutes);
+app.use('/api/v1/room', roomRoutes);
 
 
 app.listen(PORT, () => {

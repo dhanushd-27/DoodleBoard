@@ -1,6 +1,7 @@
 // List of all rooms I am part of - Show in Dashboard
 
 import { prisma } from "@repo/db/prisma";
+import { Status } from "@repo/types/status";
 import { Request, Response } from "express";
 
 export const listRoomsController = async (req: Request, res: Response) => {
@@ -17,7 +18,7 @@ export const listRoomsController = async (req: Request, res: Response) => {
       }
     });
 
-    res.status(200).json({
+    res.status(Status.Success).json({
       message: "Rooms fetched successfully",
       payload: {
         rooms: rooms?.memberOf

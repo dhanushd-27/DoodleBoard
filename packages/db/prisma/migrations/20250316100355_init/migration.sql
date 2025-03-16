@@ -1,20 +1,26 @@
-/*
-  Warnings:
+-- CreateTable
+CREATE TABLE "User" (
+    "id" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
+    "password" TEXT NOT NULL,
+    "name" TEXT,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
-  - You are about to drop the `ShareData` table. If the table is not empty, all the data it contains will be lost.
-  - Added the required column `name` to the `Room` table without a default value. This is not possible if the table is not empty.
-  - Added the required column `slug` to the `Room` table without a default value. This is not possible if the table is not empty.
+    CONSTRAINT "User_pkey" PRIMARY KEY ("id")
+);
 
-*/
--- DropForeignKey
-ALTER TABLE "ShareData" DROP CONSTRAINT "ShareData_roomId_fkey";
+-- CreateTable
+CREATE TABLE "Room" (
+    "id" TEXT NOT NULL,
+    "slug" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "adminId" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
--- AlterTable
-ALTER TABLE "Room" ADD COLUMN     "name" TEXT NOT NULL,
-ADD COLUMN     "slug" TEXT NOT NULL;
-
--- DropTable
-DROP TABLE "ShareData";
+    CONSTRAINT "Room_pkey" PRIMARY KEY ("id")
+);
 
 -- CreateTable
 CREATE TABLE "Shape" (
@@ -37,7 +43,16 @@ CREATE TABLE "_RoomMembers" (
 );
 
 -- CreateIndex
+CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Room_slug_key" ON "Room"("slug");
+
+-- CreateIndex
 CREATE INDEX "_RoomMembers_B_index" ON "_RoomMembers"("B");
+
+-- AddForeignKey
+ALTER TABLE "Room" ADD CONSTRAINT "Room_adminId_fkey" FOREIGN KEY ("adminId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Shape" ADD CONSTRAINT "Shape_roomId_fkey" FOREIGN KEY ("roomId") REFERENCES "Room"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

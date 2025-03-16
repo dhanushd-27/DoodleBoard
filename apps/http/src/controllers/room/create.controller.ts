@@ -3,19 +3,16 @@ import { Request, Response } from "express";
 import randomstring from "randomstring";
 
 // as an admin create room in the database
-const createRoomController = async (req: Request, res: Response) => {
-  // get the user id from the request
-  // get the room name from the request
-  // create a room in the database
-  // return the room
+export const createRoomController = async (req: Request, res: Response) => {
   try {
     const { id } = req.user;
     const { name } = req.body;
 
     if(!name) {
-      return res.status(400).json({
+      res.status(400).json({
         message: "Room name is required"
       });
+      return;
     };
 
     const roomSlug = randomstring.generate(7);
@@ -28,22 +25,11 @@ const createRoomController = async (req: Request, res: Response) => {
       }
     });
 
-    const roomMember = await prisma.user.update({
-      where: {
-        id
-      },
-      data: {
-        adminOf: {
-          connect: {
-            id: room.id
-          }
-        }
-      }
-    });
-
     res.status(201).json({
       message: "Room created successfully",
-      payload: room
+      payload: {
+        slug: room.slug
+      }
     });
   } catch (error) {
     res.status(400).json({

@@ -45,12 +45,11 @@ export const loginController = async (req: Request, res: Response) => {
 
     res.cookie("token", token, {
       httpOnly: true,
-      sameSite: "strict",
+      sameSite: "lax",
     });
 
     res.status(200).json({
       message: "Logged in",
-      token
     });
     return;
   } catch (error) {

@@ -20,17 +20,19 @@ model User {
   name     String?
   adminOf  Room[]
   shapes   Shape[]
+  memberOf  Room[]  @relation("RoomMembers")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model Room {
   id          String   @id @default(cuid())
-  slug        String
+  slug        String   @unique
   name        String
   adminId     String
   admin       User     @relation(fields: [adminId], references: [id])
   shapes      Shape[]
+  members     User[]   @relation("RoomMembers")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
