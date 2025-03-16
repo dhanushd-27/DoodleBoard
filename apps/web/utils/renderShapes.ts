@@ -12,7 +12,7 @@ export const renderShapes = (ctx: CanvasRenderingContext2D, exisitedShapes: stri
         payload.y,
         payload.radiusX,
         payload.radiusY,
-        payload.rotatiom,
+        payload.rotation,
         payload.startAngle,
         payload.endAngle
       )

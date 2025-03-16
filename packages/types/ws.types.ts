@@ -13,6 +13,8 @@ export const joinSchema = z.object({
   roomId: z.string(),
 });
 
+export const leaveSchema = joinSchema;
+
 export interface User {
   email: string;
   name: string;

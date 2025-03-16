@@ -1,6 +1,6 @@
 import React from 'react'
 import Canvas from '../../../components/Canvas'
-import { Circle, Minus, Pen, RectangleHorizontal, Type } from 'lucide-react'
+import { Circle, Minus, RectangleHorizontal, Type } from 'lucide-react'
 import ButtonIcon from '../../../components/Nav/ButtonIcon'
 
 export default async function CanvasPage() {
@@ -21,7 +21,7 @@ export default async function CanvasPage() {
           <Minus />
         </ButtonIcon>
       </div>
-      <Canvas roomId='12121' token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRoYUBnbWFpbC5jb20iLCJuYW1lIjoiRGhhbnVzaCIsImlkIjoiY204MnIxODhwMDAwMHhqNXQ0cDV3eG5lbSIsImlhdCI6MTc0MTU5MjgzNn0.TDFaTLiBuVkOweLewDOpxT4DH0wxxZAPPQKDG_trfas'/>
+      <Canvas roomId='12121' token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRoYW51c2hAZ21haWwuY29tIiwibmFtZSI6ImRoYW51c2giLCJpZCI6ImNtOGJobWplZzAwMDB4amRmb3R0MDdlenAiLCJpYXQiOjE3NDIxMjA2NjJ9.l5gYAEoeO882Fb5aue6-siMaCnVYTi_fQ-lQ1Eu1KEo'/>
     </div>
   )
 }

@@ -50,8 +50,6 @@ try {
     })
 
     socket.send("Connected to server");
-
-    // socket.on('close', )
   });
 
   console.log(`Server is running on ws://localhost:${PORT}`);

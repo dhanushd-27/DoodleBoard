@@ -14,6 +14,11 @@ export default function Canvas({ roomId, token }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [socket, setSocket] = useState<WebSocket | null>(null);
 
+  const leave = () => {
+    if(!socket) return;
+    socket.send('{"event":"leave","payload":{"roomId":"12121"}}')
+  }
+
   useEffect(() => {
     const newSocket = new WebSocket(`ws://localhost:8080?token=${token}`);
 
@@ -31,10 +36,14 @@ export default function Canvas({ roomId, token }: Props) {
       console.error("WebSocket error:", error);
     };
 
+    newSocket.onmessage = (event) => {
+      console.log(event.data);
+    }
+
     return () => {
+      newSocket.send('{"event":"leave","payload":{"roomId":"12121"}}');
       newSocket.close(); // Cleanup WebSocket on unmount
     };
-
   }, [token]);
 
   useEffect(() => {
@@ -57,6 +66,7 @@ export default function Canvas({ roomId, token }: Props) {
   return (
     <div className="overflow-hidden">
       <canvas width={2000} height={1000} ref={canvasRef}></canvas>
+      <button className='bg-white py-2 px-4 rounded-xl fixed text-black bottom-4 left-[90%]' onClick={ leave }>Leave room</button>
     </div>
   );
 }

@@ -1,5 +1,4 @@
 // Make this a class component - could be a solution
-
 import { renderShapes } from "./renderShapes";
 
 let exisitedShapes: string[] = [];
@@ -16,6 +15,30 @@ export const mouseEventHandler = (canvas: HTMLCanvasElement, socket: WebSocket, 
   let clicked: boolean = false;
   let width: number;
   let height: number;
+
+  socket.onmessage = (event) => {
+    try {
+      const socketData = JSON.parse(event.data);
+      if(socketData.event !== "share") return;
+      
+      const shapeData = JSON.stringify({
+        type: socketData.payload.type,
+        payload: {
+          x: socketData.payload.x,
+          y: socketData.payload.y,
+          width: socketData.payload.width,
+          height: socketData.payload.height
+        }
+      })
+      exisitedShapes.push(shapeData);
+      console.log(exisitedShapes);
+      renderShapes(ctx, exisitedShapes);
+    } catch (error) {
+      const e = error as Error;
+      console.log(e.message);
+      console.log(event.data);
+    }
+  }
 
   renderShapes(ctx, exisitedShapes);
 
@@ -37,6 +60,17 @@ export const mouseEventHandler = (canvas: HTMLCanvasElement, socket: WebSocket, 
           height
         }
       }));
+      socket.send(JSON.stringify({
+        event: "share",
+        payload: {
+          roomId,
+          type: "rect",
+          x: startX,
+          y: startY,
+          width,
+          height
+        }
+      }))
     } else if( shape === "circle") {
       exisitedShapes.push(JSON.stringify({
         type: 'circle',
@@ -45,7 +79,7 @@ export const mouseEventHandler = (canvas: HTMLCanvasElement, socket: WebSocket, 
           y: startY + height / 2,
           radiusX: Math.abs(width) / 2,
           radiusY: Math.abs(height) / 2,
-          rotatiom: 0,
+          rotation: 0,
           startAngle: 0,
           endAngle: 2 * Math.PI
         }
@@ -83,18 +117,6 @@ export const mouseEventHandler = (canvas: HTMLCanvasElement, socket: WebSocket, 
       endY = e.clientY;
       width = endX - startX;
       height = endY - startY;
-
-      socket.send(JSON.stringify({
-        event: "share",
-        payload: {
-          roomId,
-          type: "rect",
-          x: startX,
-          y: startY,
-          width,
-          height
-        }
-      }))
 
       if(shape === "rect") {
         ctx.clearRect(0, 0, canvas.width, canvas.height);

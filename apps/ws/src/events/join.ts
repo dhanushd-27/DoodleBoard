@@ -17,13 +17,6 @@ export const handleJoin = ( socket: WebSocket, wss: WebSocketServer, payload: an
 
     const user = userCollection.find(user => user.userId === id);
 
-    if(user) {
-      if(user.rooms.includes(roomId)) {
-        socket.send("Already joined room");
-        return;
-      }
-    }
-
     if(!user) {
       userCollection.push({
         userId: id,
