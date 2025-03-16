@@ -1,19 +1,25 @@
 import "../config/env";
-import jwt, { JwtPayload } from "jsonwebtoken";
+import jwt, { JsonWebTokenError, JwtPayload } from "jsonwebtoken";
 
 const JWT_SECRET = process.env.JWT_SECRET as string;
 
 export const isValidToken = (token: string) => {
-  const isValid = jwt.verify(token, JWT_SECRET) as JwtPayload;
+  try {
+    const isValid = jwt.verify(token, JWT_SECRET) as JwtPayload;
 
-  if (!isValid) {
+    if (!isValid) {
+      return null;
+    }
+
+    return {
+      email: isValid.email as string,
+      name: isValid.name as string,
+      id: isValid.id as string,
+      iat: isValid.iat as number,
+    }
+  } catch (error) {
+    const e = error as JsonWebTokenError;
+    console.log(e.message);
     return null;
-  }
-
-  return {
-    email: isValid.email as string,
-    name: isValid.name as string,
-    id: isValid.id as string,
-    iat: isValid.iat as number,
   }
 }

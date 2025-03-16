@@ -3,6 +3,7 @@ import "./config/env";
 import { isValidToken } from "./utils/isValid";
 import { handleJoin } from "./events/join";
 import { handleShare } from "./events/share";
+import { handleLeave } from "./events/leave";
 
 const PORT = parseInt(process.env.PORT as string) || 8081;
 const wss = new WebSocketServer({ port: PORT });
@@ -36,6 +37,9 @@ try {
           case "share":
             handleShare(socket, wss, payloadData.payload, userDetails);
             break;
+          case "leave": 
+            handleLeave(socket, wss, payloadData.payload, userDetails);
+            break;
           default:
             socket.send("Invalid Event Type");
             break;
@@ -46,6 +50,8 @@ try {
     })
 
     socket.send("Connected to server");
+
+    // socket.on('close', )
   });
 
   console.log(`Server is running on ws://localhost:${PORT}`);

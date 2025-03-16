@@ -25,27 +25,10 @@ export const handleJoin = ( socket: WebSocket, wss: WebSocketServer, payload: an
     }
 
     if(!user) {
-
       userCollection.push({
         userId: id,
         socket,
         rooms: [roomId]
-      })
-
-      userCollection.map(user => {
-        if(user.rooms.includes(roomId)) {
-          user.socket.send(JSON.stringify({
-            event: "user_joined",
-            payload: {
-              roomId,
-              user: {
-                id,
-                email,
-                name
-              }
-            }
-          }))
-        }
       })
 
       socket.send(JSON.stringify({
@@ -58,6 +41,22 @@ export const handleJoin = ( socket: WebSocket, wss: WebSocketServer, payload: an
     }
 
     user.rooms.push(roomId);
+    // // send notification to everyone
+    // userCollection.map(user => {
+    //   if(user.rooms.includes(roomId)) {
+    //     user.socket.send(JSON.stringify({
+    //       event: "user_joined",
+    //       payload: {
+    //         roomId,
+    //         user: {
+    //           id,
+    //           email,
+    //           name
+    //         }
+    //       }
+    //     }))
+    //   }
+    // })
     socket.send("Joined room" + roomId);
   } catch (error) {
     socket.send("Invalid payload");
