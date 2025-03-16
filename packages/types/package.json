@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "exports": {
+    "./status": "./status-codes.types.ts",
     "./events": "./events.types.ts",
     "./auth": "./auth.types.ts",
     "./ws": "./ws.types.ts"

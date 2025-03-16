@@ -19,7 +19,6 @@ model User {
   password String
   name     String?
   adminOf  Room[]
-  memberOf Room[]   @relation("RoomMembers")
   shapes   Shape[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -31,7 +30,6 @@ model Room {
   name        String
   adminId     String
   admin       User     @relation(fields: [adminId], references: [id])
-  members     User[]   @relation("RoomMembers")
   shapes      Shape[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
