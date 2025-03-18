@@ -17,7 +17,7 @@ export default function Canvas({ roomId, token }: Props) {
 
   const leave = () => {
     if(!socket) return;
-    socket.send(`{"event":"leave","payload":{"roomId": ${roomId}}}`)
+    socket.send(`{"event":"leave","payload":{"roomId": "${roomId}"}}`)
   }
 
   useEffect(() => {
@@ -25,7 +25,8 @@ export default function Canvas({ roomId, token }: Props) {
 
     newSocket.onopen = () => {
       setSocket(newSocket);
-      newSocket.send(`{"event": "join", "payload": {"roomId": ${roomId}}}`);
+      console.log(`{"event": "join", "payload": {"roomId": "${roomId}"}}`)
+      newSocket.send(`{"event": "join", "payload": {"roomId": "${roomId}"}}`);
     };
 
     // Handle WebSocket closing when component unmounts
@@ -39,7 +40,7 @@ export default function Canvas({ roomId, token }: Props) {
       };
       
       return () => {
-        newSocket.send(`{"event":"leave","payload":{"roomId": ${roomId}}}`);
+        newSocket.send(`{"event":"leave","payload":{"roomId": "${roomId}"}}`);
         newSocket.close(); // Cleanup WebSocket on unmount
       }
     }

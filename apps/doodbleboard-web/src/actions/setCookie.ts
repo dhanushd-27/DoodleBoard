@@ -2,12 +2,13 @@
 
 import axios, { AxiosError } from "axios";
 import { cookies } from "next/headers";
+import { logIn } from "@repo/types/auth"
 
-export async function setCookie() {
+export async function setCookie({ email, password }: logIn) {
   try {
     const response = await axios.post('http://localhost:3002/api/v1/login', {
-      "email": "g@gmail.com",
-      "password": "123123123"
+      "email": email,
+      "password": password,
     }, {
       withCredentials: true
     });

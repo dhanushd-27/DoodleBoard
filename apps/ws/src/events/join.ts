@@ -6,6 +6,7 @@ import { userCollection } from "../config/store";
 export const handleJoin = ( socket: WebSocket, wss: WebSocketServer, payload: any, userDetails: User ) => {
   try {
     const parsedData = joinSchema.safeParse(payload);
+    console.log(parsedData.data)
 
     if(!parsedData.success){
       socket.send("Invalid payload");

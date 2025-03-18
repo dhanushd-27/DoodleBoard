@@ -16,7 +16,7 @@ export default function Login() {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    const response: boolean = await setCookie();
+    const response: boolean = await setCookie({ email, password });
 
     if(response) {
       dispatch(setState(true));
