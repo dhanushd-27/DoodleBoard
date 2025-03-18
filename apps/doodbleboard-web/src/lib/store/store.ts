@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'
-import exisitingShapesReducer from './existingShapes/existingShapesSlice'
-import roomIdReducer from './roomId/roomIdSlice'
-import selectedToolReducer from "./selectedTool/selectedToolSlice";
+import exisitingShapesReducer from '@/lib/store/existingShapes/existingShapesSlice'
+import roomIdReducer from '@/lib/store/roomId/roomIdSlice'
+import selectedToolReducer from "@/lib/store/selectedTool/selectedToolSlice";
 
 export const makeStore = () => {
   return configureStore({

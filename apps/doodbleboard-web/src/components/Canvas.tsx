@@ -3,6 +3,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { mouseEventHandler } from '../utils/draw';
 import { useAppSelector } from '../lib/hooks/reduxHooks';
+import { setCookie } from '@/app/actions/setCookie';
 
 type Props = {
   roomId: string,
@@ -10,13 +11,14 @@ type Props = {
 }
 
 export default function Canvas({ roomId, token }: Props) {
+
   const shape = useAppSelector(state => state.selectedTool.value);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [socket, setSocket] = useState<WebSocket | null>(null);
 
   const leave = () => {
     if(!socket) return;
-    socket.send('{"event":"leave","payload":{"roomId":"12121"}}')
+    socket.send(`{"event":"leave","payload":{"roomId": ${roomId}}}`)
   }
 
   useEffect(() => {
@@ -24,7 +26,7 @@ export default function Canvas({ roomId, token }: Props) {
 
     newSocket.onopen = () => {
       setSocket(newSocket);
-      newSocket.send('{"event": "join", "payload": {"roomId": "12121"}}');
+      newSocket.send(`{"event": "join", "payload": {"roomId": ${roomId}}}`);
     };
 
     // Handle WebSocket closing when component unmounts
@@ -36,15 +38,11 @@ export default function Canvas({ roomId, token }: Props) {
       console.error("WebSocket error:", error);
     };
 
-    newSocket.onmessage = (event) => {
-      console.log(event.data);
-    }
-
     return () => {
-      newSocket.send('{"event":"leave","payload":{"roomId":"12121"}}');
+      newSocket.send(`{"event":"leave","payload":{"roomId": ${roomId}}}`);
       newSocket.close(); // Cleanup WebSocket on unmount
     };
-  }, [token]);
+  }, [token, roomId]);
 
   useEffect(() => {
     if (!canvasRef.current || !socket) return;
@@ -61,12 +59,15 @@ export default function Canvas({ roomId, token }: Props) {
     }
   }, [socket, roomId, shape]);
 
-  if (!socket) return <div>Loading....</div>;
+  if (!socket || !token) return <div>Loading....</div>;
 
   return (
     <div className="overflow-hidden">
       <canvas width={2000} height={1000} ref={canvasRef}></canvas>
-      <button className='bg-white py-2 px-4 rounded-xl fixed text-black bottom-4 left-[90%]' onClick={ leave }>Leave room</button>
+      <div className='fixed bottom-4 left-[85%] flex justify-between gap-4'>
+        <button className='bg-white py-2 px-4 rounded-xl text-black' onClick={ leave }>Leave room</button>
+        <button className='bg-white py-2 px-4 rounded-xl text-black' onClick={ setCookie }>Sign In</button>
+      </div>
     </div>
   );
 }

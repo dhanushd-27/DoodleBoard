@@ -1,5 +1,3 @@
-
-
 export const renderShapes = (ctx: CanvasRenderingContext2D, exisitedShapes: string[]) => {
   exisitedShapes.forEach(shape => {
     const { type, payload } = JSON.parse(shape);

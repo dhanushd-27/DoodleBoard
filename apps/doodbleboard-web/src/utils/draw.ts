@@ -3,7 +3,6 @@ import { renderShapes } from "./renderShapes";
 
 let exisitedShapes: string[] = [];
 export const mouseEventHandler = (canvas: HTMLCanvasElement, socket: WebSocket, ctx: CanvasRenderingContext2D, roomId: string, shape: string) => {
-
   if(!ctx) return;
   ctx.fillStyle = "rgba(0,0,0)";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -31,7 +30,6 @@ export const mouseEventHandler = (canvas: HTMLCanvasElement, socket: WebSocket, 
         }
       })
       exisitedShapes.push(shapeData);
-      console.log(exisitedShapes);
       renderShapes(ctx, exisitedShapes);
     } catch (error) {
       const e = error as Error;
@@ -70,7 +68,7 @@ export const mouseEventHandler = (canvas: HTMLCanvasElement, socket: WebSocket, 
           width,
           height
         }
-      }))
+      }));
     } else if( shape === "circle") {
       exisitedShapes.push(JSON.stringify({
         type: 'circle',
