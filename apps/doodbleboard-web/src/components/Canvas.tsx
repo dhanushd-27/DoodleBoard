@@ -2,7 +2,8 @@
 
 import React, { useEffect, useRef, useState } from 'react'
 import { mouseEventHandler } from '../utils/draw';
-import { useAppSelector } from '../lib/hooks/reduxHooks';
+import { useAppDispatch, useAppSelector } from '../lib/hooks/reduxHooks';
+import { setRoomId } from '@/lib/store/roomId/roomIdSlice';
 
 type Props = {
   roomId: string,
@@ -11,9 +12,11 @@ type Props = {
 
 export default function Canvas({ roomId, token }: Props) {
 
+  const dispatch = useAppDispatch();
   const shape = useAppSelector(state => state.selectedTool.value);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [socket, setSocket] = useState<WebSocket | null>(null);
+  dispatch(setRoomId({ roomId: roomId }));
 
   const leave = () => {
     if(!socket) return;
@@ -53,7 +56,7 @@ export default function Canvas({ roomId, token }: Props) {
     const ctx = canvas.getContext("2d");
 
     if (ctx) {
-      const { removeListeners } = mouseEventHandler(canvas, socket, ctx, roomId, shape);
+      const { removeListeners } = mouseEventHandler(canvas, socket, ctx, roomId, shape, "dhanush");
 
       return () => {
         removeListeners();
