@@ -2,14 +2,16 @@
 import { renderShapes } from "./renderShapes";
 
 let exisitedShapes: string[] = [];
-export const mouseEventHandler = (canvas: HTMLCanvasElement, socket: WebSocket, ctx: CanvasRenderingContext2D, roomId: string, shape: string) => {
-  if(!ctx) return;
+export const mouseEventHandler = (canvas: HTMLCanvasElement, socket: WebSocket, ctx: CanvasRenderingContext2D, roomId: string, shape: string): { removeListeners: () => void} => {
+  if(!ctx) return {
+    removeListeners: () => {}
+  }
   ctx.fillStyle = "rgba(0,0,0)";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   let endX: number;
   let endY: number;
-  let startX: number;
+  let startX: number; 
   let startY: number;
   let clicked: boolean = false;
   let width: number;

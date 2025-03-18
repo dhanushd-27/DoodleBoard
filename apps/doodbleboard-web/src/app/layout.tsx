@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Roboto } from "next/font/google"
 import StoreProvider from "@/app/storeProvider";
+import { Toaster } from 'react-hot-toast';
 
 export const metadata: Metadata = {
   title: "DoodleBoard",
@@ -23,6 +24,7 @@ export default function RootLayout({
         <body
           className={`${roboto.className} antialiased`}
         >
+          <Toaster />
           {children}
         </body>
       </StoreProvider>

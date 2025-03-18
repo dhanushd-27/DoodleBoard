@@ -3,7 +3,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { mouseEventHandler } from '../utils/draw';
 import { useAppSelector } from '../lib/hooks/reduxHooks';
-import { setCookie } from '@/app/actions/setCookie';
 
 type Props = {
   roomId: string,
@@ -30,18 +29,20 @@ export default function Canvas({ roomId, token }: Props) {
     };
 
     // Handle WebSocket closing when component unmounts
-    newSocket.onclose = () => {
-      console.log("WebSocket closed");
-    };
-
-    newSocket.onerror = (error) => {
-      console.error("WebSocket error:", error);
-    };
-
-    return () => {
-      newSocket.send(`{"event":"leave","payload":{"roomId": ${roomId}}}`);
-      newSocket.close(); // Cleanup WebSocket on unmount
-    };
+    if(!socket) {
+      newSocket.onclose = () => {
+        console.log("WebSocket closed");
+      };
+  
+      newSocket.onerror = (error) => {
+        console.error("WebSocket error:", error);
+      };
+      
+      return () => {
+        newSocket.send(`{"event":"leave","payload":{"roomId": ${roomId}}}`);
+        newSocket.close(); // Cleanup WebSocket on unmount
+      }
+    }
   }, [token, roomId]);
 
   useEffect(() => {
@@ -51,10 +52,10 @@ export default function Canvas({ roomId, token }: Props) {
     const ctx = canvas.getContext("2d");
 
     if (ctx) {
-      const { removeListeners }= mouseEventHandler(canvas, socket, ctx, roomId, shape);
+      const { removeListeners } = mouseEventHandler(canvas, socket, ctx, roomId, shape);
 
       return () => {
-        removeListeners(); // Remove event listeners when unmounting
+        removeListeners();
       };
     }
   }, [socket, roomId, shape]);
@@ -66,7 +67,6 @@ export default function Canvas({ roomId, token }: Props) {
       <canvas width={2000} height={1000} ref={canvasRef}></canvas>
       <div className='fixed bottom-4 left-[85%] flex justify-between gap-4'>
         <button className='bg-white py-2 px-4 rounded-xl text-black' onClick={ leave }>Leave room</button>
-        <button className='bg-white py-2 px-4 rounded-xl text-black' onClick={ setCookie }>Sign In</button>
       </div>
     </div>
   );

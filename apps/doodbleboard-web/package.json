@@ -15,14 +15,15 @@
     "next": "15.2.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-hot-toast": "^2.5.2",
     "react-redux": "^9.2.0"
   },
   "devDependencies": {
-    "@repo/ui": "workspace:*",
-    "@repo/types": "workspace:*",
-    "@types/axios": "^0.14.4",
     "@eslint/eslintrc": "^3",
+    "@repo/types": "workspace:*",
+    "@repo/ui": "workspace:*",
     "@tailwindcss/postcss": "^4",
+    "@types/axios": "^0.14.4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

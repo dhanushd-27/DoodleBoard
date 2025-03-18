@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit'
 import exisitingShapesReducer from '@/lib/store/existingShapes/existingShapesSlice'
 import roomIdReducer from '@/lib/store/roomId/roomIdSlice'
 import selectedToolReducer from "@/lib/store/selectedTool/selectedToolSlice";
+import isAuthenticatedReducer from "@/lib/store/isAuthenticated/isAuthenticatedSlice"
 
 export const makeStore = () => {
   return configureStore({
@@ -9,6 +10,7 @@ export const makeStore = () => {
       existingShapes: exisitingShapesReducer,
       roomId: roomIdReducer,
       selectedTool: selectedToolReducer,
+      isAuthenticated: isAuthenticatedReducer
     },
   })
 }
