@@ -3,7 +3,7 @@ import jwt, { JwtPayload } from "jsonwebtoken"
 
 export const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
 	try {
-  const token = req.cookies.token;
+  const token = req.cookies.token as string;
 
 	if(!token) {
 		res.status(401).json({

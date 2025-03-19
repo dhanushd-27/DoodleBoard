@@ -2,8 +2,7 @@
 
 import React, { useEffect, useRef, useState } from 'react'
 import { mouseEventHandler } from '../utils/draw';
-import { useAppDispatch, useAppSelector } from '../lib/hooks/reduxHooks';
-import { setRoomId } from '@/lib/store/roomId/roomIdSlice';
+import { useAppSelector } from '../lib/hooks/reduxHooks';
 
 type Props = {
   roomId: string,
@@ -11,12 +10,9 @@ type Props = {
 }
 
 export default function Canvas({ roomId, token }: Props) {
-
-  const dispatch = useAppDispatch();
   const shape = useAppSelector(state => state.selectedTool.value);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [socket, setSocket] = useState<WebSocket | null>(null);
-  dispatch(setRoomId({ roomId: roomId }));
 
   const leave = () => {
     if(!socket) return;
@@ -47,6 +43,7 @@ export default function Canvas({ roomId, token }: Props) {
         newSocket.close(); // Cleanup WebSocket on unmount
       }
     }
+
   }, [token, roomId]);
 
   useEffect(() => {
@@ -55,13 +52,23 @@ export default function Canvas({ roomId, token }: Props) {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
 
-    if (ctx) {
-      const { removeListeners } = mouseEventHandler(canvas, socket, ctx, roomId, shape, "dhanush");
+    let removeListeners: () => void;
 
-      return () => {
+    const setupMouseEvents = async () => {
+      if (ctx) {
+      removeListeners = await mouseEventHandler(canvas, socket, ctx, roomId, shape, "dhanush");
+      }
+    };
+
+    setupMouseEvents()
+
+    return () => {
+      // If removeListeners has been defined, invoke it to remove event listeners
+      if (removeListeners) {
         removeListeners();
-      };
-    }
+      }
+    };
+  
   }, [socket, roomId, shape]);
 
   if (!socket || !token) return <div>Loading....</div>;

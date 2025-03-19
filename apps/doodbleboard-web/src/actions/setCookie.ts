@@ -15,7 +15,10 @@ export async function setCookie({ email, password }: logIn) {
   
     const cookie = response.headers['set-cookie'] as string[];
     const token = cookie[0]?.split('=')[1].split(";")[0] as string;
-    (await cookies()).set("token", token);
+    (await cookies()).set("token", token, {
+      httpOnly: true,
+      sameSite: "lax",
+    });
     return true;
   } catch (error) {
     const e = error as AxiosError;

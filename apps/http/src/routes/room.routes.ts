@@ -8,7 +8,7 @@ import { exitRoomController } from "../controllers/room/exit.controller";
 export const roomRoutes: Router = Router();
 
 roomRoutes.post("/create",authMiddleware, createRoomController);
-roomRoutes.get("/chats/:roomId",authMiddleware, getChatsController);
+roomRoutes.get("/chats/:roomId", authMiddleware, getChatsController);
 roomRoutes.post("/join/:roomId", authMiddleware, joinRoomController);
 roomRoutes.get('/members/:roomId', authMiddleware, roomMembersController);
 roomRoutes.put("/exit/:roomId", authMiddleware, exitRoomController);

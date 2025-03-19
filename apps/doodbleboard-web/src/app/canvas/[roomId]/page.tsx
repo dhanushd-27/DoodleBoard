@@ -10,7 +10,9 @@ export default async function CanvasPage() {
 
   if(!tokenObject) return;
   const token = tokenObject.value;
-  
+
+  const roomId = "cm8bwz1zy0001xj3q8e9px2jl";
+
   return (
     <div>
       <div className='bg-gray-900 flex gap-4 z-30 fixed top-2 left-[40%] text-center text-white p-5 rounded-xl items-center justify-between'>
@@ -27,7 +29,7 @@ export default async function CanvasPage() {
           <Minus />
         </ButtonIcon>
       </div>
-      <Canvas roomId='cm8bwz1zy0001xj3q8e9px2jl' token={ token }/>
+      <Canvas roomId={ roomId } token={ token }/>
     </div>
   )
 }

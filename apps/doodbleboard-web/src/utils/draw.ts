@@ -1,15 +1,17 @@
 // Make this a class component - could be a solution
 import { saveShape } from "@/actions/saveShape";
 import { renderShapes } from "./renderShapes";
+import { fetchShapes } from '@/actions/fetchShapes';
 
-let exisitedShapes: string[] = []
+let exisitedShapes: string[] = [];
 
-export const mouseEventHandler = (canvas: HTMLCanvasElement, socket: WebSocket, ctx: CanvasRenderingContext2D, roomId: string, shape: string, authorId: string) => {
-  if(!ctx) return {
-    removeListeners: () => {}
-  } 
+export const mouseEventHandler = async (canvas: HTMLCanvasElement, socket: WebSocket, ctx: CanvasRenderingContext2D, roomId: string, shape: string, authorId: string) => {
+  if(!ctx) return () => {};
+
   ctx.fillStyle = "rgba(0,0,0)";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  exisitedShapes = await fetchShapes();
 
   let endX: number;
   let endY: number;
@@ -19,7 +21,7 @@ export const mouseEventHandler = (canvas: HTMLCanvasElement, socket: WebSocket, 
   let width: number;
   let height: number;
 
-  socket.onmessage = (event) => {
+  socket.onmessage = async (event) => {
     try {
       const socketData = JSON.parse(event.data);
       if(socketData.event !== "share") return;
@@ -41,8 +43,6 @@ export const mouseEventHandler = (canvas: HTMLCanvasElement, socket: WebSocket, 
       console.log(event.data);
     }
   }
-
-  renderShapes(ctx, exisitedShapes);
 
   const onMouseDown = (e: MouseEvent) => {
     startX = e.clientX;
@@ -116,7 +116,7 @@ export const mouseEventHandler = (canvas: HTMLCanvasElement, socket: WebSocket, 
     }
   }
 
-  const onMouseMove = (e: MouseEvent) => {
+  const onMouseMove = async (e: MouseEvent) => {
     if(clicked && socket) {
       endX = e.clientX;
       endY = e.clientY;
@@ -165,19 +165,21 @@ export const mouseEventHandler = (canvas: HTMLCanvasElement, socket: WebSocket, 
     }
   }
 
+  renderShapes(ctx, exisitedShapes);
+
   canvas.addEventListener("mousedown", onMouseDown);
   
   canvas.addEventListener("mouseup", onMouseUp)
 
   canvas.addEventListener("mousemove", onMouseMove);
 
-  return {
-    removeListeners: () => {
-      canvas.removeEventListener("mousedown", onMouseDown);
-      canvas.removeEventListener("mousemove", onMouseMove);
-      canvas.removeEventListener("mouseup", onMouseUp);
-    }
-  };
+  const removeListeners = () => {
+    canvas.removeEventListener("mousedown", onMouseDown);
+    canvas.removeEventListener("mousemove", onMouseMove);
+    canvas.removeEventListener("mouseup", onMouseUp);
+  }
+
+  return removeListeners;
 }
 
 const handleEvent = (e: KeyboardEvent, startX: number, startY: number, ctx: CanvasRenderingContext2D) => {
