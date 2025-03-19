@@ -12,13 +12,11 @@
     "dev": "pnpm build && pnpm start"
   },
   "dependencies": {
-    "@prisma/client": "6.4.1",
-    "@repo/typescript-config": "workspace:*"
+    "@prisma/client": "^6.5.0",
+    "@repo/typescript-config": "workspace:*",
+    "prisma": "^6.5.0"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "prisma": "6.4.1"
-  }
+  "license": "ISC"
 }

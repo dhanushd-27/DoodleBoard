@@ -1,10 +1,10 @@
 // Make this a class component - could be a solution
+import { saveShape } from "@/actions/saveShape";
 import { renderShapes } from "./renderShapes";
-import { prisma } from '@repo/db/prisma';
 
 let exisitedShapes: string[] = []
 
-export const mouseEventHandler = async (canvas: HTMLCanvasElement, socket: WebSocket, ctx: CanvasRenderingContext2D, roomId: string, shape: string, authorId: string) => {
+export const mouseEventHandler = (canvas: HTMLCanvasElement, socket: WebSocket, ctx: CanvasRenderingContext2D, roomId: string, shape: string, authorId: string) => {
   if(!ctx) return {
     removeListeners: () => {}
   } 
@@ -52,7 +52,7 @@ export const mouseEventHandler = async (canvas: HTMLCanvasElement, socket: WebSo
 
   const onMouseUp = async () => {
     clicked = false;
-    const dbMessage = JSON.stringify({
+    const message = JSON.stringify({
       type: 'rect',
       payload: {
         x: startX,
@@ -63,7 +63,7 @@ export const mouseEventHandler = async (canvas: HTMLCanvasElement, socket: WebSo
     });
 
     if(shape === "rect"){
-      exisitedShapes.push(dbMessage);
+      exisitedShapes.push(message);
       socket.send(JSON.stringify({
         event: "share",
         payload: {
@@ -75,17 +75,7 @@ export const mouseEventHandler = async (canvas: HTMLCanvasElement, socket: WebSo
           height
         }
       }));
-      try {
-        await prisma.shape.create({
-          data: {
-            roomId: roomId,
-            authorId,
-            message: dbMessage,
-          }
-        });
-      } catch (error) {
-        console.error("Prisma Error:", error);
-      }
+      saveShape({ roomId, authorId, message });
     } else if( shape === "circle") {
       exisitedShapes.push(JSON.stringify({
         type: 'circle',
