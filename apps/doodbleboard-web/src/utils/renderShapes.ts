@@ -1,7 +1,12 @@
-export const renderShapes = (ctx: CanvasRenderingContext2D, exisitedShapes: string[]) => {
+export const renderShapes = (ctx: CanvasRenderingContext2D, exisitedShapes: string[], canvas: HTMLCanvasElement) => {
   try {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "rgba(0,0,0)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
     exisitedShapes.forEach(shape => {
       const { type, payload } = JSON.parse(shape);
+
       if(type === "rect") {
         ctx.strokeStyle = "white";
         ctx.strokeRect(payload.x, payload.y, payload.width, payload.height);

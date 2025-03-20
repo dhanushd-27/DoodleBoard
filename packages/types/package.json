@@ -8,7 +8,7 @@
     "./events": "./events.types.ts",
     "./auth": "./auth.types.ts",
     "./ws": "./ws.types.ts",
-    "./shape": "./shapes.types.ts"
+    "./shapes": "./shapes.types.ts"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

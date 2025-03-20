@@ -1,10 +1,15 @@
-import { shareSchema, User } from "@repo/types/ws";
-import { WebSocket, WebSocketServer } from "ws";
+import { User } from "@repo/types/ws";
+import { WebSocket } from "ws";
 import { userCollection } from "./join";
+import { wsShareSchema } from '@repo/types/shapes';
 
-export const handleShare = (socket: WebSocket, wss: WebSocketServer, payload: any, userDetails: User ) => {
+export const handleShare = (socket: WebSocket, roomId: string, type: string, payload: any, userDetails: User ) => {
   try {
-    const parsedData = shareSchema.safeParse(payload);
+    const parsedData = wsShareSchema.safeParse({
+      roomId,
+      type,
+      payload
+    });
 
     if(!parsedData.success){
       socket.send(JSON.stringify({
@@ -16,7 +21,6 @@ export const handleShare = (socket: WebSocket, wss: WebSocketServer, payload: an
       return;
     }
 
-    const { roomId, type, x, y, width, height } = parsedData.data;
     const { id } = userDetails;
 
     const user = userCollection.find(user => user.userId === id);
@@ -45,17 +49,14 @@ export const handleShare = (socket: WebSocket, wss: WebSocketServer, payload: an
 
     console.log(userCollection);
 
+    console.log(100);
+
     userCollection.map(user => {
       if(user.rooms.includes(roomId) && user.userId != id) {
         user.socket.send(JSON.stringify({
           event: "share",
-          payload: {
-            type,
-            x,
-            y,
-            width,
-            height
-          }
+          type,
+          payload
         }))
       }
     })

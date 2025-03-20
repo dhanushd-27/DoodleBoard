@@ -7,19 +7,18 @@ function onMessage(event: MessageEvent<any>, exisitedShapes: string[]) {
   try {
     const parsedData = JSON.parse(event.data);
     const shapeData = {
-      type: parsedData.payload.type,
-      payload: {
-        x: parsedData.payload.x,
-        y: parsedData.payload.y,
-        width: parsedData.payload.width,
-        height: parsedData.payload.height
-      }
+      type: parsedData.type,
+      payload: JSON.parse(parsedData.payload)
     }
-    
-    if(parsedData.event !== "share") alert("BKL");
+
+    if(parsedData.event !== "share") {
+      alert("BKL");
+      return;
+    }
     exisitedShapes.push(JSON.stringify(shapeData));
   } catch (error) {
     const e = error as ErrorEvent;
+    console.log(e)
     toast.error("Invalid data" + event.data);
   }
 }
@@ -27,7 +26,7 @@ function onMessage(event: MessageEvent<any>, exisitedShapes: string[]) {
 export const mouseEventHandler = async (canvas: HTMLCanvasElement, socket: WebSocket, ctx: CanvasRenderingContext2D, roomId: string, shape: string, authorId: string, exisitedShapes: string[]) => {
   ctx.fillStyle = "rgba(0,0,0)";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
-  renderShapes(ctx, exisitedShapes);
+  renderShapes(ctx, exisitedShapes, canvas);
 
   let endX: number;
   let endY: number;
@@ -39,7 +38,7 @@ export const mouseEventHandler = async (canvas: HTMLCanvasElement, socket: WebSo
 
   socket.onmessage = (event) => {
      onMessage(event, exisitedShapes);
-     renderShapes(ctx, exisitedShapes);
+     renderShapes(ctx, exisitedShapes, canvas);
   }
 
   const onMouseDown = (e: MouseEvent) => {
@@ -61,19 +60,26 @@ export const mouseEventHandler = async (canvas: HTMLCanvasElement, socket: WebSo
     });
 
     if(shape === "rect"){
+      console.log(width);
+      console.log(height);
+      if(!width && !height){
+        return;
+      }
       exisitedShapes.push(message);
       socket.send(JSON.stringify({
         event: "share",
-        payload: {
-          roomId,
-          type: "rect",
+        roomId,
+        type: "rect",
+        payload: JSON.stringify({
           x: startX,
           y: startY,
           width,
           height
-        }
+        })
       }));
       saveShape({ roomId, authorId, message });
+      width = 0;
+      height = 0;
     } else if( shape === "circle") {
       exisitedShapes.push(JSON.stringify({
         type: 'circle',
@@ -97,7 +103,7 @@ export const mouseEventHandler = async (canvas: HTMLCanvasElement, socket: WebSo
       input.style.outline = "none";
       input.style.color = "white";
       input.style.width = '400px';
-      input.onkeydown = (event) => handleEvent(event, startX, startY, ctx);
+      input.onkeydown = (event) => handleEvent(event, startX, startY, ctx, exisitedShapes);
 
       document.body.appendChild(input);
       input.focus();
@@ -125,14 +131,14 @@ export const mouseEventHandler = async (canvas: HTMLCanvasElement, socket: WebSo
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.fillStyle = "rgba(0,0,0)";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-        renderShapes(ctx, exisitedShapes);
+        renderShapes(ctx, exisitedShapes, canvas)
         ctx.strokeStyle = "rgba(255,255,255)"
         ctx.strokeRect(startX, startY, width, height);
       } else if(shape === "circle"){
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.fillStyle = "rgba(0,0,0)";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-        renderShapes(ctx, exisitedShapes);
+        renderShapes(ctx, exisitedShapes, canvas)
         ctx.beginPath();
         ctx.ellipse(
           startX + width / 2,
@@ -148,12 +154,12 @@ export const mouseEventHandler = async (canvas: HTMLCanvasElement, socket: WebSo
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.fillStyle = "rgba(0,0,0)";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-        renderShapes(ctx, exisitedShapes);
+        renderShapes(ctx, exisitedShapes, canvas)
       } else if(shape === "line") {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.fillStyle = "rgba(0,0,0)";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-        renderShapes(ctx, exisitedShapes);
+        renderShapes(ctx, exisitedShapes, canvas)
         ctx.beginPath();
         ctx.moveTo(startX, startY);
         ctx.lineTo(endX, endY);
@@ -178,7 +184,7 @@ export const mouseEventHandler = async (canvas: HTMLCanvasElement, socket: WebSo
   return removeListeners;
 }
 
-const handleEvent = (e: KeyboardEvent, startX: number, startY: number, ctx: CanvasRenderingContext2D) => {
+const handleEvent = (e: KeyboardEvent, startX: number, startY: number, ctx: CanvasRenderingContext2D, exisitedShapes: string[]) => {
   const input = e.target as HTMLInputElement;
   if(e.key === "Enter" && !e.shiftKey) {
     ctx.font = "24px Arial";

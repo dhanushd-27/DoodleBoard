@@ -35,7 +35,7 @@ try {
             handleJoin(socket, wss, payloadData.payload, userDetails );
             break;
           case "share":
-            handleShare(socket, wss, payloadData.payload, userDetails);
+            handleShare(socket, payloadData.roomId, payloadData.type, payloadData.payload, userDetails);
             break;
           case "leave": 
             handleLeave(socket, wss, payloadData.payload, userDetails);

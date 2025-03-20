@@ -1,8 +1,8 @@
 import z from "zod";
 
-// DiscriminatedUnion
-const circleShapeSchema = z.object({
+export const circleShapeSchema = z.object({
   type: z.literal("circle"),
+  roomId: z.string(),
   payload: z.object({
     x: z.number(),
     y: z.number(),
@@ -16,8 +16,9 @@ const circleShapeSchema = z.object({
 
 export type circleShape = z.infer<typeof circleShapeSchema>;
 
-const rectangleShapeSchema = z.object({
+export const rectangleShapeSchema = z.object({
   type: z.literal("rect"),
+  roomId: z.string(),
   payload: z.object({
     x: z.number(),
     y: z.number(),
@@ -28,8 +29,9 @@ const rectangleShapeSchema = z.object({
 
 export type rectangleShape = z.infer<typeof rectangleShapeSchema>;
 
-const textShapeSchema = z.object({
+export const textShapeSchema = z.object({
   type: z.literal("text"),
+  roomId: z.string(),
   payload: z.object({
     text: z.string(),
     x: z.number(),
@@ -39,8 +41,9 @@ const textShapeSchema = z.object({
 
 export type textShape = z.infer<typeof textShapeSchema>;
 
-const lineShapeSchema = z.object({
+export const lineShapeSchema = z.object({
   type: z.literal("line"),
+  roomId: z.string(),
   payload: z.object({
     startX: z.number(),
     startY: z.number(),
@@ -58,7 +61,16 @@ export type Shape = z.infer<typeof ShapeSchema>
 export const payloadDataSchema = z.object({
   authorId: z.string(),
   roomId: z.string(),
-  data: ShapeSchema
-})
+  data: z.string()
+});
 
 export type payloadData = z.infer<typeof payloadDataSchema>;
+
+
+export const wsShareSchema = z.object({
+  roomId: z.string(),
+  type: z.string(),
+  payload: z.string()
+})
+
+export type wsShare = z.infer<typeof wsShareSchema>;
