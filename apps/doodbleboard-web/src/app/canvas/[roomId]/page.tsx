@@ -11,7 +11,7 @@ export default async function CanvasPage() {
   if(!tokenObject) return;
   const token = tokenObject.value;
 
-  const roomId = "cm8bwz1zy0001xj3q8e9px2jl";
+  const roomId = "cm8gxdde80001xjkjpygk6eyr";
 
   return (
     <div>

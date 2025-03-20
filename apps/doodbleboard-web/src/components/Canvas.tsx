@@ -3,6 +3,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { mouseEventHandler } from '../utils/draw';
 import { useAppSelector } from '../lib/hooks/reduxHooks';
+import { fetchShapes } from '@/actions/fetchShapes';
 
 type Props = {
   roomId: string,
@@ -19,32 +20,27 @@ export default function Canvas({ roomId, token }: Props) {
     socket.send(`{"event":"leave","payload":{"roomId": "${roomId}"}}`)
   }
 
-  useEffect(() => {
-    const newSocket = new WebSocket(`ws://localhost:8080?token=${token}`);
+useEffect(() => {
+  const newSocket = new WebSocket(`ws://localhost:8080?token=${token}`);
 
-    newSocket.onopen = () => {
-      setSocket(newSocket);
-      console.log(`{"event": "join", "payload": {"roomId": "${roomId}"}}`)
-      newSocket.send(`{"event": "join", "payload": {"roomId": "${roomId}"}}`);
-    };
+  newSocket.onopen = () => {
+    setSocket(newSocket);
+    newSocket.send(JSON.stringify({ event: "join", payload: { roomId } }));
+  };
 
-    // Handle WebSocket closing when component unmounts
-    if(!socket) {
-      newSocket.onclose = () => {
-        console.log("WebSocket closed");
-      };
-  
-      newSocket.onerror = (error) => {
-        console.error("WebSocket error:", error);
-      };
-      
-      return () => {
-        newSocket.send(`{"event":"leave","payload":{"roomId": "${roomId}"}}`);
-        newSocket.close(); // Cleanup WebSocket on unmount
-      }
+  newSocket.onclose = () => {
+    console.log("WebSocket closed");
+  };
+  // Cleanup function to send leave event and close WebSocket before unmounting
+  return () => {
+    if (newSocket.readyState === WebSocket.OPEN) {
+      newSocket.send(JSON.stringify({ event: "leave", payload: { roomId } }));
     }
+    newSocket.close();
+  };
 
-  }, [token, roomId]);
+}, [token, roomId]); // Dependencies ensure it runs when token or roomId changes
+
 
   useEffect(() => {
     if (!canvasRef.current || !socket) return;
@@ -56,7 +52,9 @@ export default function Canvas({ roomId, token }: Props) {
 
     const setupMouseEvents = async () => {
       if (ctx) {
-      removeListeners = await mouseEventHandler(canvas, socket, ctx, roomId, shape, "dhanush");
+      const exisitedShapes = await fetchShapes();
+
+      removeListeners = await mouseEventHandler(canvas, socket, ctx, roomId, shape, "dhanush", exisitedShapes);
       }
     };
 
@@ -68,7 +66,6 @@ export default function Canvas({ roomId, token }: Props) {
         removeListeners();
       }
     };
-  
   }, [socket, roomId, shape]);
 
   if (!socket || !token) return <div>Loading....</div>;

@@ -1,43 +1,49 @@
 import { WebSocket, WebSocketServer } from "ws"
 import { joinSchema, User } from '@repo/types/ws';
-import { userCollection } from "../config/store";
 
+interface wsUser {
+  userId: string,
+  socket: WebSocket,
+  rooms: string[]
+}
+
+export let userCollection: wsUser[] = [];
 
 export const handleJoin = ( socket: WebSocket, wss: WebSocketServer, payload: any, userDetails: User ) => {
   try {
     const parsedData = joinSchema.safeParse(payload);
-    console.log(parsedData.data)
 
     if(!parsedData.success){
-      socket.send("Invalid payload");
+      socket.send(JSON.stringify({
+        event: "failed",
+        message: "Invalid Payload"
+      }));
       return;
     }
 
     const { roomId } = parsedData.data;
     const { id } = userDetails;
 
-    const user = userCollection.find(user => user.userId === id);
+    userCollection = userCollection.filter(u => u.userId != id);
 
-    if(!user) {
-      userCollection.push({
-        userId: id,
-        socket,
-        rooms: [roomId]
-      })
+    userCollection.push({
+      userId: id,
+      socket,
+      rooms: [roomId]
+    })
 
-      socket.send(JSON.stringify({
-        event: "joined_room",
-        payload: {
-          roomId
-        }
-      }));
-      return;
-    }
+    socket.send(JSON.stringify({
+      event: "joined_room",
+      payload: {
+        roomId
+      }
+    }));
 
-    user.rooms.push(roomId);
+    console.log(userCollection.map(u => u.userId));
+
     // send notification to everyone
     userCollection.map(user => {
-      if(user.rooms.includes(roomId)) {
+      if(user.rooms.includes(roomId) && user.userId != id) {
         user.socket.send(JSON.stringify({
           event: "user_joined",
           payload: {
@@ -49,9 +55,13 @@ export const handleJoin = ( socket: WebSocket, wss: WebSocketServer, payload: an
         }))
       }
     })
-    socket.send("Joined room" + roomId);
   } catch (error) {
-    socket.send("Invalid payload");
+    socket.send(JSON.stringify({
+      event: "failed",
+      payload: {
+        message: "Invalid Data"
+      }
+    }));
     return;
   }
 }

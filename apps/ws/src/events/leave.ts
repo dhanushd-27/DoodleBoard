@@ -1,13 +1,18 @@
 import { leaveSchema, User } from "@repo/types/ws"
 import { WebSocketServer, WebSocket } from "ws"
-import { userCollection } from "../config/store";
+import { userCollection } from "./join";
 
 export const handleLeave = ( socket: WebSocket, wss: WebSocketServer, payload: any, userDetails: User ) => {
   try {
     const parsedData = leaveSchema.safeParse(payload);
 
     if(!parsedData.success) {
-      socket.send("Invalid Data");
+      socket.send(JSON.stringify({
+        event: "failed",
+        payload: {
+          message: "Invalid Data"
+        }
+      }));
       return;
     }
 
@@ -16,14 +21,32 @@ export const handleLeave = ( socket: WebSocket, wss: WebSocketServer, payload: a
 
     const user = userCollection.find(u => u.userId = id);
 
+    console.log(1443);
+
     if(!user) {
-      socket.send("User not found");
+      socket.send(JSON.stringify({
+        event: "failed",
+        payload: {
+          message: "User Not Found"
+        }
+      }));
       return;
     }
     user.rooms = user.rooms.filter(r => r !== roomId);
-    socket.send("User left room " + roomId);
+    socket.send(JSON.stringify({
+      event: "user_left",
+      payload: {
+        roomId: roomId,
+        userId: id
+      }
+    }));
   } catch (error) {
-    socket.send("Invalid payload");
+    socket.send(JSON.stringify({
+      event: "failed",
+      payload: {
+        message: "Invalid Data"
+      }
+    }));
     return;
   }
 }

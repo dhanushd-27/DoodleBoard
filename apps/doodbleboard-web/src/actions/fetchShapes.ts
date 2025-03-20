@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const fetchShapes = async () => {
   try {
-    const res = await axios.get("http://localhost:3002/api/v1/room/chats/cm8bwz1zy0001xj3q8e9px2jl", { withCredentials: true });
+    const res = await axios.get("http://localhost:3002/api/v1/room/chats/cm8gxdde80001xjkjpygk6eyr", { withCredentials: true });
     
     const shapesArray = res.data.payload.shapes;
 

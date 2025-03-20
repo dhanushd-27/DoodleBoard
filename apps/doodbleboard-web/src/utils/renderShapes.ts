@@ -1,13 +1,12 @@
-
-
-export const renderShapes = async (ctx: CanvasRenderingContext2D, exisitedShapes: string[]) => {
-  try {;
-  
+export const renderShapes = (ctx: CanvasRenderingContext2D, exisitedShapes: string[]) => {
+  try {
     exisitedShapes.forEach(shape => {
       const { type, payload } = JSON.parse(shape);
       if(type === "rect") {
+        ctx.strokeStyle = "white";
         ctx.strokeRect(payload.x, payload.y, payload.width, payload.height);
       } else if(type === "circle") {
+        ctx.strokeStyle = "white";
         ctx.beginPath();
         ctx.ellipse(
           payload.x,
@@ -20,10 +19,12 @@ export const renderShapes = async (ctx: CanvasRenderingContext2D, exisitedShapes
         )
         ctx.stroke();
       } else if(type === "text") {
+        ctx.strokeStyle = "white";
         ctx.font = "24px Arial";
         ctx.fillStyle = "white";
         ctx.fillText(payload.text, payload.x, payload.y);
       } else if (type === "line"){
+        ctx.strokeStyle = "white";
         ctx.beginPath();
         ctx.moveTo(payload.x1, payload.y1);
         ctx.lineTo(payload.x2, payload.y2);

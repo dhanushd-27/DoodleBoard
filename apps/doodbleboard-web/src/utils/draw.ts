@@ -1,17 +1,33 @@
 // Make this a class component - could be a solution
 import { saveShape } from "@/actions/saveShape";
 import { renderShapes } from "./renderShapes";
-import { fetchShapes } from '@/actions/fetchShapes';
+import toast from "react-hot-toast";
 
-let exisitedShapes: string[] = [];
+function onMessage(event: MessageEvent<any>, exisitedShapes: string[]) {
+  try {
+    const parsedData = JSON.parse(event.data);
+    const shapeData = {
+      type: parsedData.payload.type,
+      payload: {
+        x: parsedData.payload.x,
+        y: parsedData.payload.y,
+        width: parsedData.payload.width,
+        height: parsedData.payload.height
+      }
+    }
+    
+    if(parsedData.event !== "share") alert("BKL");
+    exisitedShapes.push(JSON.stringify(shapeData));
+  } catch (error) {
+    const e = error as ErrorEvent;
+    toast.error("Invalid data" + event.data);
+  }
+}
 
-export const mouseEventHandler = async (canvas: HTMLCanvasElement, socket: WebSocket, ctx: CanvasRenderingContext2D, roomId: string, shape: string, authorId: string) => {
-  if(!ctx) return () => {};
-
+export const mouseEventHandler = async (canvas: HTMLCanvasElement, socket: WebSocket, ctx: CanvasRenderingContext2D, roomId: string, shape: string, authorId: string, exisitedShapes: string[]) => {
   ctx.fillStyle = "rgba(0,0,0)";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-  exisitedShapes = await fetchShapes();
+  renderShapes(ctx, exisitedShapes);
 
   let endX: number;
   let endY: number;
@@ -21,27 +37,9 @@ export const mouseEventHandler = async (canvas: HTMLCanvasElement, socket: WebSo
   let width: number;
   let height: number;
 
-  socket.onmessage = async (event) => {
-    try {
-      const socketData = JSON.parse(event.data);
-      if(socketData.event !== "share") return;
-      
-      const shapeData = JSON.stringify({
-        type: socketData.payload.type,
-        payload: {
-          x: socketData.payload.x,
-          y: socketData.payload.y,
-          width: socketData.payload.width,
-          height: socketData.payload.height
-        }
-      })
-      exisitedShapes.push(shapeData);
-      renderShapes(ctx, exisitedShapes);
-    } catch (error) {
-      const e = error as Error;
-      console.log(e.message);
-      console.log(event.data);
-    }
+  socket.onmessage = (event) => {
+     onMessage(event, exisitedShapes);
+     renderShapes(ctx, exisitedShapes);
   }
 
   const onMouseDown = (e: MouseEvent) => {
@@ -164,8 +162,6 @@ export const mouseEventHandler = async (canvas: HTMLCanvasElement, socket: WebSo
       }
     }
   }
-
-  renderShapes(ctx, exisitedShapes);
 
   canvas.addEventListener("mousedown", onMouseDown);
   
