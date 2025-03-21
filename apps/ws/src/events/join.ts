@@ -1,5 +1,6 @@
+import { joinSchema, wsEvent } from "@repo/types/ws";
 import { WebSocket, WebSocketServer } from "ws"
-import { joinSchema, User } from '@repo/types/ws';
+import { User } from '@repo/types/auth';
 
 interface wsUser {
   userId: string,
@@ -15,7 +16,7 @@ export const handleJoin = ( socket: WebSocket, wss: WebSocketServer, payload: an
 
     if(!parsedData.success){
       socket.send(JSON.stringify({
-        event: "failed",
+        event: wsEvent.Failed,
         message: "Invalid Payload"
       }));
       return;
@@ -33,7 +34,7 @@ export const handleJoin = ( socket: WebSocket, wss: WebSocketServer, payload: an
     })
 
     socket.send(JSON.stringify({
-      event: "joined_room",
+      event: wsEvent.Joined,
       payload: {
         roomId
       }
@@ -45,7 +46,7 @@ export const handleJoin = ( socket: WebSocket, wss: WebSocketServer, payload: an
     userCollection.map(user => {
       if(user.rooms.includes(roomId) && user.userId != id) {
         user.socket.send(JSON.stringify({
-          event: "user_joined",
+          event: wsEvent.UserJoined,
           payload: {
             roomId,
             user: {
@@ -57,7 +58,7 @@ export const handleJoin = ( socket: WebSocket, wss: WebSocketServer, payload: an
     })
   } catch (error) {
     socket.send(JSON.stringify({
-      event: "failed",
+      event: wsEvent.Failed,
       payload: {
         message: "Invalid Data"
       }

@@ -1,4 +1,5 @@
-import { leaveSchema, User } from "@repo/types/ws"
+import { leaveSchema, wsEvent } from "@repo/types/ws"
+import { User } from "@repo/types/auth"
 import { WebSocketServer, WebSocket } from "ws"
 import { userCollection } from "./join";
 
@@ -8,7 +9,7 @@ export const handleLeave = ( socket: WebSocket, wss: WebSocketServer, payload: a
 
     if(!parsedData.success) {
       socket.send(JSON.stringify({
-        event: "failed",
+        event: wsEvent.Failed,
         payload: {
           message: "Invalid Data"
         }
@@ -25,7 +26,7 @@ export const handleLeave = ( socket: WebSocket, wss: WebSocketServer, payload: a
 
     if(!user) {
       socket.send(JSON.stringify({
-        event: "failed",
+        event: wsEvent.Failed,
         payload: {
           message: "User Not Found"
         }
@@ -34,7 +35,7 @@ export const handleLeave = ( socket: WebSocket, wss: WebSocketServer, payload: a
     }
     user.rooms = user.rooms.filter(r => r !== roomId);
     socket.send(JSON.stringify({
-      event: "user_left",
+      event: wsEvent.UserLeft,
       payload: {
         roomId: roomId,
         userId: id
@@ -42,7 +43,7 @@ export const handleLeave = ( socket: WebSocket, wss: WebSocketServer, payload: a
     }));
   } catch (error) {
     socket.send(JSON.stringify({
-      event: "failed",
+      event: wsEvent.Failed,
       payload: {
         message: "Invalid Data"
       }

@@ -14,3 +14,10 @@ export const loginSchema = z.object({
 });
 
 export type logIn = z.infer<typeof loginSchema>
+
+export interface User {
+  email: string;
+  name: string;
+  id: string;
+  iat: number;
+}

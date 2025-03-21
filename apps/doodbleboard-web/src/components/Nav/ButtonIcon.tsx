@@ -1,8 +1,8 @@
 'use client'
 
 import React, { ReactNode } from 'react'
-import { setSelectedTool } from '../../lib/store/selectedTool/selectedToolSlice';
-import { useAppDispatch, useAppSelector } from '../../lib/hooks/reduxHooks';
+import { setSelectedTool } from '@/lib/store/selectedTool/selectedToolSlice';
+import { useAppDispatch, useAppSelector } from '@/lib/hooks/reduxHooks';
 
 interface Props {
   children: ReactNode,

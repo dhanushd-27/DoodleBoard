@@ -1,7 +1,7 @@
-import { User } from "@repo/types/ws";
 import { WebSocket } from "ws";
 import { userCollection } from "./join";
-import { wsShareSchema } from '@repo/types/shapes';
+import { wsEvent, wsShareSchema } from '@repo/types/ws';
+import { User } from "@repo/types/auth";
 
 export const handleShare = (socket: WebSocket, roomId: string, type: string, payload: any, userDetails: User ) => {
   try {
@@ -13,7 +13,7 @@ export const handleShare = (socket: WebSocket, roomId: string, type: string, pay
 
     if(!parsedData.success){
       socket.send(JSON.stringify({
-        event: "failed",
+        event: wsEvent.Failed,
         payload: {
           message: "Invalid Data"
         }
@@ -27,7 +27,7 @@ export const handleShare = (socket: WebSocket, roomId: string, type: string, pay
 
     if(!user) {
       socket.send(JSON.stringify({
-        event: "failed",
+        event: wsEvent.Failed,
         payload: {
           message: "user not found"
         }
@@ -39,7 +39,7 @@ export const handleShare = (socket: WebSocket, roomId: string, type: string, pay
 
     if(!room) {
       socket.send(JSON.stringify({
-        event: "failed",
+        event: wsEvent.Failed,
         payload: {
           message: "room not found"
         }
@@ -54,7 +54,7 @@ export const handleShare = (socket: WebSocket, roomId: string, type: string, pay
     userCollection.map(user => {
       if(user.rooms.includes(roomId) && user.userId != id) {
         user.socket.send(JSON.stringify({
-          event: "share",
+          event: wsEvent.Share,
           type,
           payload
         }))
@@ -62,7 +62,7 @@ export const handleShare = (socket: WebSocket, roomId: string, type: string, pay
     })
   } catch (error) {
     socket.send(JSON.stringify({
-      event: "failed",
+      event: wsEvent.Failed,
       payload: {
         message: "Invalid Data"
       }

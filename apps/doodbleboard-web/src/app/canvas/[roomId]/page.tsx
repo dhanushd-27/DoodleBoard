@@ -1,8 +1,7 @@
 import React from 'react'
-import { Circle, Minus, RectangleHorizontal, Type } from 'lucide-react'
-import ButtonIcon from '@/components/Nav/ButtonIcon'
-import Canvas from '@/components/Canvas'
 import { cookies } from 'next/headers'
+import RoomCanvas from '@/components/RoomCanvas';
+import ToolsNavBar from '@/components/Nav/ToolsNavBar';
 
 export default async function CanvasPage() {
   const cookieStore = await cookies();
@@ -15,21 +14,8 @@ export default async function CanvasPage() {
 
   return (
     <div>
-      <div className='bg-gray-900 flex gap-4 z-30 fixed top-2 left-[40%] text-center text-white p-5 rounded-xl items-center justify-between'>
-        <ButtonIcon tool='circle'>
-          <Circle />
-        </ButtonIcon>
-        <ButtonIcon tool='rect'>
-          <RectangleHorizontal />
-        </ButtonIcon>
-        <ButtonIcon tool="text">
-          <Type />
-        </ButtonIcon>
-        <ButtonIcon tool="line">
-          <Minus />
-        </ButtonIcon>
-      </div>
-      <Canvas roomId={ roomId } token={ token }/>
+      <ToolsNavBar />
+      <RoomCanvas roomId={ roomId } token={ token }/>
     </div>
   )
 }

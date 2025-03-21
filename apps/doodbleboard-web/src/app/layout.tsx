@@ -24,7 +24,7 @@ export default function RootLayout({
         <body
           className={`${roboto.className} antialiased`}
         >
-          <Toaster />
+          <Toaster position="bottom-right" />
           {children}
         </body>
       </StoreProvider>

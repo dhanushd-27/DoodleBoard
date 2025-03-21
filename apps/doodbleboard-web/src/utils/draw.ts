@@ -1,27 +1,7 @@
 // Make this a class component - could be a solution
 import { saveShape } from "@/actions/saveShape";
 import { renderShapes } from "./renderShapes";
-import toast from "react-hot-toast";
-
-function onMessage(event: MessageEvent<any>, exisitedShapes: string[]) {
-  try {
-    const parsedData = JSON.parse(event.data);
-    const shapeData = {
-      type: parsedData.type,
-      payload: JSON.parse(parsedData.payload)
-    }
-
-    if(parsedData.event !== "share") {
-      alert("BKL");
-      return;
-    }
-    exisitedShapes.push(JSON.stringify(shapeData));
-  } catch (error) {
-    const e = error as ErrorEvent;
-    console.log(e)
-    toast.error("Invalid data" + event.data);
-  }
-}
+import { onMessage } from "./socket/onMessage";
 
 export const mouseEventHandler = async (canvas: HTMLCanvasElement, socket: WebSocket, ctx: CanvasRenderingContext2D, roomId: string, shape: string, authorId: string, exisitedShapes: string[]) => {
   ctx.fillStyle = "rgba(0,0,0)";
@@ -60,8 +40,6 @@ export const mouseEventHandler = async (canvas: HTMLCanvasElement, socket: WebSo
     });
 
     if(shape === "rect"){
-      console.log(width);
-      console.log(height);
       if(!width && !height){
         return;
       }

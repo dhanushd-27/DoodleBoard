@@ -65,12 +65,3 @@ export const payloadDataSchema = z.object({
 });
 
 export type payloadData = z.infer<typeof payloadDataSchema>;
-
-
-export const wsShareSchema = z.object({
-  roomId: z.string(),
-  type: z.string(),
-  payload: z.string()
-})
-
-export type wsShare = z.infer<typeof wsShareSchema>;

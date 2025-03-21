@@ -4,11 +4,10 @@
   "description": "",
   "main": "index.js",
   "exports": {
-    "./status": "./status-codes.types.ts",
-    "./events": "./events.types.ts",
-    "./auth": "./auth.types.ts",
-    "./ws": "./ws.types.ts",
-    "./shapes": "./shapes.types.ts"
+    "./status": "./httpStatus/status-codes.types.ts",
+    "./auth": "./auth/auth.types.ts",
+    "./ws": "./ws/ws.types.ts",
+    "./shapes": "./shapes/shapes.types.ts"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -17,7 +16,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "zod": "^3.24.2",
-    "@repo/typescript-config": "workspace:*"
+    "@repo/typescript-config": "workspace:*",
+    "@types/node": "^22.13.10",
+    "zod": "^3.24.2"
   }
 }

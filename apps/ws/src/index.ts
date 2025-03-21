@@ -4,6 +4,7 @@ import { isValidToken } from "./utils/isValid";
 import { handleJoin } from "./events/join";
 import { handleShare } from "./events/share";
 import { handleLeave } from "./events/leave";
+import { wsEvent } from "@repo/types/ws";
 
 const PORT = parseInt(process.env.PORT as string) || 8081;
 const wss = new WebSocketServer({ port: PORT });
@@ -31,13 +32,13 @@ try {
         }
 
         switch (payloadData.event) {
-          case "join":
+          case wsEvent.Join:
             handleJoin(socket, wss, payloadData.payload, userDetails );
             break;
-          case "share":
+          case wsEvent.Share:
             handleShare(socket, payloadData.roomId, payloadData.type, payloadData.payload, userDetails);
             break;
-          case "leave": 
+          case wsEvent.Leave: 
             handleLeave(socket, wss, payloadData.payload, userDetails);
             break;
           default:
