@@ -1,10 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 // We can use a enum here instead
-type Tool = "circle" | "rect" | "line" | "text";
+type Tool = "circle" | "rect" | "line" | "text" | "cursor";
 
 const initialState = {
-  value: "rect",
+  value: "cursor",
 }
 
 const selectedToolSlice = createSlice({

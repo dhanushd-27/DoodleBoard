@@ -38,8 +38,7 @@ export default function Canvas({ roomId, socket }: Props) {
     setupMouseEvents()
 
     return () => {
-      // If removeListeners has been defined, invoke it to remove event listeners
-      if (removeListeners) {
+      if(removeListeners) {
         removeListeners();
       }
     };
