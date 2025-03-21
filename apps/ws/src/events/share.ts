@@ -47,10 +47,6 @@ export const handleShare = (socket: WebSocket, roomId: string, type: string, pay
       return;
     }
 
-    console.log(userCollection);
-
-    console.log(100);
-
     userCollection.map(user => {
       if(user.rooms.includes(roomId) && user.userId != id) {
         user.socket.send(JSON.stringify({

@@ -30,10 +30,10 @@ export const mouseEventHandler = async (canvas: HTMLCanvasElement, socket: WebSo
 
   const onMouseUp = async () => {
     clicked = false;
+    if(!width && !height){
+      return;
+    };
     if(shape === "rect"){
-      if(!width && !height){
-        return;
-      };
       const rectMessage = JSON.stringify({
         type: 'rect',
         payload: {
@@ -44,6 +44,7 @@ export const mouseEventHandler = async (canvas: HTMLCanvasElement, socket: WebSo
         }
       });
       exisitedShapes.push(rectMessage);
+      // Sharing data through socket
       socket.send(JSON.stringify({
         event: "share",
         roomId,
@@ -71,9 +72,12 @@ export const mouseEventHandler = async (canvas: HTMLCanvasElement, socket: WebSo
           endAngle: 2 * Math.PI
         }
       });
-      exisitedShapes.push(JSON.stringify({
-        type: 'circle',
-        payload: {
+      exisitedShapes.push(JSON.stringify(circleMessage));
+      socket.send(JSON.stringify({
+        event: "share",
+        roomId,
+        type: "circle",
+        payload: JSON.stringify({
           x: startX + width / 2,
           y: startY + height / 2,
           radiusX: Math.abs(width) / 2,
@@ -81,8 +85,8 @@ export const mouseEventHandler = async (canvas: HTMLCanvasElement, socket: WebSo
           rotation: 0,
           startAngle: 0,
           endAngle: 2 * Math.PI
-        }
-      }))
+        })
+      }));
       saveShape({ roomId, authorId, message: circleMessage });
     } else if(shape === "text"){
       const input = document.createElement("input");
@@ -94,7 +98,7 @@ export const mouseEventHandler = async (canvas: HTMLCanvasElement, socket: WebSo
       input.style.outline = "none";
       input.style.color = "white";
       input.style.width = '400px';
-      input.onkeydown = (event) => handleText(event, startX, startY, ctx, exisitedShapes, roomId, authorId);
+      input.onkeydown = (event) => handleText(event, startX, startY, ctx, exisitedShapes, roomId, authorId, socket);
 
       document.body.appendChild(input);
       input.focus();
@@ -116,6 +120,17 @@ export const mouseEventHandler = async (canvas: HTMLCanvasElement, socket: WebSo
           x2: endX,
           y2: endY
         }
+      }));
+      socket.send(JSON.stringify({
+        event: "share",
+        roomId,
+        type: "line",
+        payload: JSON.stringify({
+          x1: startX,
+          y1: startY,
+          x2: endX,
+          y2: endY
+        })
       }));
       saveShape({ roomId, authorId, message: lineMessage});
     }
