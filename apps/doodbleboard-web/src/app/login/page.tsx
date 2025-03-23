@@ -1,5 +1,5 @@
 "use client"
-import { setCookie } from '@/actions/setCookie';
+import { setCookie } from '@/actions/login';
 import { useAppDispatch } from '@/lib/hooks/reduxHooks';
 import { setState } from '@/lib/store/isAuthenticated/isAuthenticatedSlice';
 import { useRouter } from 'next/navigation';

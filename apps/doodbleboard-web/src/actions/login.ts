@@ -6,7 +6,7 @@ import { logIn } from "@repo/types/auth"
 
 export async function setCookie({ email, password }: logIn) {
   try {
-    const response = await axios.post('http://localhost:3002/api/v1/login', {
+    const response = await axios.post(`${process.env.BACKEND_API_URL}/login`, {
       "email": email,
       "password": password,
     }, {
