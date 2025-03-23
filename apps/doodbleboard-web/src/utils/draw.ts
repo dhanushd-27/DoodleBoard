@@ -2,7 +2,7 @@
 import { saveShape } from "@/actions/saveShape";
 import { renderShapes } from "./renderShapes";
 import { onMessage } from "./socket/onMessage";
-import { handleText } from "./createShapes/text/handleText";
+import { handleText } from "./shapesUtil/text/handleText";
 
 export const mouseEventHandler = async (canvas: HTMLCanvasElement, socket: WebSocket, ctx: CanvasRenderingContext2D, roomId: string, shape: string, authorId: string, exisitedShapes: string[]) => {
   ctx.fillStyle = "rgba(0,0,0)";
@@ -199,4 +199,3 @@ export const mouseEventHandler = async (canvas: HTMLCanvasElement, socket: WebSo
 
   return removeListeners;
 }
-

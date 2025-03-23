@@ -45,7 +45,7 @@ export const handleShare = (socket: WebSocket, roomId: string, type: string, pay
         }
       }));
       return;
-    }
+    }``
 
     userCollection.map(user => {
       if(user.rooms.includes(roomId) && user.userId != id) {
