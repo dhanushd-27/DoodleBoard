@@ -3,7 +3,7 @@
 import axios from "axios";
 import { cookies } from "next/headers";
 
-export const fetchShapes = async () => {
+export const fetchShapes = async ({ roomId }: { roomId: string }) => {
   try {
     const cookieStore = await cookies();
     const tokenObject = cookieStore.get("token");
@@ -11,7 +11,7 @@ export const fetchShapes = async () => {
     if(!tokenObject) return;
 
     const token = tokenObject.value;
-    const res = await axios.get("http://localhost:3002/api/v1/room/chats/cm8i3cmj10001xjhz167mjhut", {
+    const res = await axios.get(`${process.env.BACKEND_API_URL}/room/chats/${roomId}`, {
       headers: {
         Authorization: `Bearer ${token}`
       }

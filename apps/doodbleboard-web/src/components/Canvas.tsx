@@ -29,7 +29,7 @@ export default function Canvas({ roomId, socket }: Props) {
 
     const setupMouseEvents = async () => {
       if (ctx) {
-      const exisitedShapes = await fetchShapes();
+      const exisitedShapes = await fetchShapes({ roomId });
       
       removeListeners = await mouseEventHandler(canvas, socket, ctx, roomId, shape, "dhanush", exisitedShapes);
       }
