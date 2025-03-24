@@ -1,5 +1,5 @@
 // Make this a class component - could be a solution
-import { saveShape } from "@/actions/saveShape";
+import { saveShape } from "@/actions/shapeActions/saveShape";
 import { renderShapes } from "./renderShapes";
 import { onMessage } from "./socket/onMessage";
 import { handleText } from "./shapesUtil/text/handleText";

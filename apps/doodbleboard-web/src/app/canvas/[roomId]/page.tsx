@@ -8,6 +8,7 @@ export default async function CanvasPage() {
   const tokenObject = cookieStore.get("token");
 
   if(!tokenObject) return;
+
   const token = tokenObject.value;
 
   const roomId = "cm8i3cmj10001xjhz167mjhut";

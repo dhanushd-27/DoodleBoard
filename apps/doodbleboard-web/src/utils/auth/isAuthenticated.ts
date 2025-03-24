@@ -12,7 +12,7 @@ export async function Verify(): Promise<boolean> {
     if(!tokenObject) return false;
 
     const token = tokenObject.value as string;
-    
+
     await jose.jwtVerify(token, secretKey);
 
     return true;

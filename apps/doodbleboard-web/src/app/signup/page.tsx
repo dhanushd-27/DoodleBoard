@@ -1,6 +1,6 @@
 'use client'
 
-import { signUpFunc } from '@/actions/signup';
+import { signUpFunc } from '@/actions/authActions/signup';
 import { useRouter } from 'next/navigation';
 import React from 'react'
 import { useState } from 'react';

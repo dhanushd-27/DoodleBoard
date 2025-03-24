@@ -1,4 +1,4 @@
-import { saveShape } from "@/actions/saveShape";
+import { saveShape } from "@/actions/shapeActions/saveShape";
 
 export const handleText = (e: KeyboardEvent, startX: number, startY: number, ctx: CanvasRenderingContext2D, exisitedShapes: string[], roomId: string, authorId: string, socket: WebSocket) => {
   const input = e.target as HTMLInputElement;

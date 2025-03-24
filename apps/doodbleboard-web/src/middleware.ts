@@ -1,7 +1,7 @@
 import { Verify } from "@/utils/auth/isAuthenticated";
 import { NextRequest, NextResponse } from "next/server";
 
-const protectedRoutes = ["/canvas/"]; // Use startsWith instead of wildcard
+const protectedRoutes = ["/canvas/", "/dashboard"]; // Use startsWith instead of wildcard
 
 export async function middleware(req: NextRequest) {
   try {
@@ -20,5 +20,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/canvas/:path*']
+  matcher: ['/canvas/:path*', "/dashboard"],
 }

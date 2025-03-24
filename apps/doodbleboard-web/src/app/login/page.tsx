@@ -1,5 +1,5 @@
 "use client"
-import { setCookie } from '@/actions/login';
+import { setCookie } from '@/actions/authActions/login';
 import { useAppDispatch } from '@/lib/hooks/reduxHooks';
 import { setState } from '@/lib/store/isAuthenticated/isAuthenticatedSlice';
 import { useRouter } from 'next/navigation';
@@ -21,7 +21,7 @@ export default function Login() {
     if(response) {
       dispatch(setState(true));
       toast.success("Login Successfull");
-      router.push('/canvas/4');
+      router.push('/dashboard');
     } else {
       toast.error("Login Failed!");
       router.push('/')

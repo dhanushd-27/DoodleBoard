@@ -3,7 +3,7 @@
 import React, { useEffect, useRef } from 'react'
 import { mouseEventHandler } from '@/utils/draw';
 import { useAppSelector } from '@/lib/hooks/reduxHooks';
-import { fetchShapes } from '@/actions/fetchShapes';
+import { fetchShapes } from '@/actions/shapeActions/fetchShapes';
 
 type Props = {
   roomId: string,
