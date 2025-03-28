@@ -1,4 +1,4 @@
-import { WebSocketServer, WebSocket } from "ws";
+import { WebSocketServer } from "ws";
 import "./config/env";
 import { isValidToken } from "./utils/isValid";
 import { handleJoin } from "./events/join";
