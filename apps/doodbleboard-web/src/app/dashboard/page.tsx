@@ -4,6 +4,14 @@ import { createRoom } from '@/actions/roomActions/createSlug';
 import { useRouter } from 'next/navigation';
 import React, { MouseEvent, useState } from 'react';
 import toast from 'react-hot-toast';
+import {
+  SidebarTrigger,
+  SidebarInset,
+  SidebarProvider,
+} from "@/components/ui/sidebar"
+import { Separator } from '@radix-ui/react-dropdown-menu';
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
+import { AppSidebar } from '@/components/Dashboard/AppSidebar';
 
 export default function Dashboard() {
   const [slug, setSlug] = useState<string>('');
@@ -29,88 +37,38 @@ export default function Dashboard() {
     router.push(`/canvas/${slug}`);
   }
 
-
   return (
-    <>
-      <section className="bg-[#205781] min-h-screen z-0">
-        <header className="py-4 px-5">
-          <nav className="flex gap-4">
-            {/* Slug input for joining a room */}
-            <input
-              type="text"
-              value={slug}
-              onChange={(e) => setSlug(e.target.value)}
-              placeholder="Enter room slug"
-              className="p-2 rounded-xl"
-            />
-            <button
-              className="bg-white px-4 py-2 rounded-xl"
-              type="submit"
-              onClick={handleJoinSubmit}
-            >
-              Join a room
-            </button>
-
-            {/* Toggle Button for creating a room */}
-            <button
-              onClick={toggleDialog}
-              className="px-6 py-2 text-white bg-blue-500 rounded-md shadow-md hover:bg-blue-600"
-            >
-              Create Room
-            </button>
-          </nav>
-        </header>
-
-        {/* Dialog Component */}
-        {isDialogOpen && (
-          <div
-            className="fixed inset-0 bg-black/80 flex items-center justify-center"
-            onClick={toggleDialog} // Close on overlay click
-          >
-            <div
-              className="bg-white p-6 rounded-lg shadow-xl w-96 relative"
-              onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside the dialog
-            >
-              {/* Close button */}
-              <button
-                onClick={toggleDialog}
-                className="absolute top-2 right-2 text-xl font-bold text-gray-500"
-              >
-                X
-              </button>
-
-              {/* Display created room slug */}
-              <input
-                type="text"
-                placeholder="Copy Slug from here"
-                value={createdRoomSlug}
-                disabled
-                className="mb-4 p-2 rounded-md w-full bg-gray-100"
-              />
-
-              {/* Room name input */}
-              <input
-                type="text"
-                placeholder="Enter room Name"
-                value={roomName}
-                onChange={(e) => setRoomName(e.target.value)}
-                className="mb-4 p-2 rounded-md w-full"
-              />
-
-              {/* Create new room button */}
-              <button
-                className="px-6 py-2 text-white bg-blue-500 rounded-md shadow-md hover:bg-blue-600"
-                onClick={ async () => {
-                  const slug = await createRoom({ name: roomName});
-                  setCreatedRoomSlug(slug);
-                }}
-              >
-                Create New Room
-              </button>
-            </div>
+    <SidebarProvider>
+      <AppSidebar />
+      <SidebarInset>
+      <header className="flex h-16 shrink-0 items-center gap-2">
+          <div className="flex items-center gap-2 px-4">
+            <SidebarTrigger className="-ml-1" />
+            <Separator aria-orientation="vertical" className="mr-2 h-4" />
+            <Breadcrumb>
+              <BreadcrumbList>
+                <BreadcrumbItem className="hidden md:block">
+                  <BreadcrumbLink href="#">
+                    Doodleboard
+                  </BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator className="hidden md:block" />
+                <BreadcrumbItem>
+                  <BreadcrumbPage>Dashboard</BreadcrumbPage>
+                </BreadcrumbItem>
+              </BreadcrumbList>
+            </Breadcrumb>
           </div>
-        )}
-      </section>
-    </>
+        </header>
+        <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
+          <div className="grid auto-rows-min gap-4 md:grid-cols-3">
+            <div className="aspect-video rounded-xl bg-muted/80" />
+            <div className="aspect-video rounded-xl bg-muted/80" />
+            <div className="aspect-video rounded-xl bg-muted/80" />
+          </div>
+          <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/80 md:min-h-min" />
+        </div>
+      </SidebarInset>
+    </SidebarProvider>
   );
 }
