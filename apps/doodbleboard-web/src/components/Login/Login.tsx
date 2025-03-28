@@ -1,5 +1,5 @@
 "use client"
-import placeholder from "@/assets/placeholder.jpg"
+import loginPlaceholder from "@/assets/login.jpg"
 import { setCookie } from '@/actions/authActions/login';
 import { useAppDispatch } from '@/lib/hooks/reduxHooks';
 import { setState } from '@/lib/store/isAuthenticated/isAuthenticatedSlice';
@@ -43,7 +43,7 @@ export function LoginForm() {
               <div className="flex flex-col items-center text-center">
                 <h1 className="text-2xl font-bold">Welcome back</h1>
                 <p className="text-balance text-muted-foreground">
-                  Login to your Acme Inc account
+                  Login to your Doodleboard account
                 </p>
               </div>
               <div className="grid gap-2">
@@ -60,7 +60,7 @@ export function LoginForm() {
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="password">Password</Label>
-                <Input id="password" type="password" required onChange={ (e) => setPassword(e.target.value) } />
+                <Input id="password" type="password" required onChange={ (e) => setPassword(e.target.value) } placeholder="********" />
               </div>
               <Button type="submit" className="w-full">
                 Login
@@ -75,7 +75,7 @@ export function LoginForm() {
           </form>
           <div className="relative hidden bg-muted md:block mr-8 rounded-2xl">
             <Image
-              src={ placeholder }
+              src={ loginPlaceholder }
               alt="Image"
               className="absolute inset-0 h-full object-cover rounded-2xl"
             />

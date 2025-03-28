@@ -1,6 +1,6 @@
 "use client"
 
-import placeholder from "@/assets/placeholder.jpg"
+import signupPlaceholder from "@/assets/signup.jpg"
 import React from 'react'
 import { signUpFunc } from '@/actions/authActions/signup';
 import { useRouter } from 'next/navigation';
@@ -67,9 +67,9 @@ export default function SignupForm() {
           <form className="p-6 md:p-8" onSubmit={ handleSubmit }>
             <div className="flex flex-col gap-6">
               <div className="flex flex-col items-center text-center">
-                <h1 className="text-2xl font-bold">Welcome back</h1>
+                <h1 className="text-2xl font-bold">Join Us</h1>
                 <p className="text-balance text-muted-foreground">
-                  Login to your Acme Inc account
+                  Sign up to your Doodleboard account
                 </p>
               </div>
               <div className="grid gap-2">
@@ -107,10 +107,10 @@ export default function SignupForm() {
                   />
               </div>
               <Button type="submit" className="w-full">
-                Login
+                Sign up
               </Button>
               <div className="text-center text-sm">
-                Don&apos;t have an account?{" "}
+                Already have an account?{" "}
                 <Link href={'/login'} className="underline underline-offset-4">
                   Login
                 </Link>
@@ -119,7 +119,7 @@ export default function SignupForm() {
           </form>
           <div className="relative hidden bg-muted md:block mr-8 rounded-2xl">
             <Image
-              src={ placeholder }
+              src={ signupPlaceholder }
               alt="Image"
               className="absolute inset-0 h-full object-cover rounded-2xl"
             />
