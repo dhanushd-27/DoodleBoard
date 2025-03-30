@@ -38,4 +38,7 @@ export const handleText = (e: KeyboardEvent, startX: number, startY: number, ctx
   } else if(e.shiftKey && e.key === "Enter") {
     input.value += "\n";
   }
+  if(input.value === "") {
+    document.body.removeChild(input);
+  }
 }

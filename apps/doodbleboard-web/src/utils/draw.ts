@@ -72,7 +72,7 @@ export const mouseEventHandler = async (canvas: HTMLCanvasElement, socket: WebSo
           endAngle: 2 * Math.PI
         }
       });
-      exisitedShapes.push(JSON.stringify(circleMessage));
+      exisitedShapes.push(circleMessage);
       socket.send(JSON.stringify({
         event: "share",
         roomId,
@@ -96,10 +96,10 @@ export const mouseEventHandler = async (canvas: HTMLCanvasElement, socket: WebSo
       input.style.top = `${startY}px`;
       input.style.border = "none";
       input.style.outline = "none";
+      input.style.backgroundColor = "orange";
       input.style.color = "white";
       input.style.width = '400px';
       input.onkeydown = (event) => handleText(event, startX, startY, ctx, exisitedShapes, roomId, authorId, socket);
-
       document.body.appendChild(input);
       input.focus();
     } else if(shape === "line") {
@@ -112,15 +112,7 @@ export const mouseEventHandler = async (canvas: HTMLCanvasElement, socket: WebSo
           y2: endY
         }
       });
-      exisitedShapes.push(JSON.stringify({
-        type: 'line',
-        payload: {
-          x1: startX,
-          y1: startY,
-          x2: endX,
-          y2: endY
-        }
-      }));
+      exisitedShapes.push(lineMessage);
       socket.send(JSON.stringify({
         event: "share",
         roomId,
@@ -163,7 +155,6 @@ export const mouseEventHandler = async (canvas: HTMLCanvasElement, socket: WebSo
           Math.abs(height) / 2,
           0, 0, 2 * Math.PI
         );
-        // ctx.arc(startX + width / 2, startY + height / 2, Math.abs(width) / 2, 0, 2 * Math.PI);
         ctx.strokeStyle = "rgba(255,255,255)"
         ctx.stroke();
       } else if(shape === "text") {
