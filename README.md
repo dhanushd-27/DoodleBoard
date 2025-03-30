@@ -1,84 +1,45 @@
-# Turborepo starter
+# DoodleBoard
 
-This Turborepo starter is maintained by the Turborepo core team.
+**DoodleBoard** is an intuitive and easy-to-use web application designed for collaborative brainstorming, sketching, and idea-sharing. Whether you're working solo or collaborating with a team, DoodleBoard provides a simple platform to visualize and share ideas in real time.
 
-## Using this example
+## Key Features
 
-Run the following command:
+- **Real-time Collaboration**: Create a shared room and invite others to collaborate in real time. As you draw or make changes, others see the updates immediately, thanks to WebSockets.
+  
+- **Drawing Tools**: Use basic shapes like rectangles, circles, lines, and text to illustrate ideas. All shapes can be drawn freely on the canvas.
+  
+- **Custom Rooms**: Create unique rooms and share the room slug for others to join. Each room has a dedicated space for brainstorming.
+  
+- **Authentication**: Secure login and signup features with protected routes ensure that only authorized users can access certain rooms or features.
+  
+- **Minimalist UI**: The design, built using shadcn, offers a clean and attractive interface for a seamless user experience.
 
-```sh
-npx create-turbo@latest
-```
+## Technology Stack
 
-## What's inside?
+- **Frontend**: Built with Next.js for fast rendering and a responsive user interface.
+  
+- **Backend**: Developed with Node.js and Express for handling server requests, user authentication, and room management.
+  
+- **Real-time Features**: Powered by WebSockets to enable live sharing of shapes and updates between users.
+  
+- **UI Design**: Crafted with shadcn for a minimalist and modern aesthetic, making the user experience smooth and enjoyable.
+  
+- **Canvas**: The app uses a raw HTML canvas to render shapes and text, giving users full control over their drawings and sketches.
 
-This Turborepo includes the following packages/apps:
+## How It Works
 
-### Apps and Packages
+1. **Sign Up/Log In**: Users can authenticate via a secure login/signup system. After logging in, they can access protected rooms.
+  
+2. **Create a Room**: Users can create a new room with a unique slug (link), which they can share with others to join.
+  
+3. **Collaborate**: Users can draw and share ideas using shapes and text on the canvas. All changes are visible in real-time.
+  
+4. **Join a Room**: Simply share the room slug with others, and they can instantly join your collaborative space.
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+---
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+## Let's Connect
 
-### Utilities
+- [Twitter](https://x.com/orca_x27)
+- [Peerlist](https://peerlist.io/dhanush_d27)
 
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-```
-cd my-turborepo
-pnpm build
-```
-
-### Develop
-
-To develop all apps and packages, run the following command:
-
-```
-cd my-turborepo
-pnpm dev
-```
-
-### Remote Caching
-
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
-
-Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-```
-cd my-turborepo
-npx turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-```
-npx turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks)
-- [Caching](https://turbo.build/repo/docs/core-concepts/caching)
-- [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching)
-- [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
-- [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
-- [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
