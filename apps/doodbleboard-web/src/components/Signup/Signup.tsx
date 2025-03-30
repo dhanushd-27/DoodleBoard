@@ -122,6 +122,7 @@ export default function SignupForm() {
               src={ signupPlaceholder }
               alt="Image"
               className="absolute inset-0 h-full object-cover rounded-2xl"
+              priority={ true }
             />
           </div>
         </CardContent>

@@ -15,16 +15,27 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import AppUser from "./AppUser"
+import { getUserDetails } from "@/actions/generalAction/userDetails"
 
-const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
-}
+type User = {
+  name: string,
+  email: string
+};
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const [user, setUser] = React.useState<User>({ name: "gigashad", email: "gigashad@gmail.com"});
+
+  React.useEffect(() => {
+    async function User() {
+      const response =  await getUserDetails();
+      
+      if(!response) return;
+
+      setUser(response);
+    }
+
+    User();
+  }, [])
   return (
     <Sidebar variant="inset" {...props}>
       <SidebarHeader>
@@ -47,7 +58,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarContent>
       </SidebarContent>
       <SidebarFooter>
-        <AppUser user={data.user} />
+        <AppUser user={user} />
       </SidebarFooter>
     </Sidebar>
   )
