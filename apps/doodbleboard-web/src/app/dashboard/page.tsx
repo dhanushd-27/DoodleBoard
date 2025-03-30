@@ -1,9 +1,8 @@
 'use client'
 
-import { createRoom } from '@/actions/roomActions/createSlug';
-import { useRouter } from 'next/navigation';
-import React, { MouseEvent, useState } from 'react';
-import toast from 'react-hot-toast';
+import React, { useState } from 'react';
+// import { createRoom } from '@/actions/roomActions/createSlug';
+
 import {
   SidebarTrigger,
   SidebarInset,
@@ -12,30 +11,17 @@ import {
 import { Separator } from '@radix-ui/react-dropdown-menu';
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
 import { AppSidebar } from '@/components/Dashboard/AppSidebar';
+import RoomCard from '@/components/Dashboard/RoomCard';
 
 export default function Dashboard() {
-  const [slug, setSlug] = useState<string>('');
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [createdRoomSlug, setCreatedRoomSlug] = useState<string>('');
-  const [roomName, setRoomName] = useState<string>('');
+  // const [slug, setSlug] = useState<string>('');
+  // const [isDialogOpen, setIsDialogOpen] = useState(false);
+  // const [createdRoomSlug, setCreatedRoomSlug] = useState<string>('');
+  // const [roomName, setRoomName] = useState<string>('');
 
-  const toggleDialog = () => {
-    setIsDialogOpen((prevState) => !prevState);
-  };
-
-  const router = useRouter();
-
-  async function handleJoinSubmit(e: MouseEvent) {
-    e.preventDefault();
-
-    if (!slug) {
-      toast.error("Slug can't be empty");
-      return;
-    }
-
-    // Navigate to the room using the slug
-    router.push(`/canvas/${slug}`);
-  }
+  // const toggleDialog = () => {
+  //   setIsDialogOpen((prevState) => !prevState);
+  // };
 
   return (
     <SidebarProvider>
@@ -61,12 +47,7 @@ export default function Dashboard() {
           </div>
         </header>
         <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-          <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-            <div className="aspect-video rounded-xl bg-muted/80" />
-            <div className="aspect-video rounded-xl bg-muted/80" />
-            <div className="aspect-video rounded-xl bg-muted/80" />
-          </div>
-          <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/80 md:min-h-min" />
+          <RoomCard name='D' roomSlug='ShpMDyz'/>
         </div>
       </SidebarInset>
     </SidebarProvider>

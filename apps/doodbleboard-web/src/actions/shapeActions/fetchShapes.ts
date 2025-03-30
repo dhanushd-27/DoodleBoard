@@ -23,5 +23,6 @@ export const fetchShapes = async ({ roomId }: { roomId: string }) => {
     return shapeMessage;
   } catch (error) {
     console.log(error);
+    return null;
   }
 }

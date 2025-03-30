@@ -24,6 +24,6 @@ export async function getRoomId (params: {slug: string}) {
   } catch (error) {
     const e = error as AxiosError;
     console.log("Something went wrong" + e.message);
-    return e.response;
+    return null;
   }
 }
