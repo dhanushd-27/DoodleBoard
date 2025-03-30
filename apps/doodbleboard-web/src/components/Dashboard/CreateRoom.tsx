@@ -12,6 +12,7 @@ import { Separator } from '../ui/separator'
 export default function CreateRoom() {
   const [createdRoomSlug, setCreatedRoomSlug] = useState<string>('');
   const [roomName, setRoomName] = useState<string>('');
+  const [copy, setCopy] = useState(false);
 
   const handleCreateRoom = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -24,6 +25,12 @@ export default function CreateRoom() {
     const slug = await createRoom({ name: roomName });
 
     setCreatedRoomSlug(slug);
+  }
+
+  const handleCopy = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    navigator.clipboard.writeText(createdRoomSlug);
+    setCopy(true);
   }
 
   return (
@@ -52,7 +59,10 @@ export default function CreateRoom() {
             <Label htmlFor='slug' className='text-right'>
               Slug
             </Label>
-            <Input id='slug' value={ createdRoomSlug } placeholder='Slug' className='col-span-3' disabled />
+            <Input id='slug' value={ createdRoomSlug } placeholder='Slug' disabled />
+            <Button variant={ 'outline' } onClick={ (e) => handleCopy(e) }>
+              { copy ? "Copied!" : "Copy" }
+            </Button>
           </div>
         </div>
         <DialogFooter>
