@@ -17,7 +17,7 @@ type RoomCard = {
 export default function RoomCard({ name, roomSlug }: RoomCard) {
   const router = useRouter();
 
-  const handleJoinRoom =  async (e: MouseEvent) => {
+  const handleJoinRoom = (e: MouseEvent) => {
     e.preventDefault();
 
     if (!roomSlug) {

@@ -1,6 +1,4 @@
-'use client'
-
-import React, { useState } from 'react';
+import React from 'react';
 // import { createRoom } from '@/actions/roomActions/createSlug';
 
 import {
@@ -12,23 +10,17 @@ import { Separator } from '@radix-ui/react-dropdown-menu';
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
 import { AppSidebar } from '@/components/Dashboard/AppSidebar';
 import RoomCard from '@/components/Dashboard/RoomCard';
+import JoinRoom from '@/components/Dashboard/JoinRoom';
+import CreateRoom from '@/components/Dashboard/CreateRoom';
 
 export default function Dashboard() {
-  // const [slug, setSlug] = useState<string>('');
-  // const [isDialogOpen, setIsDialogOpen] = useState(false);
-  // const [createdRoomSlug, setCreatedRoomSlug] = useState<string>('');
-  // const [roomName, setRoomName] = useState<string>('');
-
-  // const toggleDialog = () => {
-  //   setIsDialogOpen((prevState) => !prevState);
-  // };
 
   return (
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset>
-      <header className="flex h-16 shrink-0 items-center gap-2">
-          <div className="flex items-center gap-2 px-4">
+      <header className="flex h-16 shrink-0 items-center justify-between px-4">
+          <div className="flex items-center gap-2">
             <SidebarTrigger className="-ml-1" />
             <Separator aria-orientation="vertical" className="mr-2 h-4" />
             <Breadcrumb>
@@ -44,6 +36,10 @@ export default function Dashboard() {
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
+          </div>
+          <div className='flex gap-2'>
+            <JoinRoom />
+            <CreateRoom />
           </div>
         </header>
         <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
