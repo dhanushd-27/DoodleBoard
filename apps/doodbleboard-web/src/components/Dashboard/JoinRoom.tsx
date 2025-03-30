@@ -7,19 +7,24 @@ import { Input } from "../ui/input"
 import { Label } from "../ui/label"
 import { useRouter } from 'next/navigation';
 import toast from "react-hot-toast"
+import { getRoomId } from "@/actions/roomActions/getRoomId"
+import { joinRoom } from "@/actions/roomActions/joinRoom"
 
 
 export default function JoinRoom() {
   const router = useRouter();
   const [slug, setSlug] = useState<string>('');
 
-  const handleJoinRoom = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleJoinRoom = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     if (!slug) {
       toast.error("Slug can't be empty");
       return;
     }
+
+    const roomId = await getRoomId({ slug: slug })
+    await joinRoom(roomId);
 
     // Navigate to the room using the slug
     router.push(`/canvas/${slug}`);

@@ -9,9 +9,9 @@ import {
 import { Separator } from '@radix-ui/react-dropdown-menu';
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
 import { AppSidebar } from '@/components/Dashboard/AppSidebar';
-import RoomCard from '@/components/Dashboard/RoomCard';
 import JoinRoom from '@/components/Dashboard/JoinRoom';
 import CreateRoom from '@/components/Dashboard/CreateRoom';
+import RoomsList from '@/components/Dashboard/RoomsList';
 
 export default function Dashboard() {
 
@@ -43,7 +43,7 @@ export default function Dashboard() {
           </div>
         </header>
         <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-          <RoomCard name='D' roomSlug='ShpMDyz'/>
+          <RoomsList />
         </div>
       </SidebarInset>
     </SidebarProvider>

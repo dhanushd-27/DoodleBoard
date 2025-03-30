@@ -8,7 +8,7 @@ export default async function CanvasPage({ params }: {
 }) {
   const slug = (await params).slug;
 
-  const { roomId, token } = await getRoomIdAndToken({ slug });
+  const { roomId, token } = await getRoomIdAndToken({ slug })
   
   return (
     <div>
