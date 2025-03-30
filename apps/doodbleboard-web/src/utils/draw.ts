@@ -30,7 +30,7 @@ export const mouseEventHandler = async (canvas: HTMLCanvasElement, socket: WebSo
 
   const onMouseUp = async () => {
     clicked = false;
-    if(!width && !height){
+    if(!width && !height && shape != "text") {
       return;
     };
     if(shape === "rect"){
@@ -96,7 +96,6 @@ export const mouseEventHandler = async (canvas: HTMLCanvasElement, socket: WebSo
       input.style.top = `${startY}px`;
       input.style.border = "none";
       input.style.outline = "none";
-      input.style.backgroundColor = "orange";
       input.style.color = "white";
       input.style.width = '400px';
       input.onkeydown = (event) => handleText(event, startX, startY, ctx, exisitedShapes, roomId, authorId, socket);
