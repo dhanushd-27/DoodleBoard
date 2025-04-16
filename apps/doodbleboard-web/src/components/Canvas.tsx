@@ -4,6 +4,7 @@ import React, { useEffect, useRef } from 'react'
 import { mouseEventHandler } from '@/utils/draw';
 import { useAppSelector } from '@/lib/hooks/reduxHooks';
 import { fetchShapes } from '@/actions/shapeActions/fetchShapes';
+import { useRouter } from 'next/navigation';
 
 type Props = {
   roomId: string,
@@ -13,10 +14,12 @@ type Props = {
 export default function Canvas({ roomId, socket }: Props) {
   const shape = useAppSelector(state => state.selectedTool.value);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const router = useRouter();
 
   const leave = () => {
     if(!socket) return;
     socket.send(`{"event":"leave","payload":{"roomId": "${roomId}"}}`)
+    router.push("/dashboard");
   }
 
   useEffect(() => {
