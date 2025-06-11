@@ -46,4 +46,4 @@ jobs:
           key: ${{ secrets.VM_KEY }}
           port: 22
           script: |
-            whoami
+            ls

@@ -1,4 +1,4 @@
-name: lint and type check
+name: Lint and Type Check
 
 on:
   pull_request:
@@ -28,10 +28,10 @@ jobs:
           version: 9
 
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
 
-      - name: Lint
+      - name: Run ESLint
         run: pnpm lint
     
-      - name: Type check
-        run: pnpm tsc --noEmit
+      - name: Run TypeScript Check
+        run: pnpm check-types
