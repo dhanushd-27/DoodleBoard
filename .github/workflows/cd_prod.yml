@@ -1,0 +1,49 @@
+name: CD Prod
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      
+      - name: Login on Docker
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+        
+      # - name: Build and Push
+      #   uses: docker/build-push-action@v4
+      #   with:
+      #     context: .
+      #     file: ./docker/Dockerfile.prod
+      #     build-args: |
+      #       DATABASE_URL=${{ secrets.DATABASE_URL }}
+      #       ACCESS_TOKEN_SECRET=${{ secrets.ACCESS_TOKEN_SECRET }}
+      #       REFRESH_TOKEN_SECRET=${{ secrets.REFRESH_TOKEN_SECRET }}
+      #       ACCESS_TOKEN_EXPIRY=${{ secrets.ACCESS_TOKEN_EXPIRY }}
+      #       REFRESH_TOKEN_EXPIRY=${{ secrets.REFRESH_TOKEN_EXPIRY }}
+      #       REFRESH_TOKEN_NAME=${{ secrets.REFRESH_TOKEN_NAME }}
+      #       ACCESS_TOKEN_NAME=${{ secrets.ACCESS_TOKEN_NAME }}
+      #       NEXT_PUBLIC_SHARE_URL=${{ secrets.NEXT_PUBLIC_SHARE_URL }}
+      #     push: true
+      #     tags: dhanushd27/memobrain:${{ github.sha }}
+      
+      - name: SSH into VM
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.VM_HOST }}
+          username: ${{ secrets.VM_USER }}
+          key: ${{ secrets.VM_KEY }}
+          port: 22
+          script: |
+            whoami
