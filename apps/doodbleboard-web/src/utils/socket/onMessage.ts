@@ -4,9 +4,15 @@ import toast from "react-hot-toast";
 // user joined
 // user left
 
+interface WebSocketMessage {
+  event: string;
+  type?: string;
+  payload?: string;
+}
+
 const handleMessage = ({ message }: { message: string }) => {
   try {
-    const parsedData = JSON.parse(message);
+    const parsedData = JSON.parse(message) as WebSocketMessage;
     
     switch(parsedData.event) {
       case "share": {
@@ -27,15 +33,15 @@ const handleMessage = ({ message }: { message: string }) => {
     }
     // return shapeData;
   } catch (error) {
-    const e = error as ErrorEvent;
+    const e = error as Error;
     console.log(e.message)
     return null;
   }
 }
 
-export function onMessage(event: MessageEvent<any>, exisitedShapes: string[]) {
+export function onMessage(event: MessageEvent<string>, exisitedShapes: string[]) {
   try {
-    const parsedData = JSON.parse(event.data);
+    const parsedData = JSON.parse(event.data) as WebSocketMessage;
 
     const eventType = handleMessage({ message: event.data });
 
@@ -60,14 +66,17 @@ export function onMessage(event: MessageEvent<any>, exisitedShapes: string[]) {
         return;
       }
     }
-    const shapeData = {
-      type: parsedData.type,
-      payload: JSON.parse(parsedData.payload)
+
+    if (parsedData.type && parsedData.payload) {
+      const shapeData = {
+        type: parsedData.type,
+        payload: JSON.parse(parsedData.payload)
+      }
+      
+      exisitedShapes.push(JSON.stringify(shapeData));
     }
-    
-    exisitedShapes.push(JSON.stringify(shapeData));
   } catch (error) {
-    const e = error as ErrorEvent;
+    const e = error as Error;
     console.log(e)
   }
 }
