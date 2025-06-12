@@ -12,9 +12,9 @@
     "dev": "pnpm build && pnpm start"
   },
   "dependencies": {
-    "@prisma/client": "^6.5.0",
+    "@prisma/client": "^6.9.0",
     "@repo/typescript-config": "workspace:*",
-    "prisma": "^6.5.0"
+    "prisma": "^6.9.0"
   },
   "keywords": [],
   "author": "",

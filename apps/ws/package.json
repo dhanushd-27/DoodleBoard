@@ -12,14 +12,16 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "dotenv": "^16.4.7",
+    "bufferutil": "^4.0.9",
+    "dotenv": "^16.5.0",
     "jsonwebtoken": "^9.0.2",
-    "ws": "^8.18.1"
+    "utf-8-validate": "^5.0.10",
+    "ws": "^8.18.2"
   },
   "devDependencies": {
     "@repo/types": "workspace:*",
     "@repo/typescript-config": "workspace:*",
     "@types/jsonwebtoken": "^9.0.9",
-    "@types/ws": "^8.18.0"
+    "@types/ws": "^8.18.1"
   }
 }
