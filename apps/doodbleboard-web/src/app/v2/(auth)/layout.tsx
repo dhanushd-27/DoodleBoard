@@ -5,5 +5,5 @@ export default function AuthLayout({
 }: {
   children: React.ReactNode
 }) {
-  return <section className='bg-v2-background'>{children}</section>
+  return <section className='flex h-screen items-center justify-center text-v2-primary'>{children}</section>
 }
