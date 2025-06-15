@@ -108,9 +108,9 @@
   --color-sidebar-ring: var(--sidebar-ring);
 
   /* Custom Colors */
-  --color-background: #0f4841;
-  --color-primary: #fffcff;
-  --color-secondary: #b96f3c;
+  --color-v2-background: #0f4841;
+  --color-v2-primary: #fffcff;
+  --color-v2-secondary: #b96f3c;
 }
 
 @layer base {
