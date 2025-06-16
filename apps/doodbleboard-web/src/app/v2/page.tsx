@@ -6,3 +6,4 @@ export default function Home() {
     <Image src={'/logo.png'} alt='logo' height={80} width={80}/>
   )
 }
+
