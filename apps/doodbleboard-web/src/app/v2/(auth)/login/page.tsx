@@ -15,7 +15,7 @@ export default function Login() {
   });
 
 
-  const onSubmit = (values: logIn) => {
+  const onSubmit: (values: logIn) => void = (values) => {
     if (values) {
       console.log(values);
     } else {
@@ -24,34 +24,33 @@ export default function Login() {
   };
 
   return (
-    <div className='flex flex-col gap-4 items-center justify-center h-full'>
-      {/* Signup signin form container */}
-      <div className='w-full max-w-md p-6'>
-        <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-4 w-full'>
-          <label htmlFor='email' className='text-sm font-medium'>Email</label>
-          <input 
-            type='email'
-            className='w-full p-2 border rounded-md' 
-            {...register('email', { required: true })}
-          />
-          {errors.email && <p className='text-red-500 text-sm'>Email is required</p>}
-          
-          <label htmlFor='password' className='text-sm font-medium'>Password</label>
-          <input 
-            type='password'
-            className='w-full p-2 border rounded-md'
-            {...register('password', { required: true })} 
-          />
-          {errors.password && <p className='text-red-500 text-sm'>Password is required</p>}
-          
-          <button 
-            type='submit'
-            className='w-full p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600'
-          >
-            Login
-          </button>
-        </form>
-      </div>
+    <div className="w-full max-w-md p-6 bg-[var(--color-v2-primary)] rounded-lg shadow-lg">
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 w-full">
+        <label htmlFor='email' className='text-sm font-medium text-[var(--color-v2-background)]'>Email</label>
+        <input 
+          type='email'
+          className='w-full p-2 border rounded-md bg-[var(--color-v2-background)] text-[var(--color-v2-primary)] placeholder:text-[var(--color-v2-primary)] border-[var(--color-v2-secondary)] focus:outline-none focus:ring-2 focus:ring-[var(--color-v2-secondary)]'
+          placeholder='Enter your email'
+          {...register('email', { required: true })}
+        />
+        {errors.email && <p className='text-red-500 text-sm'>Email is required</p>}
+        
+        <label htmlFor='password' className='text-sm font-medium text-[var(--color-v2-background)]'>Password</label>
+        <input 
+          type='password'
+          className='w-full p-2 border rounded-md bg-[var(--color-v2-background)] text-[var(--color-v2-primary)] placeholder:text-[var(--color-v2-primary)] border-[var(--color-v2-secondary)] focus:outline-none focus:ring-2 focus:ring-[var(--color-v2-secondary)]'
+          placeholder='Enter your password'
+          {...register('password', { required: true })} 
+        />
+        {errors.password && <p className='text-red-500 text-sm'>Password is required</p>}
+        
+        <button 
+          type='submit'
+          className='w-full p-2 bg-[var(--color-v2-secondary)] text-[var(--color-v2-primary)] rounded-md hover:bg-opacity-90 transition-colors duration-200'
+        >
+          Login
+        </button>
+      </form>
     </div>
   )
 }
