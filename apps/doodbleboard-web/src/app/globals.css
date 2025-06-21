@@ -108,9 +108,20 @@
   --color-sidebar-ring: var(--sidebar-ring);
 
   /* Custom Colors */
-  --color-v2-background: #0f4841;
-  --color-v2-primary: #fffcff;
-  --color-v2-secondary: #b96f3c;
+  --color-base: #1E2022;         /* Background */
+  --color-text-base: #F0F5F9;       /* Regular Text */
+  --color-text-strong: #52616B;     /* Bold/Dark Text */
+  --color-text-light: #C9D6DF;      /* Light Text (alternate or placeholder) */
+  --shadow-custom: 5px 5px 10px var(--color-text-strong);
+  --shadow-custom-light: 2px 2px 5px var(--color-text-strong);
+
+  /* Base Color Variants */
+  --color-base-50: #393c40;      /* Darkest shade */
+  --color-base-100: #414549;     /* Dark shade */
+  --color-base-200: #4a5054;     /* Medium-dark shade */
+  --color-base-300: #565e64;     /* Medium shade */
+  --color-base-400: #657075;     /* Medium-light shade */
+  --color-base-500: #808b90;     /* Lightest shade */
 }
 
 @layer base {
@@ -121,11 +132,11 @@
     @apply bg-background text-foreground;
   }
 }
-
+  
 @layer components {
 
 }
 
 @layer utilities {
 
-}
+}                                                                                                                                                                                                          
