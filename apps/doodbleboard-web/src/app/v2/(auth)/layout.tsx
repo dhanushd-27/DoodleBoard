@@ -14,7 +14,9 @@ export default function AuthLayout({
         <Image src={'/logo.png'} alt='app-logo' height={40} width={90}/>
       </div>
       <div className="flex flex-col gap-4 items-center justify-center flex-1 text-[var(--color-text-base)] overflow-auto">
-        <div className='absolute top-0 left-0 w-40 h-40 bg-primary backdrop-blur-sm rounded-full -z-10 blur-[300px] '></div>
+        <div className='absolute -bottom-60 -left-60 w-100 h-100 bg-primary rounded-full -z-10 blur-[600px] '></div>
+        {/* <div className='absolute -top-90 right-0 w-100 h-100 bg-subtle rounded-full -z-10 blur-[600px] '></div> */}
+        <div className='absolute top-70 right-50 w-100 h-100 bg-muted rounded-full -z-10 blur-[600px] '></div>
         {children}
       </div>
     </section>
