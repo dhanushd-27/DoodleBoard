@@ -109,9 +109,9 @@
 
   /* Custom Colors */
   --color-base: #1E2022;         /* Background */
-  --color-text-base: #F0F5F9;       /* Regular Text */
-  --color-text-strong: #52616B;     /* Bold/Dark Text */
-  --color-text-light: #C9D6DF;      /* Light Text (alternate or placeholder) */
+  --color-primary: #F0F5F9; /* Primary text color */
+  --color-muted: #52616B;   /* Secondary/muted text color */
+  --color-subtle: #C9D6DF;  /* Tertiary/subtle text color */
   --shadow-custom: 5px 5px 10px var(--color-text-strong);
   --shadow-custom-light: 2px 2px 5px var(--color-text-strong);
 

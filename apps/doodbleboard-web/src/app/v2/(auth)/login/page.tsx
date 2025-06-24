@@ -25,28 +25,28 @@ export default function Login() {
   };
 
   return (
-    <div className="w-full max-w-md py-8 px-10 bg-[var(--color-text-base)] rounded-4xl flex flex-col gap-4 items-center justify-center border-2 border-text-light shadow-lg shadow-text-strong/30">
-      <div className='flex items-center justify-center rounded-xl shadow-md p-3 shadow-base/50'>
-        <Image src={'/login.png'} alt='app-logo' height={30} width={30}/>
+    <div className="w-full max-w-md py-8 px-10 flex flex-col gap-4 items-center justify-center text-primary ">
+      <div className='flex items-center justify-center rounded-xl'>
+        <Image src={'/login.png'} alt='app-logo' height={30} width={30} className="invert"/>
       </div>
 
-      <h4 className='text-base'>Log in with Email</h4>
-      <p className='text-base'>Welcome Back!</p>
+      <h4 className=''>Log in with Email</h4>
+      <p className=''>Welcome Back!</p>
 
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 w-full">
-        <label htmlFor='email' className='text-sm font-medium text-[var(--color-base)]'>Email</label>
+        <label htmlFor='email' className='text-sm font-medium'>Email</label>
         <input 
           type='email'
-          className='w-full p-2 border rounded-md bg-[var(--color-base)] text-[var(--color-text-base)] placeholder:text-[var(--color-text-base)] border-[var(--color-text-strong)] focus:outline-none focus:ring-2 focus:ring-[var(--color-text-strong)]'
+          className='w-full p-2 border rounded-md bg-[var(--color-base)]'
           placeholder='Enter your email'
           {...register('email', { required: true })}
         />
         {errors.email && <p className='text-red-500 text-sm'>Email is required</p>}
         
-        <label htmlFor='password' className='text-sm font-medium text-[var(--color-base)]'>Password</label>
+        <label htmlFor='password' className='text-sm font-medium'>Password</label>
         <input 
           type='password'
-          className='w-full p-2 border rounded-md bg-[var(--color-base)] text-[var(--color-text-base)] placeholder:text-[var(--color-text-base)] border-[var(--color-text-strong)] focus:outline-none focus:ring-2 focus:ring-[var(--color-text-strong)]'
+          className='w-full p-2 border rounded-md bg-[var(--color-base)]'
           placeholder='Enter your password'
           {...register('password', { required: true })} 
         />
