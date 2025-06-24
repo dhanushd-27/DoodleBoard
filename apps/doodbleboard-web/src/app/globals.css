@@ -134,7 +134,10 @@
 }
   
 @layer components {
-
+  .noise {
+    background-image: url("/noise.png");
+    opacity: 6;
+  }
 }
 
 @layer utilities {
