@@ -7,8 +7,13 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import Image from 'next/image';
 import Link from 'next/link';
 import BackButton from '@/components/auth/BackButton';
+import { setCookie } from '@/actions/authActions/login';
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner'
 
 export default function Login() {
+  const router = useRouter();
+
   const {
     register,
     handleSubmit,
@@ -18,11 +23,14 @@ export default function Login() {
   });
 
 
-  const onSubmit: (values: logIn) => void = (values) => {
-    if (values) {
-      console.log(values);
+  const onSubmit: (values: logIn) => void = async (values) => {
+    const response: boolean = await setCookie(values);
+    if(response) {
+      router.push('/dashboard');
+      toast.success("Login Successfull");
     } else {
-      console.log("hello");
+      router.push('/')
+      toast.error("Login Failed!");
     }
   };
 

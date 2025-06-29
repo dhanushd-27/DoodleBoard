@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import { Toaster } from "sonner";
 
 export const roboto = localFont({
   src: [
@@ -28,6 +29,7 @@ export default function RootLayout({
         className={`${roboto.className} antialiased bg-base text-primary`}
       >
         {children}
+        <Toaster />
       </body>
     </html>
   );

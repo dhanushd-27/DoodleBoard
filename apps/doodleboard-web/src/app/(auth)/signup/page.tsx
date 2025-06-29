@@ -7,8 +7,13 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import Image from 'next/image';
 import Link from 'next/link';
 import BackButton from '@/components/auth/BackButton';
+import { signUpFunc } from '@/actions/authActions/signup';
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner'
 
 export default function Signup() {
+  const router = useRouter();
+  
   const {
     register,
     handleSubmit,
@@ -18,11 +23,13 @@ export default function Signup() {
   });
 
 
-  const onSubmit: (values: signUp) => void = (values) => {
-    if (values) {
-      console.log(values);
+  const onSubmit: (values: signUp) => void = async (values) => {
+    const response: number | undefined = await signUpFunc(values);
+    if(response === 201) {
+      toast.success("Signup Successfull");
+      router.push('/dashboard');
     } else {
-      console.log("hello");
+      toast.error("Signup Failed!");
     }
   };
 
