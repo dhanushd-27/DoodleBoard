@@ -16,3 +16,9 @@ input:-webkit-autofill:active {
   --color-muted: #BFBFBF;
   --color-secondary: #403F3D;
 }
+
+@layer components {
+  .noise {
+    background-image: url("/noise.png");
+  }
+}

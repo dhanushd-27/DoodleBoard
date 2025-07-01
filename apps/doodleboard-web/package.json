@@ -10,11 +10,14 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^5.1.1",
+    "@reduxjs/toolkit": "^2.8.2",
+    "@tanstack/react-query": "^5.81.5",
     "axios": "^1.10.0",
     "next": "15.3.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.59.0",
+    "react-redux": "^9.2.0",
     "sonner": "^2.0.5"
   },
   "devDependencies": {
