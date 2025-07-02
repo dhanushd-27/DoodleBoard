@@ -1,22 +1,25 @@
 'use client'
 
-import { mouseDownHandler, mouseUpHandler } from '@/utils/canvas/mouse-handler'
+import { useMouseDown } from '@/app/hooks/useMouseDown'
+import { useMouseUp } from '@/app/hooks/useMouseUp'
+import { RootState } from '@/utils/store/store'
 import React, { useEffect, useRef } from 'react'
-import { useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 export default function Canvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const dispatch = useDispatch()
+  const mouseDown = useSelector((state: RootState) => state.mouseDown)
+  const mouseUp = useSelector((state: RootState) => state.mouseUp)
+  const { handleMouseDown } = useMouseDown()
+  const { handleMouseUp } = useMouseUp()
 
   useEffect(() => {
-    document.addEventListener('mousedown', (e) => mouseDownHandler(e,))
-    document.addEventListener('mouseup', (e) => mouseUpHandler(e))
-
-
+    document.addEventListener('mousedown', (e) => handleMouseDown(e))
+    document.addEventListener('mouseup', (e) => handleMouseUp(e))
 
     return () => {
-      document.removeEventListener('mousedown', mouseDownHandler)
-      document.removeEventListener('mouseup', mouseUpHandler)
+      document.removeEventListener('mousedown', (e) => handleMouseDown(e))
+      document.removeEventListener('mouseup', (e) => handleMouseUp(e))
     }
   })
 
@@ -28,11 +31,16 @@ export default function Canvas() {
     const ctx = canvas.getContext('2d')
 
     if (!ctx) return
-  })
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+    ctx.strokeStyle = 'white'
+    ctx.strokeRect(mouseDown.x, mouseDown.y, mouseUp.x - mouseDown.x, mouseUp.y - mouseDown.y)
+  }, [mouseDown, mouseUp])
 
   return (
-    <>
-      <canvas className='w-screen h-screen bg-base noise' ref={canvasRef}></canvas>
-    </>
+    <section className='w-screen h-screen overflow-hidden'>
+      <canvas className='bg-base noise' ref={canvasRef}  width={2000} height={1000} ></canvas>
+    </section>
   )
 }
+

@@ -1,9 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import shapeReducer from "./shape/shapeSlice";
+import mouseDownReducer from "./mouseDown/mouseDownSlice";
+import mouseUpReducer from "./mouseUp/mouseUpSlice";
 
 export const store = configureStore({
   reducer: {
     shape: shapeReducer,
+    mouseDown: mouseDownReducer,
+    mouseUp: mouseUpReducer,
   },
 })
 
