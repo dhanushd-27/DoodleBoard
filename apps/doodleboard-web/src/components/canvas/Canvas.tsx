@@ -1,45 +1,45 @@
 'use client'
-
-import { useMouseDown } from '@/app/hooks/useMouseDown'
-import { useMouseUp } from '@/app/hooks/useMouseUp'
-import { RootState } from '@/utils/store/store'
-import React, { useEffect, useRef } from 'react'
-import { useSelector } from 'react-redux'
+import { useEffect, useRef } from "react"
+import { useMouseMove } from "@/app/hooks/useMouseMove"
+import { useMouseDown } from "@/app/hooks/useMouseDown"
+import { useMouseUp } from "@/app/hooks/useMouseUp"
+import { setCanvas } from "@/utils/canvas/canvas-ctx/canvas-ctx-manager"
 
 export default function Canvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const mouseDown = useSelector((state: RootState) => state.mouseDown)
-  const mouseUp = useSelector((state: RootState) => state.mouseUp)
+  const { handleMouseMove } = useMouseMove()
   const { handleMouseDown } = useMouseDown()
   const { handleMouseUp } = useMouseUp()
 
   useEffect(() => {
-    document.addEventListener('mousedown', (e) => handleMouseDown(e))
-    document.addEventListener('mouseup', (e) => handleMouseUp(e))
+    document.addEventListener('mousedown', handleMouseDown)
+    document.addEventListener('mouseup', handleMouseUp)
+    document.addEventListener('mousemove', handleMouseMove)
+
+    if (canvasRef.current) {
+      setCanvas(canvasRef.current)
+    }
 
     return () => {
-      document.removeEventListener('mousedown', (e) => handleMouseDown(e))
-      document.removeEventListener('mouseup', (e) => handleMouseUp(e))
+      document.removeEventListener('mousedown', handleMouseDown)
+      document.removeEventListener('mouseup', handleMouseUp)
+      document.removeEventListener('mousemove', handleMouseMove)
     }
   })
 
   useEffect(() => {
-    const canvas = canvasRef.current
-
-    if (!canvas) return
-
-    const ctx = canvas.getContext('2d')
-
-    if (!ctx) return
-
-    ctx.clearRect(0, 0, canvas.width, canvas.height)
-    ctx.strokeStyle = 'white'
-    ctx.strokeRect(mouseDown.x, mouseDown.y, mouseUp.x - mouseDown.x, mouseUp.y - mouseDown.y)
-  }, [mouseDown, mouseUp])
+    if (canvasRef.current) {
+      const canvas = canvasRef.current
+      const ctx = canvas.getContext('2d')
+      if (ctx) {
+        ctx.fillStyle = 'red'
+      }
+    }
+  })
 
   return (
     <section className='w-screen h-screen overflow-hidden'>
-      <canvas className='bg-base noise' ref={canvasRef}  width={2000} height={1000} ></canvas>
+      <canvas className='bg-base noise' width={2000} height={1000} ref={canvasRef} ></canvas>
     </section>
   )
 }
