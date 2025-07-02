@@ -4,9 +4,11 @@ const clickedSlice = createSlice({
   name: 'clicked',
   initialState: false,
   reducers: {
-    setClicked: (state, action) => action.payload,
+    setClickedTrue: () => true,
+    setClickedFalse: () => false,
   },
 })
 
-export const { setClicked } = clickedSlice.actions;
+export const { setClickedTrue, setClickedFalse } = clickedSlice.actions;
+
 export default clickedSlice.reducer;
