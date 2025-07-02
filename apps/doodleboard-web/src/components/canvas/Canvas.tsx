@@ -3,6 +3,7 @@ import { useEffect, useRef } from "react"
 import { useMouseMove } from "@/app/hooks/useMouseMove"
 import { useMouseDown } from "@/app/hooks/useMouseDown"
 import { useMouseUp } from "@/app/hooks/useMouseUp"
+import { setCanvas } from "@/utils/canvas/canvas-ctx/canvas-ctx-manager"
 
 export default function Canvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -15,10 +16,24 @@ export default function Canvas() {
     document.addEventListener('mouseup', handleMouseUp)
     document.addEventListener('mousemove', handleMouseMove)
 
+    if (canvasRef.current) {
+      setCanvas(canvasRef.current)
+    }
+
     return () => {
       document.removeEventListener('mousedown', handleMouseDown)
       document.removeEventListener('mouseup', handleMouseUp)
       document.removeEventListener('mousemove', handleMouseMove)
+    }
+  })
+
+  useEffect(() => {
+    if (canvasRef.current) {
+      const canvas = canvasRef.current
+      const ctx = canvas.getContext('2d')
+      if (ctx) {
+        ctx.fillStyle = 'red'
+      }
     }
   })
 
