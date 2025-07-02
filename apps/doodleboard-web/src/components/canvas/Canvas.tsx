@@ -1,22 +1,38 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef } from "react"
+import { useMouseMove } from "@/app/hooks/useMouseMove"
+import { useMouseDown } from "@/app/hooks/useMouseDown"
+import { useMouseUp } from "@/app/hooks/useMouseUp"
+import { setCanvas } from "@/utils/canvas/canvas-ctx/canvas-ctx-manager"
 
 export default function Canvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const { handleMouseMove } = useMouseMove()
+  const { handleMouseDown } = useMouseDown()
+  const { handleMouseUp } = useMouseUp()
 
   useEffect(() => {
-    const canvas = canvasRef.current
-    if (!canvas) return
+    document.addEventListener('mousedown', handleMouseDown)
+    document.addEventListener('mouseup', handleMouseUp)
+    document.addEventListener('mousemove', handleMouseMove)
 
-    const ctx = canvas.getContext('2d')
-    if (!ctx) return
+    if (canvasRef.current) {
+      setCanvas(canvasRef.current)
+    }
 
-    ctx.fillStyle = 'red'
-  }, [])
+    return () => {
+      document.removeEventListener('mousedown', handleMouseDown)
+      document.removeEventListener('mouseup', handleMouseUp)
+      document.removeEventListener('mousemove', handleMouseMove)
+    }
+  })
+
   return (
-    <>
-      <canvas className='w-screen h-screen bg-base noise' ></canvas>
-    </>
+
+    <section className='w-screen h-screen overflow-hidden'>
+      <canvas className='bg-base noise' width={2000} height={1000} ref={canvasRef} ></canvas>
+    </section>
   )
 }
+
