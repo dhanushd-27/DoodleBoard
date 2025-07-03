@@ -3,7 +3,7 @@ export const renderSquare = (ctx: CanvasRenderingContext2D, startX: number, star
     const width = endX - startX;
     const height = endY - startY;
 
-    // ctx.beginPath();
-    ctx.strokeRect(startX, startY, width, height);
-    // ctx.fill();
+    ctx.beginPath();
+    ctx.roundRect(startX, startY, width, height, 10);
+    ctx.stroke();
 }

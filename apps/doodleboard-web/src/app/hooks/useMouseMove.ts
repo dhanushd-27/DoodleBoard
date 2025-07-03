@@ -1,9 +1,11 @@
 import { getCanvas, getCtx } from "@/utils/canvas/canvas-ctx/canvas-ctx-manager";
 import { RootState, useAppSelector } from "@/store/store";
+import { renderArrowLine, renderCircle, renderLine, renderRhombus, renderSquare, renderPencil } from "@/utils/canvas/render-shapes";
 
 export const useMouseMove = () => {
   const clicked = useAppSelector((state: RootState) => state.clicked)
   const mouseDown = useAppSelector((state: RootState) => state.mouseDown)
+  const shapeType = useAppSelector((state: RootState) => state.shape.type)
 
   const handleMouseMove = (e: MouseEvent) => {
     const canvas = getCanvas()
@@ -14,10 +16,27 @@ export const useMouseMove = () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     ctx.strokeStyle = 'white'
 
-    const x = e.clientX
-    const y = e.clientY
-
-    ctx.strokeRect(mouseDown.x, mouseDown.y, x - mouseDown.x, y - mouseDown.y)
+    switch (shapeType) {
+      case 'square':
+        renderSquare(ctx, mouseDown.x, mouseDown.y, e.clientX, e.clientY)
+        break
+      case 'circle':
+        renderCircle(ctx, mouseDown.x, mouseDown.y, e.clientX, e.clientY)
+        break
+      case 'rhombus':
+        renderRhombus(ctx, mouseDown.x, mouseDown.y, e.clientX, e.clientY)
+        break
+      case 'arrow':
+        renderArrowLine(ctx, mouseDown.x, mouseDown.y, e.clientX, e.clientY)
+        break
+      case 'line':
+        renderLine(ctx, mouseDown.x, mouseDown.y, e.clientX, e.clientY)
+        break
+      case 'pencil':
+        renderPencil(ctx, mouseDown.x, mouseDown.y, e.clientX, e.clientY)
+      default:
+        break
+    }
   }
 
   return { handleMouseMove }

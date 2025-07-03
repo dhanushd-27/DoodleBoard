@@ -50,6 +50,38 @@ export default function ShapesNavbar() {
               width: 16,
               height: 16,
             },
+            {
+              shape: ShapeType.ARROW,
+              icon: '/shapes/arrow-right.svg',
+              iconFilled: '/shapes/arrow-right.svg',
+              alt: 'arrow',
+              width: 16,
+              height: 16,
+            },
+            {
+              shape: ShapeType.LINE,
+              icon: '/shapes/line.svg',
+              iconFilled: '/shapes/line.svg',
+              alt: 'line',
+              width: 16,
+              height: 16,
+            },
+            {
+              shape: ShapeType.PENCIL,
+              icon: '/shapes/pencil.svg',
+              iconFilled: '/shapes/pencil.svg',
+              alt: 'pencil',
+              width: 16,
+              height: 16,
+            },
+            {
+              shape: ShapeType.TEXT,
+              icon: '/shapes/text.svg',
+              iconFilled: '/shapes/text.svg',
+              alt: 'text',
+              width: 16,
+              height: 16,
+            }
           ].map((item) => (
             <ShapeButton
               key={item.shape}

@@ -7,6 +7,8 @@ enum ShapeType {
   RHOMBUS = 'rhombus',
   LINE = 'line',
   TEXT = 'text',
+  PENCIL = 'pencil',
+  ARROW = 'arrow',
 }
 
 type ShapeState = {
