@@ -34,6 +34,7 @@ export const useMouseMove = () => {
         break
       case 'pencil':
         renderPencil(ctx, mouseDown.x, mouseDown.y, e.clientX, e.clientY)
+        break
       default:
         break
     }
