@@ -1,10 +1,9 @@
-import { useSelector } from "react-redux";
 import { getCanvas, getCtx } from "@/utils/canvas/canvas-ctx/canvas-ctx-manager";
-import { RootState } from "@/store/store";
+import { RootState, useAppSelector } from "@/store/store";
 
 export const useMouseMove = () => {
-  const clicked = useSelector((state: RootState) => state.clicked)
-  const mouseDown = useSelector((state: RootState) => state.mouseDown)
+  const clicked = useAppSelector((state: RootState) => state.clicked)
+  const mouseDown = useAppSelector((state: RootState) => state.mouseDown)
 
   const handleMouseMove = (e: MouseEvent) => {
     const canvas = getCanvas()

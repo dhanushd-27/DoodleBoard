@@ -3,8 +3,8 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 enum ShapeType {
   POINTER = 'pointer',
   CIRCLE = 'circle',
-  RECTANGLE = 'rectangle',
-  TRIANGLE = 'triangle',
+  SQUARE = 'square',
+  RHOMBUS = 'rhombus',
   LINE = 'line',
   TEXT = 'text',
 }
@@ -29,3 +29,4 @@ const shapeSlice = createSlice({
 
 export const { setShapeType } = shapeSlice.actions;
 export default shapeSlice.reducer;
+export { ShapeType };

@@ -1,9 +1,9 @@
 import { setMouseDown } from "@/store/mouseDown/mouseDownSlice"
-import { useDispatch } from "react-redux"
+import { useAppDispatch } from "@/store/store"
 import { setClickedTrue } from "@/store/clicked/clickedSlice"
 
 export const useMouseDown = () => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   
   const handleMouseDown = (e: MouseEvent) => {
     dispatch(setClickedTrue())
