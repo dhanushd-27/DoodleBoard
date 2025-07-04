@@ -11,3 +11,10 @@ export const getPoints = () => {
 export const clearPoints = () => {
   points.length = 0;
 }
+
+export const setPoints = (points: { x: number, y: number }[]) => {
+  clearPoints();
+  points.forEach((point) => {
+    addPoint(point.x, point.y);
+  })
+}

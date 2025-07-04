@@ -7,3 +7,16 @@ export const renderLine = (ctx: CanvasRenderingContext2D, startX: number, startY
   ctx.lineCap = 'round';
   ctx.stroke();
 }
+
+export const lineString = ({ type, roomId, payload: { startX, startY, endX, endY }}: lineShape): string => {
+  return JSON.stringify({
+    type,
+    roomId,
+    payload: {
+      startX,
+      startY,
+      endX,
+      endY
+    }
+  })
+}
