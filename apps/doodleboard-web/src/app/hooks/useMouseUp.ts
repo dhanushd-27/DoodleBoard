@@ -10,15 +10,12 @@ export const useMouseUp = () => {
 
   const handleMouseUp = (e: MouseEvent) => {
     dispatch(setClickedFalse())
-    clearPoints()
-    
-    // Write a function which takes current selected shape and based on that calls the respective store shape function
-    // Run that function only if shape selected is not pointer
     if (selectedShape.type !== 'pointer') {
       const endX = e.clientX
       const endY = e.clientY
       saveShape(selectedShape.type, '1', x, y, endX, endY)
     }
+    clearPoints()
   }
 
   return { handleMouseUp }
