@@ -4,12 +4,11 @@ import { addShape } from "./shape-store";
 import { arrowLineString } from "../render-shapes/render-arrow-line";
 import { circleString } from "../render-shapes/render-circle";
 import { squareString } from "../render-shapes/render-square";
-import { renderRhombus, rhombusString } from "../render-shapes/render-rhombus";
+import { renderSavedRhombus, rhombusString } from "../render-shapes/render-rhombus";
 import { pencilString, renderSavedPencil } from "../render-shapes/render-pencil";
 import { lineString } from "../render-shapes/render-line";
-import { renderCircle } from "../render-shapes/render-circle";
-import { renderSquare } from "../render-shapes/render-square";
-import { setPoints } from "../pencil-utils/pencil-utils";
+import { renderSavedCircle } from "../render-shapes/render-circle";
+import { renderSavedSquare } from "../render-shapes/render-square";
 
 export const fetchCanvasShapes = async (roomId: string, ctx: CanvasRenderingContext2D) => {
   const shapes = getShapes();
@@ -25,17 +24,16 @@ export const fetchCanvasShapes = async (roomId: string, ctx: CanvasRenderingCont
         renderLine(ctx, shapeData.payload.startX, shapeData.payload.startY, shapeData.payload.endX, shapeData.payload.endY);
         break;
       case 'circle':
-        renderCircle(ctx, shapeData.payload.startX, shapeData.payload.startY, shapeData.payload.endX, shapeData.payload.endY);
+        renderSavedCircle(ctx, shapeData.payload.centerX, shapeData.payload.centerY, shapeData.payload.radiusX, shapeData.payload.radiusY);
         break;
       case 'square':
-        renderSquare(ctx, shapeData.payload.startX, shapeData.payload.startY, shapeData.payload.endX, shapeData.payload.endY);
+        renderSavedSquare(ctx, shapeData.payload.startX, shapeData.payload.startY, shapeData.payload.width, shapeData.payload.height);
         break;
       case 'rhombus':
-        renderRhombus(ctx, shapeData.payload.startX, shapeData.payload.startY, shapeData.payload.endX, shapeData.payload.endY);
+        renderSavedRhombus(ctx, shapeData.payload.top, shapeData.payload.right, shapeData.payload.bottom, shapeData.payload.left);
         break;
       case 'pencil':
-        setPoints(shapeData.payload.points);
-        renderSavedPencil(ctx);
+        renderSavedPencil(ctx, shapeData.payload.points);
         break;
       default:
         break;
