@@ -1,6 +1,7 @@
 import { getCanvas, getCtx } from "@/utils/canvas/canvas-ctx/canvas-ctx-manager";
 import { RootState, useAppSelector } from "@/store/store";
 import { renderArrowLine, renderCircle, renderLine, renderRhombus, renderSquare, renderPencil } from "@/utils/canvas/render-shapes";
+import { fetchCanvasShapes } from "@/utils/canvas/shape-store/get-shapes";
 
 export const useMouseMove = () => {
   const clicked = useAppSelector((state: RootState) => state.clicked)
@@ -14,6 +15,7 @@ export const useMouseMove = () => {
     if (!clicked || !canvas || !ctx) return
 
     ctx.clearRect(0, 0, canvas.width, canvas.height)
+    fetchCanvasShapes('1', ctx)
     ctx.strokeStyle = 'white'
 
     switch (shapeType) {

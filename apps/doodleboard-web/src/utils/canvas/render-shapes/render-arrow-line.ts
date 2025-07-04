@@ -1,3 +1,5 @@
+import { arrowLineShape } from "@repo/types/shapes";
+
 export const renderArrowLine = (ctx: CanvasRenderingContext2D, startX: number, startY: number, endX: number, endY: number) => {
   ctx.beginPath();
   ctx.moveTo(startX, startY);
@@ -19,4 +21,17 @@ export const renderArrowLine = (ctx: CanvasRenderingContext2D, startX: number, s
   ctx.lineTo(endX - arrowLength * Math.cos(angle + Math.PI / 6),
              endY - arrowLength * Math.sin(angle + Math.PI / 6));
   ctx.stroke();
+}
+
+export const arrowLineString = ({ type, roomId, payload: { startX, startY, endX, endY }}: arrowLineShape) => {
+  return JSON.stringify({
+    type,
+    roomId,
+    payload: {
+      startX,
+      startY,
+      endX,
+      endY
+    }
+  })
 }

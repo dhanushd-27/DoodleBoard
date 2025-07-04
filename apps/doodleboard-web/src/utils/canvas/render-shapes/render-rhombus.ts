@@ -1,4 +1,6 @@
 // Draw a rhombus (diamond) using the bounding box defined by startX, startY, endX, endY
+import { rhombusShape } from "@repo/types/shapes";
+
 export const renderRhombus = (
   ctx: CanvasRenderingContext2D,
   startX: number,

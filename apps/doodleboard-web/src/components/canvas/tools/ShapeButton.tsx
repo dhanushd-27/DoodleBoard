@@ -33,6 +33,7 @@ const ShapeButton: React.FC<ShapeButtonProps> = ({
         alt={alt}
         width={width}
         height={height}
+        priority={true}
       />
     </li>
   );

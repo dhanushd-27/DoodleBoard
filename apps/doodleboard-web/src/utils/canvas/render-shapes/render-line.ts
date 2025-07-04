@@ -1,3 +1,5 @@
+import { lineShape } from "@repo/types/shapes";
+
 export const renderLine = (ctx: CanvasRenderingContext2D, startX: number, startY: number, endX: number, endY: number) => {
   ctx.beginPath();
   ctx.moveTo(startX, startY);

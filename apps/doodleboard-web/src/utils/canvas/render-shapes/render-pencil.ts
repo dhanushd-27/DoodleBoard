@@ -1,4 +1,5 @@
 import { addPoint, getPoints } from "../pencil-utils/pencil-utils";
+import { pencilShape } from "@repo/types/shapes";
 
 export const renderPencil = (() => {
   return (

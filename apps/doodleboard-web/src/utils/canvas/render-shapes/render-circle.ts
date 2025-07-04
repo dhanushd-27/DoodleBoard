@@ -1,3 +1,5 @@
+import { circleShape } from "@repo/types/shapes";
+
 export const renderCircle = (ctx: CanvasRenderingContext2D, startX: number, startY: number, endX: number, endY: number) => {
   // Calculate the center, radii, and angle for the ellipse
   const centerX = (startX + endX) / 2;
