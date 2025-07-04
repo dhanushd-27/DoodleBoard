@@ -4,6 +4,8 @@ import React from 'react'
 import { setShapeType, ShapeType } from '@/store/shape/shapeSlice'
 import { RootState, useAppSelector, useAppDispatch } from '@/store/store'
 import ShapeButton from './ShapeButton'
+import Image from 'next/image'
+import Leave from '@/components/canvas/buttons/Leave'
 
 export default function ShapesNavbar() {
   const selectedShape = useAppSelector((state: RootState) => state.shape.type)
@@ -96,6 +98,8 @@ export default function ShapesNavbar() {
             />
           ))}
         </ul>
+        <Image src='/separator.svg' alt='separator' height={16} width={16} className='opacity-50'/>
+        <Leave />
       </div>
     </nav>
   )
