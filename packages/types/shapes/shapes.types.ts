@@ -8,16 +8,13 @@ export const circleShapeSchema = z.object({
     y: z.number(),
     radiusX: z.number(),
     radiusY: z.number(),
-    rotation: z.number(),
-    startAngle: z.number(),
-    endAnglie: z.number()
   })
 });
 
 export type circleShape = z.infer<typeof circleShapeSchema>;
 
-export const rectangleShapeSchema = z.object({
-  type: z.literal("rect"),
+export const squareShapeSchema = z.object({
+  type: z.literal("square"),
   roomId: z.string(),
   payload: z.object({
     x: z.number(),
@@ -27,7 +24,7 @@ export const rectangleShapeSchema = z.object({
   })
 })
 
-export type rectangleShape = z.infer<typeof rectangleShapeSchema>;
+export type squareShape = z.infer<typeof squareShapeSchema>;
 
 export const textShapeSchema = z.object({
   type: z.literal("text"),
@@ -54,7 +51,59 @@ export const lineShapeSchema = z.object({
 
 export type lineShape = z.infer<typeof lineShapeSchema>;
 
-export const ShapeSchema = z.discriminatedUnion("type", [circleShapeSchema, rectangleShapeSchema, textShapeSchema, lineShapeSchema]);
+export const rhombusShapeSchema = z.object({
+  type: z.literal('rhombus'),
+  roomId: z.string(),
+  payload: z.object({
+    top: z.object({
+      x: z.number(),
+      y: z.number()
+    }),
+    right: z.object({
+      x: z.number(),
+      y: z.number()
+    }),
+    bottom: z.object({
+      x: z.number(),
+      y: z.number()
+    }),
+    left: z.object({
+      x: z.number(),
+      y: z.number()
+    })
+  })
+})
+
+export type rhombusShape = z.infer<typeof rhombusShapeSchema>;
+
+
+export const arrowLineShapeSchema = z.object({
+  type: z.literal('arrowLine'),
+  roomId: z.string(),
+  payload: z.object({
+    startX: z.number(),
+    startY: z.number(),
+    endX: z.number(),
+    endY: z.number()
+  })
+})
+
+export type arrowLineShape = z.infer<typeof arrowLineShapeSchema>;
+
+export const pencilShapeSchema = z.object({
+  type: z.literal('pencil'),
+  roomId: z.string(),
+  payload: z.object({
+    points: z.array(z.object({
+      x: z.number(),
+      y: z.number()
+    }))
+  })
+})
+
+export type pencilShape = z.infer<typeof pencilShapeSchema>;
+
+export const ShapeSchema = z.discriminatedUnion("type", [circleShapeSchema, squareShapeSchema, textShapeSchema, lineShapeSchema, rhombusShapeSchema, arrowLineShapeSchema, pencilShapeSchema]);
 
 export type Shape = z.infer<typeof ShapeSchema>
 
