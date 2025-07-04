@@ -14,7 +14,7 @@ export default function ShapesNavbar() {
   }
 
   return (
-    <nav className='absolute top-2 left-180 bg-secondary backdrop-blur-sm border-b border-white/10 flex items-center justify-center gap-2 p-1 rounded-xl'>
+    <nav className='absolute top-5 left-1/2 -translate-x-1/2 bg-secondary backdrop-blur-sm border-b border-white/10 flex items-center justify-center gap-2 p-1 rounded-xl z-100'>
       <div className='flex items-center justify-center'>
         <ul className='flex items-center justify-center gap-1'>
           {[

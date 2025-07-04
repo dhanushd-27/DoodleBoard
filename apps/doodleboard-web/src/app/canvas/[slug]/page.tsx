@@ -5,8 +5,8 @@ import ShapesNavbar from '@/components/canvas/tools/ShapesNavbar'
 export default function CanvasSection() {
   return (
     <div className='relative'>
-      <Canvas />
       <ShapesNavbar />
+      <Canvas />  
     </div>
   )
 }

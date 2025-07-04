@@ -43,7 +43,6 @@ export const pencilString = ({ type, roomId }: {
 }
 
 export const renderSavedPencil = (ctx: CanvasRenderingContext2D, points: { x: number, y: number }[]) => {
-  console.log(points);
   ctx.beginPath();
   ctx.lineWidth = 2;
   ctx.lineCap = 'round';
