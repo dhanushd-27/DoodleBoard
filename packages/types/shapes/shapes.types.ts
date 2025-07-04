@@ -4,8 +4,8 @@ export const circleShapeSchema = z.object({
   type: z.literal("circle"),
   roomId: z.string(),
   payload: z.object({
-    x: z.number(),
-    y: z.number(),
+    centerX: z.number(),
+    centerY: z.number(),
     radiusX: z.number(),
     radiusY: z.number(),
   })
@@ -75,7 +75,6 @@ export const rhombusShapeSchema = z.object({
 })
 
 export type rhombusShape = z.infer<typeof rhombusShapeSchema>;
-
 
 export const arrowLineShapeSchema = z.object({
   type: z.literal('arrowLine'),
