@@ -14,7 +14,6 @@ export const useMouseUp = () => {
       const endX = e.clientX
       const endY = e.clientY
       saveShape(selectedShape.type, '1', x, y, endX, endY)
-      console.log("10")
     }
     clearPoints()
   }

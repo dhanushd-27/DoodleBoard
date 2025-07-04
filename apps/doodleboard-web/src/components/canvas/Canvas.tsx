@@ -24,6 +24,7 @@ export default function Canvas() {
       getCanvasRef.addEventListener('mouseup', handleMouseUp)
       getCanvasRef.addEventListener('mousemove', handleMouseMove)
     }
+    console.log(10)
 
     return () => {
       if (getCanvasRef) {
