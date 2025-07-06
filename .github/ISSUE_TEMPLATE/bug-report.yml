@@ -1,6 +1,7 @@
 name: Bug Report
 description: Report a bug
 labels: ["bug"]
+title: "Bug Report"
 type: "bug"
 body:
   - type: markdown
@@ -32,4 +33,4 @@ body:
       label: Confirmation
       options:
         - label: I have searched for similar issues before creating this one.
-        - label: I have provided all the necessary information to understand this documentation issue.
+        - label: I have provided all the necessary information to understand this bug report.
