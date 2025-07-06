@@ -1,7 +1,7 @@
 name: Enhancement
 description: Suggest improvements or refinements to an existing feature
 labels: ["enhancement"]
-title: "Enhancement"
+title: ["Enhancement"]
 type: "task"
 body:
   - type: markdown
