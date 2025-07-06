@@ -1,7 +1,6 @@
 name: Enhancement
 description: Suggest improvements or refinements to an existing feature
 labels: ["enhancement"]
-title: ["Enhancement"]
 type: "task"
 body:
   - type: markdown
@@ -26,4 +25,4 @@ body:
       label: Confirmation
       options:
         - label: I have searched for similar issues before creating this one.
-        - label: I have provided all the necessary information to understand this enhancement.
+        - label: I have provided all the necessary information to understand this documentation issue.

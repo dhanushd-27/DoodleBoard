@@ -2,7 +2,6 @@ name: New feature
 description: Suggest or request a new feature
 labels: ["enhancement"]
 type: "feature"
-title: ["New feature"]
 body:
   - type: markdown
     attributes:
@@ -26,4 +25,4 @@ body:
       label: Confirmation
       options:
         - label: I have searched for similar issues before creating this one.
-        - label: I have provided all the necessary information to understand this feature request.
+        - label: I have provided all the necessary information to understand this documentation issue.
