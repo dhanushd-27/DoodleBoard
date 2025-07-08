@@ -1,4 +1,4 @@
-import { setClickedFalse } from "@/store/clicked/clickedSlice"
+import { setClickedFalse } from "@/store/clicked/clicked-slice"
 import { useAppDispatch, useAppSelector } from "@/store/store"
 import { clearPoints } from "@/utils/canvas/pencil-utils/pencil-utils"
 import { saveShape } from "@/utils/canvas/shape-store/get-shapes"

@@ -7,7 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import Image from 'next/image';
 import Link from 'next/link';
 import BackButton from '@/components/auth/BackButton';
-import { signUpFunc } from '@/actions/authActions/signup';
+import { signUpFunc } from '@/actions/auth-actions/signup';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner'
 

@@ -1,7 +1,7 @@
 "use server"
 
 import { cookies } from "next/headers";
-import { getRoomId } from "../roomActions/getRoomId";
+import { getRoomId } from "../room-actions/get-roomId";
 
 export const getRoomIdAndToken = async ({ slug }: { slug: string}) => {
   try {

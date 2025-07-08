@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { setShapeType, ShapeType } from '@/store/shape/shapeSlice'
+import { setShapeType, ShapeType } from '@/store/shape/shape-slice'
 import { RootState, useAppSelector, useAppDispatch } from '@/store/store'
 import ShapeButton from './ShapeButton'
 import Image from 'next/image'

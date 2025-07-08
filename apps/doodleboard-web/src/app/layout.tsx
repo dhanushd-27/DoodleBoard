@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { Toaster } from "sonner";
-import ReduxProvider from "@/utils/ReduxProvider";
+import ReduxProvider from "@/components/ReduxProvider";
 
 export const roboto = localFont({
   src: [

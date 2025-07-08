@@ -1,6 +1,6 @@
-import { setMouseDown } from "@/store/mouseDown/mouseDownSlice"
+import { setMouseDown } from "@/store/mouseDown/mouse-down-slice"
 import { useAppDispatch } from "@/store/store"
-import { setClickedTrue } from "@/store/clicked/clickedSlice"
+import { setClickedTrue } from "@/store/clicked/clicked-slice"
 
 export const useMouseDown = () => {
   const dispatch = useAppDispatch()

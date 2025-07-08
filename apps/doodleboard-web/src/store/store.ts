@@ -1,9 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import shapeReducer from "./shape/shapeSlice";
-import mouseDownReducer from "./mouseDown/mouseDownSlice";
-import mouseUpReducer from "./mouseUp/mouseUpSlice";
-import clickedReducer from "./clicked/clickedSlice";
+import shapeReducer from "./shape/shape-slice";
+import mouseDownReducer from "./mouseDown/mouse-down-slice";
+import mouseUpReducer from "./mouseUp/mouse-up-slice";
+import clickedReducer from "./clicked/clicked-slice";
 import { useDispatch, useSelector, useStore, TypedUseSelectorHook } from "react-redux";
+import sidebarReducer from "./sidebar/sidebar";
 
 export const store = configureStore({
   reducer: {
@@ -11,6 +12,7 @@ export const store = configureStore({
     mouseDown: mouseDownReducer,
     mouseUp: mouseUpReducer,
     clicked: clickedReducer,
+    sidebar: sidebarReducer,
   },
 })
 

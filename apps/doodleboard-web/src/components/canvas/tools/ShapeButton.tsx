@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
-import { ShapeType } from '@/store/shape/shapeSlice';
+import { ShapeType } from '@/store/shape/shape-slice';
 
 interface ShapeButtonProps {
   shape: ShapeType;
