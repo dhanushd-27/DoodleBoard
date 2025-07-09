@@ -115,9 +115,9 @@ input:-webkit-autofill:active {
   --chart-4: #4e5b9e;
   --chart-5: #a89e7a;
   /* Sidebar and navbar related for dark mode */
-  --sidebar: #232323; /* background for shapes navbar and sidebar */
+  --sidebar-primary: #232323; /* background for shapes navbar and sidebar */
   --sidebar-foreground: #F2F2F2;
-  --sidebar-primary: #2d2d2d; /* selected/active shape button background */
+  --sidebar: #2d2d2d; /* selected/active shape button background */
   --sidebar-primary-foreground: #F2F2F2;
   --sidebar-accent: #353535; /* hover shape button background */
   --sidebar-accent-foreground: #F2F2F2;
