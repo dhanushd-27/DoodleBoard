@@ -1,36 +1,43 @@
-import { Request, Response, NextFunction } from 'express';
-import jwt, { JwtPayload } from "jsonwebtoken"
+import { Request, Response, NextFunction } from 'express'
+import jwt, { JwtPayload } from 'jsonwebtoken'
 
-export const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
-	try {
-  const token = req.headers.authorization?.split(" ")[1];
+export const authMiddleware = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const token = req.headers.authorization?.split(' ')[1]
 
-	if(!token) {
-		res.status(401).json({
-		  message: "Unauthorized"
-		});
-		return;
-	}
+    if (!token) {
+      res.status(401).json({
+        message: 'Unauthorized',
+      })
+      return
+    }
 
-  const isValid = jwt.verify(token, process.env.JWT_SECRET as string) as JwtPayload;
+    const isValid = jwt.verify(
+      token,
+      process.env.JWT_SECRET as string
+    ) as JwtPayload
 
-  if(!isValid) {
-    res.status(401).json({
-      message: "Unauthorized"
-    });
-    return;
+    if (!isValid) {
+      res.status(401).json({
+        message: 'Unauthorized',
+      })
+      return
+    }
+
+    req.user = isValid as {
+      id: string
+      email: string
+      name: string
+    }
+
+    next()
+  } catch {
+    res.status(500).json({
+      message: 'Something went wrong',
+    })
   }
-
-  req.user = isValid as {
-    id: string;
-    email: string;
-    name: string;
-  };
-
-  next();
- } catch (error) {
-  res.status(500).json({
-    message: "Something went wrong"
-  })
- }
 }

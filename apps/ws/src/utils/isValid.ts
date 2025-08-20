@@ -1,14 +1,14 @@
-import "../config/env";
-import jwt, { JsonWebTokenError, JwtPayload } from "jsonwebtoken";
+import '../config/env'
+import jwt, { JsonWebTokenError, JwtPayload } from 'jsonwebtoken'
 
-const JWT_SECRET = process.env.JWT_SECRET as string;
+const JWT_SECRET = process.env.JWT_SECRET as string
 
 export const isValidToken = (token: string) => {
   try {
-    const isValid = jwt.verify(token, JWT_SECRET) as JwtPayload;
+    const isValid = jwt.verify(token, JWT_SECRET) as JwtPayload
 
     if (!isValid) {
-      return null;
+      return null
     }
 
     return {
@@ -18,8 +18,8 @@ export const isValidToken = (token: string) => {
       iat: isValid.iat as number,
     }
   } catch (error) {
-    const e = error as JsonWebTokenError;
-    console.log(e.message);
-    return null;
+    const e = error as JsonWebTokenError
+    console.log(e.message)
+    return null
   }
 }
