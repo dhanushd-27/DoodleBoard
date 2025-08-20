@@ -28,7 +28,7 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction) 
   };
 
   next();
- } catch (error) {
+ } catch {
   res.status(500).json({
     message: "Something went wrong"
   })

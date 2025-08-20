@@ -1,9 +1,9 @@
 import { WebSocketServer } from "ws";
 import "./config/env";
-import { isValidToken } from "./utils/isValid";
-import { handleJoin } from "./events/join";
-import { handleShare } from "./events/share";
-import { handleLeave } from "./events/leave";
+import { isValidToken } from "./utils/isValid.js";
+import { handleJoin } from "./events/join.js";
+import { handleShare } from "./events/share.js";
+import { handleLeave } from "./events/leave.js";
 import { wsEvent } from "@repo/types/ws";
 
 const PORT = parseInt(process.env.PORT as string) || 8081;
@@ -45,7 +45,7 @@ try {
             socket.send("Invalid Event Type");
             break;
         }
-      } catch (error) {
+      } catch {
         socket.send("Invalid JSON");
       }
     })
@@ -54,6 +54,6 @@ try {
   });
 
   console.log(`Server is running on ws://localhost:${PORT}`);
-} catch (error) {
-  console.log(`Server connection failed: ${error}`);
+} catch {
+  console.log("Server connection failed");
 }

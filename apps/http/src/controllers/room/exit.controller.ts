@@ -28,7 +28,7 @@ export const exitRoomController = async (req: Request, res: Response) => {
   res.status(Status.Success).json({
     message: "Exited Room Successfully"
   })
- } catch (error) {
+ } catch {
   res.status(Status.Failed).json({
     message: "Member not found"
   })

@@ -1,9 +1,9 @@
 import { leaveSchema, wsEvent } from "@repo/types/ws"
 import { User } from "@repo/types/auth"
 import { WebSocketServer, WebSocket } from "ws"
-import { userCollection } from "./join";
+import { userCollection } from "./join.js";
 
-export const handleLeave = ( socket: WebSocket, wss: WebSocketServer, payload: any, userDetails: User ) => {
+export const handleLeave = ( socket: WebSocket, wss: WebSocketServer, payload: unknown, userDetails: User ) => {
   try {
     const parsedData = leaveSchema.safeParse(payload);
 
@@ -20,7 +20,7 @@ export const handleLeave = ( socket: WebSocket, wss: WebSocketServer, payload: a
     const { roomId } = parsedData.data;
     const { id } = userDetails;
 
-    const user = userCollection.find(u => u.userId = id);
+    const user = userCollection.find((u: { userId: string }) => u.userId === id);
 
     console.log(1443);
 
@@ -33,7 +33,7 @@ export const handleLeave = ( socket: WebSocket, wss: WebSocketServer, payload: a
       }));
       return;
     }
-    user.rooms = user.rooms.filter(r => r !== roomId);
+    user.rooms = user.rooms.filter((r: string) => r !== roomId);
     socket.send(JSON.stringify({
       event: wsEvent.UserLeft,
       payload: {
@@ -41,7 +41,7 @@ export const handleLeave = ( socket: WebSocket, wss: WebSocketServer, payload: a
         userId: id
       }
     }));
-  } catch (error) {
+  } catch {
     socket.send(JSON.stringify({
       event: wsEvent.Failed,
       payload: {

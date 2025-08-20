@@ -29,7 +29,7 @@ export const signUpController = async (req: Request, res: Response) => {
 
     const hashPassword = await argon2.hash(parsedData.data.password);
   
-    const user = await prisma.user.create({
+    await prisma.user.create({
       data: {
         name: parsedData.data.username,
         email: parsedData.data.email,

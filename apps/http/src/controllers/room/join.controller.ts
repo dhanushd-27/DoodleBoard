@@ -40,7 +40,7 @@ export const joinRoomController = async (req: Request, res: Response) => {
     res.status(Status.Success).json({
       message: "Member joined successfully"
     });
-  } catch (error) {
+  } catch {
     res.status(Status.ServerFailed).json({
       message: "Server Failed"
     })

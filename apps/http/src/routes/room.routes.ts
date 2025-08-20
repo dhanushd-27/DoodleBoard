@@ -1,10 +1,10 @@
 import { Router } from "express";
-import { getChatsController, getRoomIdController, roomMembersController } from "../controllers/room/room.controller";
-import { createRoomController } from "../controllers/room/create.controller";
-import { authMiddleware } from "../middlewares/auth.middleware";
-import { joinRoomController } from "../controllers/room/join.controller";
-import { exitRoomController } from "../controllers/room/exit.controller";
-import { listRoomsController } from "../controllers/room/list-rooms.controller";
+import { getChatsController, getRoomIdController, roomMembersController } from "../controllers/room/room.controller.js";
+import { createRoomController } from "../controllers/room/create.controller.js";
+import { authMiddleware } from "../middlewares/auth.middleware.js";
+import { joinRoomController } from "../controllers/room/join.controller.js";
+import { exitRoomController } from "../controllers/room/exit.controller.js";
+import { listRoomsController } from "../controllers/room/list-rooms.controller.js";
 
 export const roomRoutes: Router = Router();
 

@@ -10,7 +10,7 @@ interface wsUser {
 
 export let userCollection: wsUser[] = [];
 
-export const handleJoin = ( socket: WebSocket, wss: WebSocketServer, payload: any, userDetails: User ) => {
+export const handleJoin = ( socket: WebSocket, wss: WebSocketServer, payload: unknown, userDetails: User ) => {
   try {
     const parsedData = joinSchema.safeParse(payload);
 
@@ -56,7 +56,7 @@ export const handleJoin = ( socket: WebSocket, wss: WebSocketServer, payload: an
         }))
       }
     })
-  } catch (error) {
+  } catch {
     socket.send(JSON.stringify({
       event: wsEvent.Failed,
       payload: {

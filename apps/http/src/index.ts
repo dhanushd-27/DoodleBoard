@@ -2,8 +2,8 @@ import express from 'express';
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
-import { authRoutes } from './routes/auth.routes';
-import { roomRoutes } from './routes/room.routes';
+import { authRoutes } from './routes/auth.routes.js';
+import { roomRoutes } from './routes/room.routes.js';
 
 dotenv.config();
 const PORT = process.env.PORT || 3000;

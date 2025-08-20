@@ -32,7 +32,7 @@ export const getRoomIdController = async (req: Request, res: Response) => {
         roomId: room.id
       }
     })
-  } catch (error) {
+  } catch {
     res.status(Status.ServerFailed).json({
       message: "Server error occured"
     })
@@ -65,7 +65,7 @@ export const getChatsController = async (req: Request, res: Response) => {
         shapes
       }
     });
-  } catch (error) {
+  } catch {
     res.status(Status.ServerFailed).json({
       message: "Server Down"
     })
@@ -106,7 +106,7 @@ export const removeShapeController = async (req: Request, res: Response) => {
     res.status(Status.Success).json({
       message: "Shape removed successfully"
     });
-  } catch (error) {
+  } catch {
     res.status(Status.Failed).json({
       message: "Invalid Parameters"
     });
@@ -129,7 +129,7 @@ export const roomMembersController = async (req: Request, res: Response) => {
     res.status(Status.Success).json({
       members
     })
-  } catch (error) {
+  } catch {
     res.status(Status.ServerFailed).json({
       message: "Server Failed"
     })

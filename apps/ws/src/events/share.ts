@@ -1,9 +1,9 @@
 import { WebSocket } from "ws";
-import { userCollection } from "./join";
+import { userCollection } from "./join.js";
 import { wsEvent, wsShareSchema } from '@repo/types/ws';
 import { User } from "@repo/types/auth";
 
-export const handleShare = (socket: WebSocket, roomId: string, type: string, payload: any, userDetails: User ) => {
+export const handleShare = (socket: WebSocket, roomId: string, type: string, payload: unknown, userDetails: User ) => {
   try {
     const parsedData = wsShareSchema.safeParse({
       roomId,
@@ -23,7 +23,7 @@ export const handleShare = (socket: WebSocket, roomId: string, type: string, pay
 
     const { id } = userDetails;
 
-    const user = userCollection.find(user => user.userId === id);
+    const user = userCollection.find((user: { userId: string; rooms: string[] }) => user.userId === id);
 
     if(!user) {
       socket.send(JSON.stringify({
@@ -45,9 +45,9 @@ export const handleShare = (socket: WebSocket, roomId: string, type: string, pay
         }
       }));
       return;
-    }``
+    }
 
-    userCollection.map(user => {
+    userCollection.forEach((user: { userId: string; rooms: string[]; socket: WebSocket }) => {
       if(user.rooms.includes(roomId) && user.userId != id) {
         user.socket.send(JSON.stringify({
           event: wsEvent.Share,
@@ -56,7 +56,7 @@ export const handleShare = (socket: WebSocket, roomId: string, type: string, pay
         }))
       }
     })
-  } catch (error) {
+  } catch {
     socket.send(JSON.stringify({
       event: wsEvent.Failed,
       payload: {
