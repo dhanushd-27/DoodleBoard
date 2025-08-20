@@ -1,59 +1,65 @@
-import { WebSocketServer } from "ws";
-import "./config/env";
-import { isValidToken } from "./utils/isValid.js";
-import { handleJoin } from "./events/join.js";
-import { handleShare } from "./events/share.js";
-import { handleLeave } from "./events/leave.js";
-import { wsEvent } from "@repo/types/ws";
+import { WebSocketServer } from 'ws'
+import './config/env'
+import { isValidToken } from './utils/isValid.js'
+import { handleJoin } from './events/join.js'
+import { handleShare } from './events/share.js'
+import { handleLeave } from './events/leave.js'
+import { wsEvent } from '@repo/types/ws'
 
-const PORT = parseInt(process.env.PORT as string) || 8081;
-const wss = new WebSocketServer({ port: PORT });
+const PORT = parseInt(process.env.PORT as string) || 8081
+const wss = new WebSocketServer({ port: PORT })
 
 try {
-  wss.on("connection", (socket, req) => {
-    const url = req.url;
+  wss.on('connection', (socket, req) => {
+    const url = req.url
 
-    const queryParams = new URLSearchParams(url?.split("?")[1]);
-    const token = queryParams.get("token") as string;
+    const queryParams = new URLSearchParams(url?.split('?')[1])
+    const token = queryParams.get('token') as string
 
-    const userDetails = isValidToken(token); 
-    if(!userDetails) {
-      socket.send("Invalid token");
-      return;
+    const userDetails = isValidToken(token)
+    if (!userDetails) {
+      socket.send('Invalid token')
+      return
     }
 
-    socket.on("message", (data) => {
+    socket.on('message', (data) => {
       try {
-        const payloadData = JSON.parse(data.toString());
+        const payloadData = JSON.parse(data.toString())
 
-        if(!payloadData.event) {
-          socket.send("Event Type Required");
-          return;
+        if (!payloadData.event) {
+          socket.send('Event Type Required')
+          return
         }
 
         switch (payloadData.event) {
           case wsEvent.Join:
-            handleJoin(socket, wss, payloadData.payload, userDetails );
-            break;
+            handleJoin(socket, wss, payloadData.payload, userDetails)
+            break
           case wsEvent.Share:
-            handleShare(socket, payloadData.roomId, payloadData.type, payloadData.payload, userDetails);
-            break;
-          case wsEvent.Leave: 
-            handleLeave(socket, wss, payloadData.payload, userDetails);
-            break;
+            handleShare(
+              socket,
+              payloadData.roomId,
+              payloadData.type,
+              payloadData.payload,
+              userDetails
+            )
+            break
+          case wsEvent.Leave:
+            handleLeave(socket, wss, payloadData.payload, userDetails)
+            break
           default:
-            socket.send("Invalid Event Type");
-            break;
+            socket.send('Invalid Event Type')
+            break
         }
       } catch {
-        socket.send("Invalid JSON");
+        socket.send('Invalid JSON')
       }
     })
 
-    socket.send("Connected to server");
-  });
+    socket.send('Connected to server')
+  })
 
-  console.log(`Server is running on ws://localhost:${PORT}`);
+  console.log(`Server is running on ws://localhost:${PORT}`)
 } catch {
-  console.log("Server connection failed");
+  console.log('Server connection failed')
 }

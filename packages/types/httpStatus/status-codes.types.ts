@@ -5,7 +5,7 @@ export const Status = {
   ServerFailed: 500,
   InvalidData: 422,
   NotFound: 404,
-  Conflict: 409
-} as const;
+  Conflict: 409,
+} as const
 
-type Status = typeof Status[keyof typeof Status];
+type Status = (typeof Status)[keyof typeof Status]

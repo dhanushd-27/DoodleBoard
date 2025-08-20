@@ -1,48 +1,48 @@
-import { prisma } from "@repo/db/prisma";
-import { Status } from "@repo/types/status";
-import { Request, Response } from "express";
+import { prisma } from '@repo/db/prisma'
+import { Status } from '@repo/types/status'
+import { Request, Response } from 'express'
 
 export const joinRoomController = async (req: Request, res: Response) => {
   try {
-    const userId = req.user.id;
-    const id = req.params.roomId;
+    const userId = req.user.id
+    const id = req.params.roomId
 
-    if(!id) {
+    if (!id) {
       res.status(Status.NotFound).json({
-        message: "Room Id not found"
+        message: 'Room Id not found',
       })
-      return;
+      return
     }
 
     const room = await prisma.room.findFirst({
       where: {
-        id
-      }
-    });
+        id,
+      },
+    })
 
-    if(!room) {
+    if (!room) {
       res.status(Status.NotFound).json({
-        message: "Room Not Found"
+        message: 'Room Not Found',
       })
     }
 
     await prisma.room.update({
       where: {
         id,
-      }, 
+      },
       data: {
         members: {
-          connect: { id: userId }
-        }
-      }
-    });
+          connect: { id: userId },
+        },
+      },
+    })
 
     res.status(Status.Success).json({
-      message: "Member joined successfully"
-    });
+      message: 'Member joined successfully',
+    })
   } catch {
     res.status(Status.ServerFailed).json({
-      message: "Server Failed"
+      message: 'Server Failed',
     })
   }
 }

@@ -1,137 +1,137 @@
-import { prisma } from "@repo/db/prisma";
-import { Request, Response } from "express";
-import { Status } from "@repo/types/status";
+import { prisma } from '@repo/db/prisma'
+import { Request, Response } from 'express'
+import { Status } from '@repo/types/status'
 
 export const getRoomIdController = async (req: Request, res: Response) => {
   try {
-    const slug = req.params.slug;
+    const slug = req.params.slug
 
-    if(!slug) {
+    if (!slug) {
       res.status(Status.NotFound).json({
-        message: "Slug is required"
-      });
-      return;
+        message: 'Slug is required',
+      })
+      return
     }
 
     const room = await prisma.room.findFirst({
       where: {
         slug,
-      }
-    });
+      },
+    })
 
-    if(!room) {
+    if (!room) {
       res.status(Status.NotFound).json({
-        message: "No room found with given slug"
+        message: 'No room found with given slug',
       })
-      return;
+      return
     }
 
     res.status(Status.Success).json({
-      message: "Room Found",
+      message: 'Room Found',
       payload: {
-        roomId: room.id
-      }
+        roomId: room.id,
+      },
     })
   } catch {
     res.status(Status.ServerFailed).json({
-      message: "Server error occured"
+      message: 'Server error occured',
     })
   }
 }
 
 export const getChatsController = async (req: Request, res: Response) => {
   try {
-    const roomId = req.params.roomId;
+    const roomId = req.params.roomId
 
-    if(!roomId) {
+    if (!roomId) {
       res.status(Status.NotFound).json({
-        message: "Room Id is Required"
+        message: 'Room Id is Required',
       })
-      return;
+      return
     }
 
     const shapes = await prisma.shape.findMany({
       where: {
-        roomId: roomId
+        roomId: roomId,
       },
       orderBy: {
-        createdAt: "desc"
-      }
-    });
+        createdAt: 'desc',
+      },
+    })
 
     res.status(Status.Success).json({
-      message: "Shapes fetched successfully",
+      message: 'Shapes fetched successfully',
       payload: {
-        shapes
-      }
-    });
+        shapes,
+      },
+    })
   } catch {
     res.status(Status.ServerFailed).json({
-      message: "Server Down"
+      message: 'Server Down',
     })
   }
 }
 
 export const removeShapeController = async (req: Request, res: Response) => {
-  const { slug, shapeId } = req.params;
+  const { slug, shapeId } = req.params
 
-  if(!slug && !shapeId) {
+  if (!slug && !shapeId) {
     res.status(Status.InvalidData).json({
-      message: "Room slug and shapeId is required"
-    });
-    return;
+      message: 'Room slug and shapeId is required',
+    })
+    return
   }
 
   try {
     const room = await prisma.room.findFirst({
       where: {
         slug,
-      }
-    });
-  
-    if(!room) {
+      },
+    })
+
+    if (!room) {
       res.status(Status.NotFound).json({
-        message: "Room not found"
-      });
-      return;
+        message: 'Room not found',
+      })
+      return
     }
 
     await prisma.shape.delete({
       where: {
         id: shapeId,
-        roomId: room.id
-      }
-    });
+        roomId: room.id,
+      },
+    })
 
     res.status(Status.Success).json({
-      message: "Shape removed successfully"
-    });
+      message: 'Shape removed successfully',
+    })
   } catch {
     res.status(Status.Failed).json({
-      message: "Invalid Parameters"
-    });
+      message: 'Invalid Parameters',
+    })
   }
 }
 
 export const roomMembersController = async (req: Request, res: Response) => {
   try {
-    const id = req.params.roomId;
-    
+    const id = req.params.roomId
+
     const members = await prisma.room.findFirst({
       where: {
-        id
+        id,
       },
       select: {
-        members: true
-      }
-    });
+        members: true,
+      },
+    })
 
     res.status(Status.Success).json({
-      members
+      members,
     })
   } catch {
     res.status(Status.ServerFailed).json({
-      message: "Server Failed"
+      message: 'Server Failed',
     })
   }
 }
